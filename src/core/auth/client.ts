@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { cleanSetting, projectOrigin } from './projectUrl'
 
 /**
  * The one Supabase client (CLAUDE.md §7.2: only src/core/auth and
@@ -8,8 +9,8 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js'
  * The anon key is safe in the browser: it only identifies the project. What
  * protects the data is Row Level Security (supabase/migrations).
  */
-const url = import.meta.env.VITE_SUPABASE_URL as string | undefined
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined
+const url = projectOrigin(import.meta.env.VITE_SUPABASE_URL as string | undefined)
+const anonKey = cleanSetting(import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined)
 
 export const isCloudConfigured = Boolean(url && anonKey)
 
