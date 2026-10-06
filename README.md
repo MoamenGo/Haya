@@ -28,8 +28,13 @@ type can be changed (leave, exam, travel) with its own free minutes and a note, 
 review (a few optional questions plus neutral facts about the week), and next week's top 3 shown
 on the week view. On the phone, a "More" screen holds the sections that don't fit the bottom bar.
 
-Phase 1 is now complete. Next is Phase 2 (Supabase sync and sign-in), which needs the owner's
-Supabase account.
+Phase 1 is now complete.
+
+**Phase 2, part 1 — Cloud schema**: `supabase/migrations/` mirrors every local table with Row
+Level Security (owner only) and a server timestamp for syncing. `pnpm test:rls` (needs
+`DATABASE_URL` to an empty Postgres) proves a second user can't read or write the owner's rows;
+CI runs it on every PR. See ADR-002. Next: the sync engine, sign-in, then connecting the owner's
+Supabase project.
 
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).
