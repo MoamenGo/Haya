@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Card } from '@/components/ui/card'
+import { AccountSection } from '@/modules/account/components/AccountSection'
 import { AreasList } from '../components/AreasList'
 import { DataSection } from '../components/DataSection'
 import { LocationSection } from '../components/LocationSection'
@@ -42,6 +43,10 @@ export function SettingsPage() {
             ]}
           />
         </div>
+      </Card>
+
+      <Card id="account">
+        <AccountSection />
       </Card>
 
       <Card id="vision">

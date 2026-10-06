@@ -1,0 +1,9 @@
+<!-- Sign-in email for Haya. Paste this into Supabase: Authentication → Email Templates → Magic Link.
+     The code is what signs in the installed app on iPhone (a link would open Safari instead). -->
+<div dir="rtl" style="font-family: sans-serif; line-height: 1.6">
+  <h2>دخول حياة</h2>
+  <p>اكتب الكود ده في التطبيق:</p>
+  <p style="font-size: 28px; letter-spacing: 6px; font-weight: bold">{{ .Token }}</p>
+  <p>أو افتح الرابط ده من نفس الجهاز: <a href="{{ .ConfirmationURL }}">دخول</a></p>
+  <p style="color: #666">لو ما طلبتش الدخول، تجاهل الرسالة دي.</p>
+</div>
