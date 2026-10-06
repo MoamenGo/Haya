@@ -6,6 +6,7 @@ import { isDone } from '@/core/habits/continuity'
 import { localDateISO } from '@/core/time/date'
 import { formatGregorian, formatHijri } from '@/core/time/format'
 import { useNow } from '@/hooks/useNow'
+import { SyncIndicator } from '@/modules/account/components/SyncIndicator'
 import { useDayInfo } from '@/modules/days/hooks'
 import { getDailyLog } from '@/modules/reviews/repo'
 import { setHabitStatus } from '@/modules/routines/repo'
@@ -32,7 +33,11 @@ export function TodayPage() {
   return (
     <div className="flex flex-col gap-5">
       <header className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold">{t('today.title')}</h1>
+        <div className="flex items-center justify-between gap-2">
+          <h1 className="text-2xl font-semibold">{t('today.title')}</h1>
+          {/* On desktop the sidebar shows it. */}
+          <SyncIndicator className="md:hidden" />
+        </div>
         <p className="text-muted">{formatGregorian(now, language)}</p>
         <p className="text-sm text-muted">
           {formatHijri(now, language)}

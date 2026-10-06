@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
+import { SyncIndicator } from '@/modules/account/components/SyncIndicator'
 import { openCapture } from '@/modules/inbox/captureEvents'
 import { NAV_ITEMS } from './nav-items'
 
@@ -13,6 +14,7 @@ export function Sidebar() {
       <div className="px-5 py-6">
         <p className="text-xl font-semibold text-primary">{t('app.name')}</p>
         <p className="mt-1 text-sm text-muted">{t('app.tagline')}</p>
+        <SyncIndicator className="-ms-2 mt-2" />
       </div>
       <div className="px-3 pb-4">
         <Button onClick={openCapture} className="w-full">

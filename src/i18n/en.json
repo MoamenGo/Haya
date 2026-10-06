@@ -266,5 +266,30 @@
     "habitDays": "Days with your routines: {{count}}",
     "checkIns": "Evening check-ins: {{count}}",
     "inbox": "Items waiting in the inbox: {{count}}."
+  },
+  "sync": {
+    "title": "Account & sync",
+    "intro": "Sign in so your data moves between your phone and computer. Without it, everything stays on this device only.",
+    "notConfigured": "Sync isn't set up in this copy, so all your data stays on this device.",
+    "email": "Email",
+    "sendCode": "Send code",
+    "checkEmail": "We emailed {{email}}. Type the code from it, or tap the link on this same device.",
+    "code": "Code",
+    "signIn": "Sign in",
+    "changeEmail": "Different email",
+    "failed": "That didn't work:",
+    "signedInAs": "Signed in as",
+    "pending": "Waiting to upload: {{count}}",
+    "lastSynced": "Last synced {{time}}",
+    "errorDetails": "Problem details",
+    "signOut": "Sign out",
+    "signOutNote": "Signing out doesn't delete anything from this device.",
+    "phase": {
+      "signed_out": "Signed out",
+      "offline": "Offline",
+      "syncing": "Syncing",
+      "synced": "Synced",
+      "error": "Problem"
+    }
   }
 }

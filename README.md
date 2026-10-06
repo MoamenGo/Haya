@@ -33,8 +33,13 @@ Phase 1 is now complete.
 **Phase 2, part 1 — Cloud schema**: `supabase/migrations/` mirrors every local table with Row
 Level Security (owner only) and a server timestamp for syncing. `pnpm test:rls` (needs
 `DATABASE_URL` to an empty Postgres) proves a second user can't read or write the owner's rows;
-CI runs it on every PR. See ADR-002. Next: the sync engine, sign-in, then connecting the owner's
-Supabase project.
+CI runs it on every PR. See ADR-002.
+
+**Phase 2, part 2 — Sync engine**: pull-then-push sync with merges and a conflict log (ADR-003).
+
+**Phase 2, part 3 — Sign-in**: Settings → Account & sync signs in with an emailed 6-digit code
+(or link), and a small indicator shows synced / syncing / offline / problem. Without the two
+`VITE_SUPABASE_*` variables the app stays local-only. One-time setup: `docs/setup-cloud.md`.
 
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).
