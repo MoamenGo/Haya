@@ -23,7 +23,6 @@ export async function createTask(input: NewTaskInput): Promise<TaskRow> {
   const row: TaskRow = {
     ...newRowMeta(),
     ...valid,
-    project_id: null,
     goal_id: null,
     notes: '',
     checklist: [],

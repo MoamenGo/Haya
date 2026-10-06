@@ -3,8 +3,10 @@ import { seedLifeAreas, seedRoutines } from './seed'
 import type {
   DailyLogRow,
   DailyPlanRow,
+  GoalRow,
   HabitLogRow,
   InboxItemRow,
+  ProjectRow,
   LifeAreaRow,
   RoutineRow,
   SettingRow,
@@ -31,6 +33,8 @@ export class HayaDB extends Dexie {
   daily_logs!: EntityTable<DailyLogRow, 'id'>
   inbox_items!: EntityTable<InboxItemRow, 'id'>
   tasks!: EntityTable<TaskRow, 'id'>
+  projects!: EntityTable<ProjectRow, 'id'>
+  goals!: EntityTable<GoalRow, 'id'>
 
   constructor(name: string = DB_NAME) {
     super(name)
@@ -58,6 +62,12 @@ export class HayaDB extends Dexie {
     this.version(3).stores({
       inbox_items: 'id, processed_at, created_at, updated_at, _dirty',
       tasks: 'id, status, scheduled_date, project_id, updated_at, _dirty',
+    })
+
+    // v4 (Phase 1): projects and goals.
+    this.version(4).stores({
+      projects: 'id, status, goal_id, updated_at, _dirty',
+      goals: 'id, status, horizon, updated_at, _dirty',
     })
 
     // …and brand-new databases get everything here (upgrades don't run for them).

@@ -1,5 +1,8 @@
 import { Link } from '@tanstack/react-router'
+import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { Button } from '@/components/ui/button'
+import { openCapture } from '@/modules/inbox/captureEvents'
 import { NAV_ITEMS } from './nav-items'
 
 /** Desktop navigation (hidden on small screens). */
@@ -10,6 +13,13 @@ export function Sidebar() {
       <div className="px-5 py-6">
         <p className="text-xl font-semibold text-primary">{t('app.name')}</p>
         <p className="mt-1 text-sm text-muted">{t('app.tagline')}</p>
+      </div>
+      <div className="px-3 pb-4">
+        <Button onClick={openCapture} className="w-full">
+          <Plus aria-hidden className="size-4" />
+          {t('capture.open')}
+          <kbd className="ms-auto text-xs opacity-70">Ctrl K</kbd>
+        </Button>
       </div>
       <nav aria-label={t('nav.main')} className="flex flex-col gap-1 px-3">
         {NAV_ITEMS.map(({ to, labelKey, icon: Icon }) => (

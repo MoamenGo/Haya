@@ -1,0 +1,74 @@
+import { Link } from '@tanstack/react-router'
+import { useLiveQuery } from 'dexie-react-hooks'
+import { useTranslation } from 'react-i18next'
+import { Card } from '@/components/ui/card'
+import { MAX_ACTIVE_PROJECTS } from '@/core/planner/config'
+import { AddProjectForm } from '../components/AddProjectForm'
+import { ProjectCard } from '../components/ProjectCard'
+import { listProjects, type ProjectWithNext } from '../repo'
+
+const GROUPS = ['active', 'planned', 'paused', 'done'] as const
+
+export function ProjectsPage() {
+  const { t } = useTranslation()
+  const items = useLiveQuery(listProjects, [])
+  const byStatus = (status: string) => items?.filter((i) => i.project.status === status) ?? []
+  const active = byStatus('active').map((i) => i.project)
+
+  return (
+    <div className="flex flex-col gap-5">
+      <header className="flex flex-wrap items-baseline justify-between gap-2">
+        <h1 className="text-2xl font-semibold">{t('projects.title')}</h1>
+        <Link to="/goals" className="text-sm text-primary underline-offset-4 hover:underline">
+          {t('projects.goals')}
+        </Link>
+      </header>
+
+      <div className="rounded-xl bg-accent p-3 text-sm">
+        <p className="font-medium">
+          {t('projects.wip', { active: active.length, max: MAX_ACTIVE_PROJECTS })}
+        </p>
+        <p className="mt-1 text-muted">{t('projects.wipHint')}</p>
+      </div>
+
+      {items === undefined ? (
+        <p className="text-sm text-muted">{t('states.loading')}</p>
+      ) : (
+        GROUPS.map((status) => (
+          <ProjectGroup
+            key={status}
+            title={t(`projects.${status}`)}
+            items={byStatus(status)}
+            active={active}
+            empty={status === 'active' ? t('projects.emptyActive') : null}
+          />
+        ))
+      )}
+
+      <Card>
+        <AddProjectForm />
+      </Card>
+    </div>
+  )
+}
+
+interface ProjectGroupProps {
+  title: string
+  items: ProjectWithNext[]
+  active: ProjectWithNext['project'][]
+  empty: string | null
+}
+
+function ProjectGroup({ title, items, active, empty }: ProjectGroupProps) {
+  if (items.length === 0 && !empty) return null
+  return (
+    <section className="flex flex-col gap-3">
+      <h2 className="font-medium">{title}</h2>
+      {items.length === 0 ? (
+        <p className="text-sm text-muted">{empty}</p>
+      ) : (
+        items.map((item) => <ProjectCard key={item.project.id} item={item} active={active} />)
+      )}
+    </section>
+  )
+}

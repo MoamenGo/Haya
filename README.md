@@ -19,7 +19,11 @@ a gentle 7-day dot view, the one-minute evening check-in, and JSON backup export
 anything to the Inbox in seconds, one-tap inbox processing, a Tasks screen (today / later / done),
 up to 3 Big Rocks per day, rough estimates, and a capacity bar on Today.
 
-Next in Phase 1: projects with WIP limits, goals, day-type overrides, week view and weekly review.
+**Phase 1, part 3 — Projects and goals**: at most 3 active projects (starting a 4th asks which
+one to pause), a clear next action per active project, and light goals that start in "Not now"
+with at most 3 active per horizon.
+
+Next in Phase 1: day-type overrides, week view and weekly review.
 
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).

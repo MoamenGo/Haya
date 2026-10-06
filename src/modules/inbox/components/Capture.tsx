@@ -3,12 +3,13 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { capture } from '../repo'
+import { OPEN_CAPTURE_EVENT } from '../captureEvents'
 
 const SAVED_NOTICE_MS = 2000
 
 /**
- * Global capture (CLAUDE.md §6.1): a floating + on the phone, a button and
- * Ctrl/Cmd+K on the desktop. Type, press Enter, done; sorting happens later.
+ * Global capture (CLAUDE.md §6.1): a floating + on the phone, the sidebar
+ * button or Ctrl/Cmd+K on the desktop. Type, press Enter, done; sorting happens later.
  * Uses the native <dialog> element, which handles focus and Escape for us.
  */
 export function Capture() {
@@ -26,8 +27,13 @@ export function Capture() {
         dialog.current?.showModal()
       }
     }
+    const onOpenEvent = () => dialog.current?.showModal()
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener(OPEN_CAPTURE_EVENT, onOpenEvent)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener(OPEN_CAPTURE_EVENT, onOpenEvent)
+    }
   }, [])
 
   useEffect(() => {
@@ -55,12 +61,6 @@ export function Capture() {
       >
         <Plus aria-hidden className="size-7" />
       </button>
-      <Button onClick={open} className="fixed end-6 top-5 z-10 hidden md:inline-flex">
-        <Plus aria-hidden className="size-4" />
-        {t('capture.open')}
-        <kbd className="ms-1 text-xs opacity-70">Ctrl K</kbd>
-      </Button>
-
       {saved && (
         <p
           role="status"
