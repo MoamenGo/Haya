@@ -10,6 +10,8 @@ import type {
   ProjectRow,
   LifeAreaRow,
   ReviewRow,
+  SyncConflictRow,
+  SyncStateRow,
   RoutineRow,
   SettingRow,
   TaskRow,
@@ -39,6 +41,8 @@ export class HayaDB extends Dexie {
   goals!: EntityTable<GoalRow, 'id'>
   day_overrides!: EntityTable<DayOverrideRow, 'id'>
   reviews!: EntityTable<ReviewRow, 'id'>
+  sync_state!: EntityTable<SyncStateRow, 'table'>
+  sync_conflicts!: EntityTable<SyncConflictRow, 'id'>
 
   constructor(name: string = DB_NAME) {
     super(name)
@@ -79,6 +83,13 @@ export class HayaDB extends Dexie {
     this.version(5).stores({
       day_overrides: 'id, &date, updated_at, _dirty',
       reviews: 'id, &[kind+period_start], updated_at, _dirty',
+    })
+
+    // v6 (Phase 2): local-only sync bookkeeping. These two tables never sync
+    // and are not in backups (see LOCAL_ONLY_TABLES in src/core/sync/tables.ts).
+    this.version(6).stores({
+      sync_state: 'table',
+      sync_conflicts: 'id, at',
     })
 
     // …and brand-new databases get everything here (upgrades don't run for them).

@@ -203,3 +203,21 @@ export interface ReviewRow extends SyncedRow {
   /** Free-text answers keyed by question id. */
   answers: Record<string, string>
 }
+
+/** Local only: how far this device has downloaded each table. */
+export interface SyncStateRow {
+  table: string
+  /** The newest `server_updated_at` seen, or null before the first pull. */
+  cursor: string | null
+}
+
+/** Local only: a record of each time two versions of a row disagreed (for inspection). */
+export interface SyncConflictRow {
+  id: string
+  table: string
+  row_id: string
+  kept: 'local' | 'remote'
+  local: unknown
+  remote: unknown
+  at: string
+}

@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { db } from '@/core/db/db'
 import type { DailyLogRow, HabitLogRow, TaskRow } from '@/core/db/types'
 import { BACKUP_TABLES } from '@/core/export/backup'
+import { LOCAL_ONLY_TABLES } from '@/core/sync/tables'
 import { dayCapacity } from '@/core/planner/capacity'
 import { dayLoad, weekSummary } from '@/core/planner/week'
 import { weekDaysISO, weekStartISO, weekdayOfISO } from '@/core/time/date'
@@ -135,7 +136,9 @@ describe('day overrides and weekly reviews (repo)', () => {
     expect(await tasksCompletedBetween(SATURDAY, FRIDAY)).toHaveLength(1)
   })
 
-  it('backs up every table in the database', () => {
-    expect([...BACKUP_TABLES].sort()).toEqual(db.tables.map((t) => t.name).sort())
+  it('backs up every table in the database except local sync bookkeeping', () => {
+    const local: readonly string[] = LOCAL_ONLY_TABLES
+    const all = db.tables.map((t) => t.name).filter((name) => !local.includes(name))
+    expect([...BACKUP_TABLES].sort()).toEqual(all.sort())
   })
 })
