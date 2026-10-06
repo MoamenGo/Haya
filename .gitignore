@@ -28,3 +28,4 @@ dist-ssr
 !.env.example
 dev-dist
 coverage
+.wrangler/
