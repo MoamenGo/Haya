@@ -1,5 +1,6 @@
 import { Outlet } from '@tanstack/react-router'
 import { OfflineReadyNotice } from '@/app/OfflineReadyNotice'
+import { Capture } from '@/modules/inbox/components/Capture'
 import { BottomNav } from './BottomNav'
 import { Sidebar } from './Sidebar'
 
@@ -12,6 +13,7 @@ export function AppShell() {
         <Outlet />
       </main>
       <BottomNav />
+      <Capture />
       <OfflineReadyNotice />
     </div>
   )

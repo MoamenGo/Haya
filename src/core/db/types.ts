@@ -84,3 +84,48 @@ export interface DailyLogRow extends SyncedRow {
   gratitude: string
   tomorrow_top3: string[]
 }
+
+export interface InboxItemRow extends SyncedRow {
+  text: string
+  /** A guess from the capture parser (e.g. `link`); the owner decides later. */
+  kind_hint: 'link' | null
+  is_important: boolean
+  tags: string[]
+  processed_at: string | null
+  converted_type: 'task' | null
+  converted_id: string | null
+}
+
+export const TASK_STATUSES = [
+  'inbox',
+  'next',
+  'scheduled',
+  'in_progress',
+  'waiting',
+  'done',
+  'cancelled',
+] as const
+export type TaskStatus = (typeof TASK_STATUSES)[number]
+export type TaskPriority = 'critical' | 'important' | 'normal' | 'low'
+export type Energy = 'light' | 'medium' | 'heavy'
+
+export interface TaskRow extends SyncedRow {
+  area_id: string | null
+  project_id: string | null
+  goal_id: string | null
+  title: string
+  notes: string
+  checklist: Array<{ text: string; done: boolean }>
+  status: TaskStatus
+  priority: TaskPriority
+  commitment_level: CommitmentLevel
+  energy: Energy
+  est_minutes: number | null
+  actual_minutes: number | null
+  due_date: string | null
+  scheduled_date: string | null
+  prayer_block: PrayerBlock | null
+  is_big_rock: boolean
+  rrule: string | null
+  completed_at: string | null
+}

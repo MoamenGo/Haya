@@ -1,7 +1,9 @@
 import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router'
 import { AppShell } from '@/components/layout/AppShell'
+import { InboxPage } from '@/modules/inbox/pages/InboxPage'
 import { EveningReviewPage } from '@/modules/reviews/pages/EveningReviewPage'
 import { SettingsPage } from '@/modules/settings/pages/SettingsPage'
+import { TasksPage } from '@/modules/tasks/pages/TasksPage'
 import { TodayPage } from '@/modules/today/pages/TodayPage'
 
 // Routes are declared in code (not generated from files) so the whole map is
@@ -28,13 +30,32 @@ const reviewRoute = createRoute({
   component: EveningReviewPage,
 })
 
+const inboxRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/inbox',
+  component: InboxPage,
+})
+
+const tasksRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/tasks',
+  component: TasksPage,
+})
+
 const settingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings',
   component: SettingsPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, todayRoute, reviewRoute, settingsRoute])
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  todayRoute,
+  reviewRoute,
+  inboxRoute,
+  tasksRoute,
+  settingsRoute,
+])
 
 export const router = createRouter({ routeTree })
 

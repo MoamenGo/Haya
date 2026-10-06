@@ -15,8 +15,11 @@ the 11 seeded life areas, installable PWA with offline app shell, CI.
 hard-day version that counts as success), Minimum mode, prayer times computed on the device,
 a gentle 7-day dot view, the one-minute evening check-in, and JSON backup export/import.
 
-Next in Phase 1: capture + inbox, tasks and Big Rocks, projects with WIP limits, goals,
-day-type overrides, week view and weekly review.
+**Phase 1, part 2 — Capture and tasks**: a floating + (Ctrl/Cmd+K on desktop) that saves
+anything to the Inbox in seconds, one-tap inbox processing, a Tasks screen (today / later / done),
+up to 3 Big Rocks per day, rough estimates, and a capacity bar on Today.
+
+Next in Phase 1: projects with WIP limits, goals, day-type overrides, week view and weekly review.
 
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).
