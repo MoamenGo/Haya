@@ -27,3 +27,6 @@ export const DEFAULT_CAPACITY_MIN: Readonly<Record<Exclude<DayType, 'custom'>, n
   deep_work: 360,
   rest: 60,
 }
+
+/** Used until the owner sets a location: central Cairo. */
+export const DEFAULT_LOCATION = { latitude: 30.0444, longitude: 31.2357 } as const

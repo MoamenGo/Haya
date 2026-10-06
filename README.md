@@ -11,8 +11,12 @@ the data model in [`docs/erd.md`](docs/erd.md), and the screen map in [`docs/rou
 responsive navigation (phone bottom bar, desktop sidebar), local database (Dexie) with settings and
 the 11 seeded life areas, installable PWA with offline app shell, CI.
 
-Next: **Phase 1 — Daily loop** (Today screen with routines and Minimum mode, capture + inbox,
-tasks, projects, daily review…).
+**Phase 1, part 1 — Daily habits**: the 3 starter habits of the 14-day plan (each with a
+hard-day version that counts as success), Minimum mode, prayer times computed on the device,
+a gentle 7-day dot view, the one-minute evening check-in, and JSON backup export/import.
+
+Next in Phase 1: capture + inbox, tasks and Big Rocks, projects with WIP limits, goals,
+day-type overrides, week view and weekly review.
 
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).

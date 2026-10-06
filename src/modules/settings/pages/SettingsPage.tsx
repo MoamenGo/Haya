@@ -1,6 +1,8 @@
 import { useTranslation } from 'react-i18next'
 import { Card } from '@/components/ui/card'
 import { AreasList } from '../components/AreasList'
+import { DataSection } from '../components/DataSection'
+import { LocationSection } from '../components/LocationSection'
 import { ChoiceGroup } from '../components/ChoiceGroup'
 import { VisionForm } from '../components/VisionForm'
 import { useSetting } from '../hooks'
@@ -47,7 +49,15 @@ export function SettingsPage() {
       </Card>
 
       <Card>
+        <LocationSection />
+      </Card>
+
+      <Card>
         <AreasList />
+      </Card>
+
+      <Card>
+        <DataSection />
       </Card>
 
       <Card>

@@ -1,6 +1,10 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRegisterSW } from 'virtual:pwa-register/react'
 import { Button } from '@/components/ui/button'
+
+/** The notice hides itself so it never sits on top of the page for long. */
+const AUTO_HIDE_MS = 6000
 
 /**
  * Registers the service worker (the background script that caches the app)
@@ -12,6 +16,12 @@ export function OfflineReadyNotice() {
   const {
     offlineReady: [offlineReady, setOfflineReady],
   } = useRegisterSW()
+
+  useEffect(() => {
+    if (!offlineReady) return
+    const id = window.setTimeout(() => setOfflineReady(false), AUTO_HIDE_MS)
+    return () => window.clearTimeout(id)
+  }, [offlineReady, setOfflineReady])
 
   if (!offlineReady) return null
   return (

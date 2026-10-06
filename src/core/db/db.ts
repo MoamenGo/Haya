@@ -1,6 +1,13 @@
 import Dexie, { type EntityTable } from 'dexie'
-import { seedLifeAreas } from './seed'
-import type { LifeAreaRow, SettingRow } from './types'
+import { seedLifeAreas, seedRoutines } from './seed'
+import type {
+  DailyLogRow,
+  DailyPlanRow,
+  HabitLogRow,
+  LifeAreaRow,
+  RoutineRow,
+  SettingRow,
+} from './types'
 
 export const DB_NAME = 'haya'
 
@@ -16,6 +23,10 @@ export const DB_NAME = 'haya'
 export class HayaDB extends Dexie {
   settings!: EntityTable<SettingRow, 'id'>
   life_areas!: EntityTable<LifeAreaRow, 'id'>
+  routines!: EntityTable<RoutineRow, 'id'>
+  habit_logs!: EntityTable<HabitLogRow, 'id'>
+  daily_plans!: EntityTable<DailyPlanRow, 'id'>
+  daily_logs!: EntityTable<DailyLogRow, 'id'>
 
   constructor(name: string = DB_NAME) {
     super(name)
@@ -27,8 +38,23 @@ export class HayaDB extends Dexie {
       life_areas: 'id, sort_order, updated_at, _dirty',
     })
 
-    // Runs once, when the database is created for the first time.
-    this.on('populate', (tx) => seedLifeAreas(tx.table('life_areas')))
+    // v2 (Phase 1): routines and the daily loop.
+    // `&[routine_id+date]` is a unique compound index: one log per routine per day.
+    this.version(2)
+      .stores({
+        routines: 'id, sort_order, updated_at, _dirty',
+        habit_logs: 'id, &[routine_id+date], date, updated_at, _dirty',
+        daily_plans: 'id, &date, updated_at, _dirty',
+        daily_logs: 'id, &date, updated_at, _dirty',
+      })
+      // Devices that already had v1 get the starter routines here…
+      .upgrade((tx) => seedRoutines(tx.table('life_areas'), tx.table('routines')))
+
+    // …and brand-new databases get everything here (upgrades don't run for them).
+    this.on('populate', async (tx) => {
+      await seedLifeAreas(tx.table('life_areas'))
+      await seedRoutines(tx.table('life_areas'), tx.table('routines'))
+    })
   }
 }
 
