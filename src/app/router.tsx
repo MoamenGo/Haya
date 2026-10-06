@@ -2,11 +2,14 @@ import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/
 import { AppShell } from '@/components/layout/AppShell'
 import { GoalsPage } from '@/modules/goals/pages/GoalsPage'
 import { InboxPage } from '@/modules/inbox/pages/InboxPage'
+import { MorePage } from '@/modules/more/pages/MorePage'
 import { EveningReviewPage } from '@/modules/reviews/pages/EveningReviewPage'
+import { WeeklyReviewPage } from '@/modules/reviews/pages/WeeklyReviewPage'
 import { ProjectsPage } from '@/modules/projects/pages/ProjectsPage'
 import { SettingsPage } from '@/modules/settings/pages/SettingsPage'
 import { TasksPage } from '@/modules/tasks/pages/TasksPage'
 import { TodayPage } from '@/modules/today/pages/TodayPage'
+import { WeekPage } from '@/modules/week/pages/WeekPage'
 
 // Routes are declared in code (not generated from files) so the whole map is
 // readable in one place. See docs/routes.md for what each phase adds.
@@ -56,6 +59,24 @@ const goalsRoute = createRoute({
   component: GoalsPage,
 })
 
+const weekRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/week',
+  component: WeekPage,
+})
+
+const weeklyReviewRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/reviews/weekly',
+  component: WeeklyReviewPage,
+})
+
+const moreRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/more',
+  component: MorePage,
+})
+
 const settingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings',
@@ -70,6 +91,9 @@ const routeTree = rootRoute.addChildren([
   tasksRoute,
   projectsRoute,
   goalsRoute,
+  weekRoute,
+  weeklyReviewRoute,
+  moreRoute,
   settingsRoute,
 ])
 

@@ -1,4 +1,5 @@
 import { DEFAULT_DAY_TYPE_BY_WEEKDAY, DEFAULT_TIMEZONE, type DayType, type Weekday } from './config'
+import { weekdayOfISO } from './date'
 
 const WEEKDAY_INDEX: Record<string, Weekday> = {
   Sun: 0,
@@ -21,11 +22,25 @@ export function weekdayIn(date: Date, timeZone: string = DEFAULT_TIMEZONE): Week
   return weekday
 }
 
-/** Day type from the weekly pattern. Per-date overrides arrive in Phase 1. */
+/** Day type from the weekly pattern only. Use `dayTypeForDate` to include overrides. */
 export function defaultDayType(
   date: Date,
   pattern: Readonly<Record<Weekday, DayType>> = DEFAULT_DAY_TYPE_BY_WEEKDAY,
   timeZone: string = DEFAULT_TIMEZONE,
 ): DayType {
   return pattern[weekdayIn(date, timeZone)]
+}
+
+/** What a stored override contributes. Kept minimal so this file stays free of the DB. */
+export interface DayTypeOverride {
+  day_type: DayType
+}
+
+/** A date's day type: its override if there is one, otherwise the weekly pattern. */
+export function dayTypeForDate(
+  dateISO: string,
+  override?: DayTypeOverride | null,
+  pattern: Readonly<Record<Weekday, DayType>> = DEFAULT_DAY_TYPE_BY_WEEKDAY,
+): DayType {
+  return override?.day_type ?? pattern[weekdayOfISO(dateISO)]
 }

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { REVIEW_KINDS } from '@/core/db/types'
 
 export const ENERGY_MIN = 1
 export const ENERGY_MAX = 5
@@ -16,3 +17,15 @@ export const dailyLogInput = z.object({
 })
 
 export type DailyLogInput = z.infer<typeof dailyLogInput>
+
+const ANSWER_MAX = 2000
+
+/** Weekly (and later monthly/quarterly) reviews: free-text answers by question id. */
+export const reviewInput = z.object({
+  kind: z.enum(REVIEW_KINDS),
+  period_start: z.iso.date(),
+  period_end: z.iso.date(),
+  answers: z.record(z.string(), z.string().trim().max(ANSWER_MAX)),
+})
+
+export type ReviewInput = z.infer<typeof reviewInput>

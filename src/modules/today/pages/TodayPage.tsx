@@ -3,10 +3,10 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { isDone } from '@/core/habits/continuity'
-import { defaultDayType } from '@/core/time/dayType'
 import { localDateISO } from '@/core/time/date'
 import { formatGregorian, formatHijri } from '@/core/time/format'
 import { useNow } from '@/hooks/useNow'
+import { useDayInfo } from '@/modules/days/hooks'
 import { getDailyLog } from '@/modules/reviews/repo'
 import { setHabitStatus } from '@/modules/routines/repo'
 import { useSetting } from '@/modules/settings/hooks'
@@ -22,7 +22,7 @@ export function TodayPage() {
   const [vision] = useSetting('vision')
   const now = useNow()
   const today = localDateISO(now)
-  const dayType = defaultDayType(now)
+  const { dayType, override } = useDayInfo(today)
 
   const routines = useRoutinesToday(today)
   const minimumMode = useLiveQuery(() => isMinimumMode(today), [today]) ?? false
@@ -37,8 +37,11 @@ export function TodayPage() {
         <p className="text-sm text-muted">
           {formatHijri(now, language)}
           <span aria-hidden> · </span>
-          <span className="sr-only">{t('today.dayType')}: </span>
-          {t(`dayTypes.${dayType}`)}
+          <Link to="/week" className="underline-offset-4 hover:underline">
+            <span className="sr-only">{t('today.dayType')}: </span>
+            {t(`dayTypes.${dayType}`)}
+          </Link>
+          {override?.note && <span dir="auto"> ({override.note})</span>}
         </p>
         <NextPrayer now={now} />
       </header>
@@ -49,7 +52,12 @@ export function TodayPage() {
         </blockquote>
       )}
 
-      <TodayTasks today={today} dayType={dayType} minimumMode={minimumMode} />
+      <TodayTasks
+        today={today}
+        dayType={dayType}
+        customMinutes={override?.capacity_min ?? null}
+        minimumMode={minimumMode}
+      />
 
       <section aria-labelledby="habits-title" className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
