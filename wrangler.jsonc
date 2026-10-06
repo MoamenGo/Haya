@@ -3,6 +3,9 @@
 {
   "name": "haya",
   "compatibility_date": "2026-10-01",
+  // Build the app first, so `wrangler deploy` works even when the Cloudflare
+  // project has no build command of its own.
+  "build": { "command": "pnpm build" },
   "assets": {
     "directory": "./dist",
     // Any address that isn't a file (/today, /week, …) gets index.html, so the
