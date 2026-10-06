@@ -11,6 +11,10 @@ export const PULL_PAGE_SIZE = 500
  */
 export const PULL_OVERLAP_MS = 60_000
 /** Wait this long after the last local change before syncing, so typing doesn't sync per key. */
-export const SYNC_DEBOUNCE_MS = 3_000
-/** While the app is open, sync this often even with no local changes (to receive the other device's). */
-export const SYNC_INTERVAL_MS = 5 * 60_000
+export const SYNC_DEBOUNCE_MS = 1_500
+/**
+ * While the app is on screen, sync this often even with no local changes.
+ * A safety net: normally the other device's "I changed something" nudge
+ * (nudge.ts) starts a sync within a second or two.
+ */
+export const SYNC_INTERVAL_MS = 60_000
