@@ -20,8 +20,11 @@ background, work after days offline, and never duplicate or silently drop the ow
   one setting per key, starter areas by name, starter routines by title, …) are merged into the
   cloud's id, and rows that pointed at the local id are re-pointed (`REFERENCES`). This is how two
   devices that each seeded their own starter areas end up sharing one set.
-- `startSyncScheduler` decides when: on start, on `online`, when the app becomes visible, 3 s after
-  local changes, and every 5 minutes. One run at a time. Its state (signed out / offline /
+- `startSyncScheduler` decides when: on start, on `online`, when the app becomes visible, 1.5 s
+  after local changes, when another device sends a nudge, and every minute while on screen.
+  The nudge (`nudge.ts`, added after first real use showed a 5-minute wait was too slow) is a
+  Supabase Realtime broadcast on a per-owner channel: it carries no data, nothing is stored,
+  and a lost or stray nudge only means one later or extra sync. One run at a time. Its state (signed out / offline /
   syncing / synced / error, plus pending count) lives in `status.ts` for the UI.
 - The engine talks to the cloud only through the `SyncRemote` interface. Tests use an in-memory
   `FakeRemote`; the Supabase implementation arrives with sign-in.

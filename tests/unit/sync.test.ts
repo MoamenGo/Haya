@@ -5,6 +5,7 @@ import type { DailyLogRow, HabitLogRow, TaskRow } from '@/core/db/types'
 import { BACKUP_TABLES } from '@/core/export/backup'
 import { syncOnce } from '@/core/sync/engine'
 import type { SyncRemote } from '@/core/sync/remote'
+import type { SyncNudge } from '@/core/sync/nudge'
 import { startSyncScheduler, type SyncContext } from '@/core/sync/scheduler'
 import { getSyncStatus, resetSyncStatus } from '@/core/sync/status'
 import { SYNC_TABLES } from '@/core/sync/tables'
@@ -246,6 +247,55 @@ describe('sync scheduler', () => {
     await scheduler.syncNow()
     expect(getSyncStatus().phase).toBe('synced')
     scheduler.stop()
+  })
+})
+
+describe('sync nudges between devices', () => {
+  afterEach(() => {
+    resetSyncStatus()
+  })
+
+  /** A fake broadcast: whatever one device sends reaches every other listener. */
+  function fakeBus() {
+    const listeners = new Set<() => void>()
+    return (): SyncNudge => {
+      let mine: (() => void) | null = null
+      return {
+        send: () => listeners.forEach((l) => l !== mine && l()),
+        listen(callback) {
+          mine = callback
+          listeners.add(callback)
+          return () => listeners.delete(callback)
+        },
+        refresh: () => undefined,
+      }
+    }
+  }
+
+  it('makes the other device pull right after this one uploads', async () => {
+    const bus = fakeBus()
+    const context = async () => ({ remote: cloud, userId: USER })
+    const onPhone = startSyncScheduler({
+      db: phone,
+      getContext: context,
+      isOnline: () => true,
+      nudge: bus(),
+    })
+    const onDesktop = startSyncScheduler({
+      db: desktop,
+      getContext: context,
+      isOnline: () => true,
+      nudge: bus(),
+    })
+    await Promise.all([onPhone.syncNow(), onDesktop.syncNow()])
+
+    const task = newTask('من الموبايل')
+    await phone.tasks.add(task)
+    await onPhone.syncNow()
+    await expect.poll(async () => (await desktop.tasks.get(task.id))?.title).toBe('من الموبايل')
+
+    onPhone.stop()
+    onDesktop.stop()
   })
 })
 
