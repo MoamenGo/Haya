@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { HayaDB } from '@/core/db/db'
 import { seedLifeAreas } from '@/core/db/seed'
 
-describe('schema upgrade v1 → v2', () => {
+describe('schema upgrade from v1', () => {
   it('adds the starter routines to a database created by Phase 0', async () => {
     const name = 'upgrade-test'
     // Recreate exactly what a Phase 0 device has: schema v1 with seeded areas.
@@ -18,7 +18,7 @@ describe('schema upgrade v1 → v2', () => {
 
     const upgraded = new HayaDB(name)
     await upgraded.open()
-    expect(upgraded.verno).toBe(2)
+    expect(upgraded.verno).toBe(3)
     expect(await upgraded.life_areas.count()).toBe(11)
     expect(await upgraded.routines.count()).toBe(3)
     await upgraded.delete()

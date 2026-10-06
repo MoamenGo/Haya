@@ -12,6 +12,7 @@ import { setHabitStatus } from '@/modules/routines/repo'
 import { useSetting } from '@/modules/settings/hooks'
 import { NextPrayer } from '../components/NextPrayer'
 import { RoutineCard } from '../components/RoutineCard'
+import { TodayTasks } from '../components/TodayTasks'
 import { useRoutinesToday } from '../hooks'
 import { isMinimumMode, setMinimumMode } from '../repo'
 
@@ -47,6 +48,8 @@ export function TodayPage() {
           {vision}
         </blockquote>
       )}
+
+      <TodayTasks today={today} dayType={dayType} minimumMode={minimumMode} />
 
       <section aria-labelledby="habits-title" className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-2">

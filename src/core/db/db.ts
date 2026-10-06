@@ -4,9 +4,11 @@ import type {
   DailyLogRow,
   DailyPlanRow,
   HabitLogRow,
+  InboxItemRow,
   LifeAreaRow,
   RoutineRow,
   SettingRow,
+  TaskRow,
 } from './types'
 
 export const DB_NAME = 'haya'
@@ -27,6 +29,8 @@ export class HayaDB extends Dexie {
   habit_logs!: EntityTable<HabitLogRow, 'id'>
   daily_plans!: EntityTable<DailyPlanRow, 'id'>
   daily_logs!: EntityTable<DailyLogRow, 'id'>
+  inbox_items!: EntityTable<InboxItemRow, 'id'>
+  tasks!: EntityTable<TaskRow, 'id'>
 
   constructor(name: string = DB_NAME) {
     super(name)
@@ -49,6 +53,12 @@ export class HayaDB extends Dexie {
       })
       // Devices that already had v1 get the starter routines here…
       .upgrade((tx) => seedRoutines(tx.table('life_areas'), tx.table('routines')))
+
+    // v3 (Phase 1): capture inbox and tasks.
+    this.version(3).stores({
+      inbox_items: 'id, processed_at, created_at, updated_at, _dirty',
+      tasks: 'id, status, scheduled_date, project_id, updated_at, _dirty',
+    })
 
     // …and brand-new databases get everything here (upgrades don't run for them).
     this.on('populate', async (tx) => {

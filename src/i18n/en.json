@@ -6,7 +6,9 @@
   "nav": {
     "main": "Main navigation",
     "today": "Today",
-    "settings": "Settings"
+    "settings": "Settings",
+    "inbox": "Inbox",
+    "tasks": "Tasks"
   },
   "today": {
     "title": "Today",
@@ -16,11 +18,18 @@
     "in": "in {{time}}",
     "habits": "Today's habits",
     "minimumMode": "Hard day? Minimum versions",
-    "minimumModeOn": "Hard-day mode is on. The minimum version of each habit counts as a full success.",
+    "minimumModeOn": "Hard-day mode is on. The minimum version of each habit counts as a full success, and other tasks wait for tomorrow.",
     "minimumModeOff": "Back to a normal day",
     "checkIn": "Check in (1 minute)",
     "checkInDone": "Day checked in. Edit",
-    "allDone": "Your day is complete. Alhamdulillah."
+    "allDone": "Your day is complete. Alhamdulillah.",
+    "bigRocks": "Big Rocks",
+    "bigRocksEmpty": "Pick up to 3 important tasks with the star.",
+    "otherTasks": "Other tasks today",
+    "capacity": "Planned {{planned}} of {{plannable}} min",
+    "capacityOver": "More is planned than the time available. Postpone something instead of overloading yourself.",
+    "fromLastNight": "Last night you said the most important thing today is:",
+    "makeBigRock": "Make it a Big Rock"
   },
   "dayTypes": {
     "hospital": "Hospital day",
@@ -111,5 +120,47 @@
   "duration": {
     "hm": "{{h}}h {{m}}m",
     "m": "{{m}} min"
+  },
+  "capture": {
+    "open": "Capture",
+    "title": "Capture anything",
+    "placeholder": "An idea, a task, a link… sort it later",
+    "hint": "! = important. #word = tag. Enter saves. Ctrl+K on desktop.",
+    "save": "Save",
+    "close": "Close",
+    "saved": "Saved to Inbox"
+  },
+  "inbox": {
+    "title": "Inbox",
+    "intro": "Everything you captured. Decide for each: a task, or delete.",
+    "empty": "Inbox is empty. Anything you capture with + shows up here.",
+    "today": "Task for today",
+    "later": "Task for later",
+    "discard": "Delete",
+    "important": "Important",
+    "link": "Link"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "add": "New task",
+    "addPlaceholder": "Write a clear task: \"Study lesson 3 and write 5 notes\"",
+    "addButton": "Add",
+    "today": "Today",
+    "upcoming": "Later",
+    "done": "Done",
+    "emptyToday": "No tasks for today.",
+    "emptyUpcoming": "No tasks waiting.",
+    "markDone": "Done: {{title}}",
+    "toToday": "Today",
+    "toTomorrow": "Tomorrow",
+    "toLater": "Later",
+    "delete": "Delete",
+    "bigRock": "Make Big Rock",
+    "unBigRock": "Remove from Big Rocks",
+    "bigRockFull": "You already have 3 Big Rocks today. Remove one first.",
+    "estimate": "Estimate",
+    "noEstimate": "No estimate",
+    "overdue": "Overdue",
+    "actions": "Options for {{title}}"
   }
 }

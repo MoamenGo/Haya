@@ -9,6 +9,8 @@ export const BACKUP_TABLES = [
   'habit_logs',
   'daily_plans',
   'daily_logs',
+  'inbox_items',
+  'tasks',
 ] as const
 export type BackupTable = (typeof BACKUP_TABLES)[number]
 
