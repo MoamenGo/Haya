@@ -20,3 +20,22 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm build
+
+  # Applies the Supabase migrations to an empty Postgres and checks that one
+  # user can never read or write another user's rows (supabase/tests).
+  rls:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: rls_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/rls_test
+    steps:
+      - uses: actions/checkout@v4
+      - run: supabase/tests/run.sh

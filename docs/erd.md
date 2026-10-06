@@ -44,7 +44,7 @@ erDiagram
 | `tasks` | `area_id`, `project_id?`, `goal_id?`, `title`, `notes`, `checklist jsonb`, `status`, `priority`, `commitment_level`, `energy`, `est_minutes`, `actual_minutes`, `due_date?`, `scheduled_date?`, `prayer_block?`, `is_big_rock`, `rrule?`, `completed_at?` | index `(user_id, scheduled_date)`; Big Rocks ≤ 3 per day checked in app |
 | `routines` | `area_id`, `title`, `anchor` (prayer block or `HH:MM`), `rrule`, `duration_min`, `minimum_version`, `full_version`, `is_worship`, `commitment_level`, `active` | seeded with the 3 Phase-1 habits (Qur'an after Fajr, phone away after Isha, 25-min focus) |
 | `habit_logs` | `routine_id`, `date`, `status (full,minimum,skipped)` | unique `(routine_id, date) where deleted_at is null` |
-| `day_overrides` | `date`, `day_type`, `note` | unique `(user_id, date)` |
+| `day_overrides` | `date`, `day_type`, `capacity_min?` (a custom day's free minutes), `note` | unique `(user_id, date) where deleted_at is null` |
 | `daily_plans` | `date`, `day_type`, `capacity_min`, `utilization`, `minimum_mode` | unique `(user_id, date)` |
 | `daily_plan_items` | `plan_id`, `item_type (task,routine,event)`, `item_id`, `block`, `sort_order` | (spec wrote `order`, a reserved word in SQL, renamed) |
 | `daily_logs` | `date`, `energy 1..5`, `stress?`, `sleep_hours?`, `gratitude?`, `highlights?`, `tomorrow_top3 jsonb` | unique `(user_id, date)`; this is the in-app version of the nightly "✓ ✓ ✗ طاقة 3" message |
