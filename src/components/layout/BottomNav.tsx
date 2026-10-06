@@ -11,7 +11,7 @@ export function BottomNav() {
       className="fixed inset-x-0 bottom-0 z-10 border-t border-border bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
     >
       <ul className="flex">
-        {NAV_ITEMS.map(({ to, labelKey, icon: Icon }) => (
+        {NAV_ITEMS.filter((item) => item.mobile).map(({ to, labelKey, icon: Icon }) => (
           <li key={to} className="flex-1">
             <Link
               to={to}

@@ -129,3 +129,53 @@ export interface TaskRow extends SyncedRow {
   rrule: string | null
   completed_at: string | null
 }
+
+export const PROJECT_STATUSES = [
+  'inbox',
+  'planned',
+  'active',
+  'blocked',
+  'waiting',
+  'paused',
+  'done',
+  'archived',
+] as const
+export type ProjectStatus = (typeof PROJECT_STATUSES)[number]
+export type ProjectKind = 'personal' | 'freelance' | 'venture' | 'learning' | 'hospital'
+
+export interface ProjectRow extends SyncedRow {
+  area_id: string | null
+  goal_id: string | null
+  kind: ProjectKind
+  title: string
+  outcome: string
+  reason: string
+  status: ProjectStatus
+  priority: TaskPriority
+  commitment_level: CommitmentLevel
+  /** The one concrete next step. Every active project should have one. */
+  next_action_task_id: string | null
+  deadline: string | null
+  est_hours: number | null
+  energy: Energy
+  review_date: string | null
+  /** Freelance fields arrive in Phase 5. */
+  client_id: string | null
+}
+
+export const GOAL_HORIZONS = ['month', 'quarter', 'year', 'long_term'] as const
+export type GoalHorizon = (typeof GOAL_HORIZONS)[number]
+/** `idea` is the "Not Now" state: kept, but not a commitment. */
+export type GoalStatus =
+  'idea' | 'planned' | 'active' | 'paused' | 'done' | 'cancelled' | 'archived'
+
+export interface GoalRow extends SyncedRow {
+  area_id: string | null
+  title: string
+  why: string
+  desired_outcome: string
+  horizon: GoalHorizon
+  success_metric: string
+  status: GoalStatus
+  target_date: string | null
+}

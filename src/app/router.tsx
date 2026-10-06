@@ -1,7 +1,9 @@
 import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router'
 import { AppShell } from '@/components/layout/AppShell'
+import { GoalsPage } from '@/modules/goals/pages/GoalsPage'
 import { InboxPage } from '@/modules/inbox/pages/InboxPage'
 import { EveningReviewPage } from '@/modules/reviews/pages/EveningReviewPage'
+import { ProjectsPage } from '@/modules/projects/pages/ProjectsPage'
 import { SettingsPage } from '@/modules/settings/pages/SettingsPage'
 import { TasksPage } from '@/modules/tasks/pages/TasksPage'
 import { TodayPage } from '@/modules/today/pages/TodayPage'
@@ -42,6 +44,18 @@ const tasksRoute = createRoute({
   component: TasksPage,
 })
 
+const projectsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/projects',
+  component: ProjectsPage,
+})
+
+const goalsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/goals',
+  component: GoalsPage,
+})
+
 const settingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings',
@@ -54,6 +68,8 @@ const routeTree = rootRoute.addChildren([
   reviewRoute,
   inboxRoute,
   tasksRoute,
+  projectsRoute,
+  goalsRoute,
   settingsRoute,
 ])
 

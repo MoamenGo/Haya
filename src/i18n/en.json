@@ -8,7 +8,9 @@
     "today": "Today",
     "settings": "Settings",
     "inbox": "Inbox",
-    "tasks": "Tasks"
+    "tasks": "Tasks",
+    "projects": "Projects",
+    "goals": "Goals"
   },
   "today": {
     "title": "Today",
@@ -162,5 +164,57 @@
     "noEstimate": "No estimate",
     "overdue": "Overdue",
     "actions": "Options for {{title}}"
+  },
+  "projects": {
+    "title": "Projects",
+    "wip": "{{active}} of {{max}} projects active",
+    "wipHint": "More than 3 at once scatters focus. To start a new one, pause one first.",
+    "active": "Active now",
+    "planned": "Not now",
+    "paused": "Paused",
+    "done": "Done",
+    "emptyActive": "No active projects.",
+    "emptyPlanned": "No projects waiting.",
+    "add": "New project",
+    "titleLabel": "Project name",
+    "outcomeLabel": "When is it done? (the end state in one sentence)",
+    "goalLabel": "Part of a goal (optional)",
+    "noGoal": "No goal",
+    "create": "Add",
+    "start": "Start",
+    "pause": "Pause",
+    "finish": "Done",
+    "backToPlanned": "Back to Not now",
+    "next": "Next action",
+    "noNext": "Needs a clear next action.",
+    "nextPlaceholder": "The smallest thing you can do next",
+    "setNext": "Set",
+    "nextDone": "Step done",
+    "pickToPause": "To start \"{{title}}\", pause one of these:",
+    "cancel": "Cancel",
+    "goals": "Goals"
+  },
+  "goals": {
+    "title": "Goals",
+    "intro": "A goal measures an outcome, not hours. New goals start in \"Not now\" until you decide to start them.",
+    "active": "Active",
+    "idea": "Not now",
+    "done": "Achieved",
+    "empty": "No goals yet.",
+    "add": "New goal",
+    "titleLabel": "Goal",
+    "whyLabel": "Why does it matter? (optional)",
+    "horizonLabel": "Horizon",
+    "create": "Add",
+    "start": "Start",
+    "park": "Not now",
+    "finish": "Achieved",
+    "limit": "You already have 3 active goals for this horizon. Move one to \"Not now\" first.",
+    "horizons": {
+      "month": "Month",
+      "quarter": "Quarter",
+      "year": "Year",
+      "long_term": "Long term"
+    }
   }
 }

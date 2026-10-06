@@ -11,5 +11,6 @@ export const newTaskInput = z.object({
   priority: z.enum(['critical', 'important', 'normal', 'low']).default('normal'),
   est_minutes: z.number().int().positive().max(EST_MINUTES_MAX).nullable().default(null),
   area_id: z.string().nullable().default(null),
+  project_id: z.string().nullable().default(null),
 })
 export type NewTaskInput = z.input<typeof newTaskInput>
