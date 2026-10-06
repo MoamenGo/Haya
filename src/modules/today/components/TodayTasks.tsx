@@ -15,11 +15,13 @@ const PERCENT = 100
 interface TodayTasksProps {
   today: string
   dayType: DayType
+  /** Free minutes the owner set for this date, if any. */
+  customMinutes: number | null
   /** Hard-day mode shows only non-negotiable (L1) tasks (CLAUDE.md §4.5). */
   minimumMode: boolean
 }
 
-export function TodayTasks({ today, dayType, minimumMode }: TodayTasksProps) {
+export function TodayTasks({ today, dayType, customMinutes, minimumMode }: TodayTasksProps) {
   const { t } = useTranslation()
   const allTasks = useLiveQuery(() => tasksForDate(today), [today])
   const lastNight = useLiveQuery(() => getDailyLog(addDaysISO(today, -1)), [today])
@@ -32,7 +34,7 @@ export function TodayTasks({ today, dayType, minimumMode }: TodayTasksProps) {
   const planned = tasks
     .filter((task) => task.status !== 'done')
     .reduce((sum, task) => sum + (task.est_minutes ?? 0), 0)
-  const capacity = dayCapacity(dayType, planned)
+  const capacity = dayCapacity(dayType, planned, { customMinutes })
   const titles = new Set(allTasks.map((task) => task.title))
   const suggestion = lastNight?.tomorrow_top3.find((item) => !titles.has(item))
 

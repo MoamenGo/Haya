@@ -22,7 +22,7 @@ export function Sidebar() {
         </Button>
       </div>
       <nav aria-label={t('nav.main')} className="flex flex-col gap-1 px-3">
-        {NAV_ITEMS.map(({ to, labelKey, icon: Icon }) => (
+        {NAV_ITEMS.filter((item) => item.desktop).map(({ to, labelKey, icon: Icon }) => (
           <Link
             key={to}
             to={to}

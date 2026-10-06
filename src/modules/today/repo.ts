@@ -29,3 +29,9 @@ export async function setMinimumMode(
     }
   })
 }
+
+/** Dates between two days (inclusive) that were lived in Minimum mode. */
+export async function minimumModeDates(startISO: string, endISO: string): Promise<Set<string>> {
+  const plans = await db.daily_plans.where('date').between(startISO, endISO, true, true).toArray()
+  return new Set(plans.filter((p) => !p.deleted_at && p.minimum_mode).map((p) => p.date))
+}

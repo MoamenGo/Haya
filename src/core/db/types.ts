@@ -1,3 +1,5 @@
+import type { DayType } from '@/core/time/config'
+
 /**
  * Columns every synced row carries (see docs/erd.md).
  * The sync engine arrives in Phase 2; the columns exist from day one so
@@ -178,4 +180,26 @@ export interface GoalRow extends SyncedRow {
   success_metric: string
   status: GoalStatus
   target_date: string | null
+}
+
+/** A per-date change to the weekly pattern: leave, exam, travel, illness (CLAUDE.md §4.2). */
+export interface DayOverrideRow extends SyncedRow {
+  /** `YYYY-MM-DD`, unique. */
+  date: string
+  day_type: DayType
+  /** Free minutes for a `custom` day. Null = use the default for its type. */
+  capacity_min: number | null
+  note: string
+}
+
+export const REVIEW_KINDS = ['weekly', 'monthly', 'quarterly'] as const
+export type ReviewKind = (typeof REVIEW_KINDS)[number]
+
+export interface ReviewRow extends SyncedRow {
+  kind: ReviewKind
+  /** First and last day of the period, `YYYY-MM-DD`. */
+  period_start: string
+  period_end: string
+  /** Free-text answers keyed by question id. */
+  answers: Record<string, string>
 }

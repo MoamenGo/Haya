@@ -31,3 +31,31 @@ export function formatHijri(date: Date, lang: Language, timeZone = DEFAULT_TIMEZ
     timeZone,
   }).format(date)
 }
+
+/** "Saturday 10 October": a day's heading in lists like the week view. */
+export function formatDayHeading(date: Date, lang: Language, timeZone = DEFAULT_TIMEZONE): string {
+  return new Intl.DateTimeFormat(GREGORIAN_LOCALE[lang], {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    timeZone,
+  }).format(date)
+}
+
+/** "18 Rabi' II": the Hijri day and month, without the year. */
+export function formatHijriShort(date: Date, lang: Language, timeZone = DEFAULT_TIMEZONE): string {
+  return new Intl.DateTimeFormat(HIJRI_LOCALE[lang], {
+    day: 'numeric',
+    month: 'long',
+    timeZone,
+  }).format(date)
+}
+
+/** "10 Oct": compact dates for ranges. */
+export function formatDayMonth(date: Date, lang: Language, timeZone = DEFAULT_TIMEZONE): string {
+  return new Intl.DateTimeFormat(GREGORIAN_LOCALE[lang], {
+    day: 'numeric',
+    month: 'short',
+    timeZone,
+  }).format(date)
+}

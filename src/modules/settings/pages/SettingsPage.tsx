@@ -3,7 +3,7 @@ import { Card } from '@/components/ui/card'
 import { AreasList } from '../components/AreasList'
 import { DataSection } from '../components/DataSection'
 import { LocationSection } from '../components/LocationSection'
-import { ChoiceGroup } from '../components/ChoiceGroup'
+import { ChoiceGroup } from '@/components/ui/choice-group'
 import { VisionForm } from '../components/VisionForm'
 import { useSetting } from '../hooks'
 

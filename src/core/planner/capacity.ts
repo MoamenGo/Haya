@@ -11,15 +11,22 @@ export interface Capacity {
   over: boolean
 }
 
-/** Custom days have no default yet, so they borrow the lightest day's value. */
+/** A custom day without its own minutes borrows the lightest day's value. */
 const CUSTOM_DAY_FALLBACK = DEFAULT_CAPACITY_MIN.rest
+
+export interface CapacityOptions {
+  utilization?: number
+  /** Free minutes the owner set for this date (an override). Wins over the day-type default. */
+  customMinutes?: number | null
+}
 
 export function dayCapacity(
   dayType: DayType,
   plannedMinutes: number,
-  utilization: number = PLANNING_UTILIZATION,
+  { utilization = PLANNING_UTILIZATION, customMinutes = null }: CapacityOptions = {},
 ): Capacity {
-  const discretionary = dayType === 'custom' ? CUSTOM_DAY_FALLBACK : DEFAULT_CAPACITY_MIN[dayType]
+  const typeDefault = dayType === 'custom' ? CUSTOM_DAY_FALLBACK : DEFAULT_CAPACITY_MIN[dayType]
+  const discretionary = customMinutes ?? typeDefault
   const plannable = Math.round(discretionary * utilization)
   return { discretionary, plannable, planned: plannedMinutes, over: plannedMinutes > plannable }
 }

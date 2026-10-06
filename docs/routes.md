@@ -18,6 +18,7 @@ so the bottom bar never shows empty sections.
 | `/routines` | Routines + MVD versions, gentle dot calendar | 1 |
 | `/week` | Week view (Sat to Fri) | 1 |
 | `/reviews/weekly` | Simple weekly review | 1 |
+| `/more` | Phone only: sections that don't fit the bottom bar | 1 |
 | `/settings` | Language, theme, location + prayer method, day types, limits, life areas | 0 basic, 1 full |
 | `/settings/data` | JSON export / import (dry-run preview) | 1 |
 | `/login` | Magic-link sign-in | 2 |
@@ -29,6 +30,6 @@ so the bottom bar never shows empty sections.
 Global (every screen): Capture (`+` on mobile, `Ctrl/Cmd+K` on desktop), sync indicator (Phase 2).
 
 Navigation after Phase 1:
-- Mobile bottom bar: **Today · Inbox · Tasks · Routines · More** + floating Capture. It becomes
+- Mobile bottom bar: **Today · Week · Inbox · Tasks · More** + floating Capture. Routines live on Today. It becomes
   Today · Qur'an · Learn · Work · More as those modules ship (spec §9).
-- Desktop sidebar: Today, Week, Inbox, Tasks, Projects, Goals, Routines, Reviews, Settings.
+- Desktop sidebar: Today, Week, Inbox, Tasks, Projects, Goals, Weekly review, Settings.

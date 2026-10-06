@@ -10,7 +10,10 @@
     "inbox": "Inbox",
     "tasks": "Tasks",
     "projects": "Projects",
-    "goals": "Goals"
+    "goals": "Goals",
+    "week": "Week",
+    "weeklyReview": "Weekly review",
+    "more": "More"
   },
   "today": {
     "title": "Today",
@@ -216,5 +219,52 @@
       "year": "Year",
       "long_term": "Long term"
     }
+  },
+  "week": {
+    "title": "Week",
+    "today": "Today",
+    "previous": "Previous",
+    "thisWeek": "This week",
+    "next": "Next",
+    "review": "Weekly review",
+    "focus": "What you chose for this week",
+    "dayType": "Day type",
+    "changed": "changed from usual",
+    "freeMinutes": "Free minutes",
+    "freeMinutesDefault": "Default",
+    "note": "Note",
+    "notePlaceholder": "Leave, exam, travel…",
+    "save": "Save",
+    "reset": "Back to {{type}}",
+    "cancel": "Cancel",
+    "over": "more than available",
+    "done": "Done",
+    "bigRock": "Big Rock",
+    "minimumDay": "Hard day, counted",
+    "checkedIn": "Checked in"
+  },
+  "weekly": {
+    "title": "Weekly review",
+    "back": "← Week",
+    "intro": "Ten calm minutes. Answer what you like and skip the rest.",
+    "factsTitle": "This week in short",
+    "energy": "Average energy {{value}} of 5",
+    "openInbox": "Sort them first",
+    "q": {
+      "went_well": "What went well?",
+      "didnt_go": "What didn't go as you wanted?",
+      "energy": "What gave you energy, and what drained it?",
+      "worship": "Your worship this week: one thing to keep",
+      "family": "How was your time with family this week?",
+      "learning": "What did you learn?",
+      "pressure": "Is the system itself putting pressure on you? What should we drop or lighten?"
+    },
+    "next": "Top 3 outcomes for next week",
+    "nextItem": "Outcome {{n}}",
+    "save": "Save review",
+    "tasksDone": "Tasks done: {{count}}",
+    "habitDays": "Days with your routines: {{count}}",
+    "checkIns": "Evening check-ins: {{count}}",
+    "inbox": "Items waiting in the inbox: {{count}}."
   }
 }

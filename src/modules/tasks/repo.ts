@@ -2,6 +2,7 @@ import { db } from '@/core/db/db'
 import { newRowMeta, touchMeta } from '@/core/db/rows'
 import type { TaskRow } from '@/core/db/types'
 import { canAddBigRock } from '@/core/planner/capacity'
+import { localDateISO } from '@/core/time/date'
 import { newTaskInput, type NewTaskInput } from './schema'
 
 /** The only code that reads or writes `tasks`. */
@@ -43,6 +44,25 @@ export async function createTask(input: NewTaskInput): Promise<TaskRow> {
 export async function tasksForDate(dateISO: string): Promise<TaskRow[]> {
   const rows = await db.tasks.where('scheduled_date').equals(dateISO).toArray()
   return rows.filter((t) => isLive(t) && t.status !== 'cancelled')
+}
+
+/** Tasks scheduled between two dates, inclusive (for the week view). */
+export async function tasksBetween(startISO: string, endISO: string): Promise<TaskRow[]> {
+  const rows = await db.tasks
+    .where('scheduled_date')
+    .between(startISO, endISO, true, true)
+    .toArray()
+  return rows.filter((t) => isLive(t) && t.status !== 'cancelled')
+}
+
+/** Tasks completed on local dates between two days (inclusive), wherever they were scheduled. */
+export async function tasksCompletedBetween(startISO: string, endISO: string): Promise<TaskRow[]> {
+  const rows = await db.tasks.where('status').equals('done').toArray()
+  return rows.filter((t) => {
+    if (!isLive(t) || !t.completed_at) return false
+    const day = localDateISO(new Date(t.completed_at))
+    return day >= startISO && day <= endISO
+  })
 }
 
 /** Open tasks that are not scheduled for `dateISO`: overdue, upcoming, or undated. */

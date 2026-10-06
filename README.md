@@ -23,7 +23,13 @@ up to 3 Big Rocks per day, rough estimates, and a capacity bar on Today.
 one to pause), a clear next action per active project, and light goals that start in "Not now"
 with at most 3 active per horizon.
 
-Next in Phase 1: day-type overrides, week view and weekly review.
+**Phase 1, part 4 — Week and weekly review**: a Saturday-to-Friday week view where any date's
+type can be changed (leave, exam, travel) with its own free minutes and a note, a calm Friday
+review (a few optional questions plus neutral facts about the week), and next week's top 3 shown
+on the week view. On the phone, a "More" screen holds the sections that don't fit the bottom bar.
+
+Phase 1 is now complete. Next is Phase 2 (Supabase sync and sign-in), which needs the owner's
+Supabase account.
 
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).

@@ -3,11 +3,13 @@ import { seedLifeAreas, seedRoutines } from './seed'
 import type {
   DailyLogRow,
   DailyPlanRow,
+  DayOverrideRow,
   GoalRow,
   HabitLogRow,
   InboxItemRow,
   ProjectRow,
   LifeAreaRow,
+  ReviewRow,
   RoutineRow,
   SettingRow,
   TaskRow,
@@ -35,6 +37,8 @@ export class HayaDB extends Dexie {
   tasks!: EntityTable<TaskRow, 'id'>
   projects!: EntityTable<ProjectRow, 'id'>
   goals!: EntityTable<GoalRow, 'id'>
+  day_overrides!: EntityTable<DayOverrideRow, 'id'>
+  reviews!: EntityTable<ReviewRow, 'id'>
 
   constructor(name: string = DB_NAME) {
     super(name)
@@ -68,6 +72,13 @@ export class HayaDB extends Dexie {
     this.version(4).stores({
       projects: 'id, status, goal_id, updated_at, _dirty',
       goals: 'id, status, horizon, updated_at, _dirty',
+    })
+
+    // v5 (Phase 1): per-date day types and weekly reviews.
+    // `&[kind+period_start]`: one review per kind per period.
+    this.version(5).stores({
+      day_overrides: 'id, &date, updated_at, _dirty',
+      reviews: 'id, &[kind+period_start], updated_at, _dirty',
     })
 
     // …and brand-new databases get everything here (upgrades don't run for them).
