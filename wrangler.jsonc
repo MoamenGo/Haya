@@ -1,0 +1,12 @@
+// Cloudflare deploy settings. The app is static files (the `dist` folder from
+// `pnpm build`) served by Cloudflare Workers static assets; there is no server code.
+{
+  "name": "haya",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    // Any address that isn't a file (/today, /week, …) gets index.html, so the
+    // app's own router can show the right screen after a refresh or from a bookmark.
+    "not_found_handling": "single-page-application"
+  }
+}

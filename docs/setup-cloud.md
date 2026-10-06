@@ -18,8 +18,10 @@ project so the phone and the computer share the same data.
    (e.g. `https://haya-xxx.pages.dev`) and add the same address to **Redirect URLs**.
 
 ## 3. Point the app at it
-**Project Settings → API**: copy the **Project URL** and the **anon public** key. In Cloudflare
-Pages → the project → **Settings → Environment variables**, add:
+**Project Settings → API**: copy the **Project URL** and the **anon public** key. In Cloudflare,
+open the project and add them as **build** variables (Vite bakes them in at build time):
+- Workers (the current deploy, `wrangler.jsonc`): **Settings → Build → Variables and secrets**
+- Pages: **Settings → Environment variables**
 - `VITE_SUPABASE_URL` = the Project URL
 - `VITE_SUPABASE_ANON_KEY` = the anon key
 
