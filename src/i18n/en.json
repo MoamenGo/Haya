@@ -1,0 +1,38 @@
+{
+  "app": { "name": "Haya", "tagline": "One quiet place for what matters" },
+  "nav": { "main": "Main navigation", "today": "Today", "settings": "Settings" },
+  "today": {
+    "title": "Today",
+    "hijri": "Hijri",
+    "dayType": "Day type",
+    "emptyTitle": "The foundation is ready",
+    "emptyBody": "Next here: your 3 habits and a one-minute evening check-in. Until then, keep sending the nightly message in the project.",
+    "emptyAction": "Write your vision sentence"
+  },
+  "dayTypes": {
+    "hospital": "Hospital day",
+    "deep_work": "Deep work day",
+    "rest": "Rest & family day",
+    "custom": "Custom day"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "themes": { "system": "Match device", "light": "Light", "dark": "Dark" },
+    "vision": "Vision sentence",
+    "visionHint": "One sentence about what you want your life to look like.",
+    "visionPlaceholder": "One quiet place where I can see what matters…",
+    "save": "Save",
+    "saved": "Saved",
+    "areas": "Life areas",
+    "areasHint": "Editing them comes in the next phase.",
+    "about": "About",
+    "storage": "Your data stays on this device until sync is added."
+  },
+  "pwa": {
+    "offlineReady": "The app is ready to work offline.",
+    "dismiss": "OK"
+  },
+  "states": { "loading": "Loading…", "error": "Something went wrong. Try reopening the page." }
+}

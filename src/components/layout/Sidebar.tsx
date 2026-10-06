@@ -1,0 +1,29 @@
+import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
+import { NAV_ITEMS } from './nav-items'
+
+/** Desktop navigation (hidden on small screens). */
+export function Sidebar() {
+  const { t } = useTranslation()
+  return (
+    <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 border-e border-border bg-surface md:block">
+      <div className="px-5 py-6">
+        <p className="text-xl font-semibold text-primary">{t('app.name')}</p>
+        <p className="mt-1 text-sm text-muted">{t('app.tagline')}</p>
+      </div>
+      <nav aria-label={t('nav.main')} className="flex flex-col gap-1 px-3">
+        {NAV_ITEMS.map(({ to, labelKey, icon: Icon }) => (
+          <Link
+            key={to}
+            to={to}
+            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted hover:bg-accent"
+            activeProps={{ className: 'bg-accent font-medium !text-foreground' }}
+          >
+            <Icon aria-hidden className="size-5" />
+            {t(labelKey)}
+          </Link>
+        ))}
+      </nav>
+    </aside>
+  )
+}
