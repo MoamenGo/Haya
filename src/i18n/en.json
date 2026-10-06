@@ -1,13 +1,26 @@
 {
-  "app": { "name": "Haya", "tagline": "One quiet place for what matters" },
-  "nav": { "main": "Main navigation", "today": "Today", "settings": "Settings" },
+  "app": {
+    "name": "Haya",
+    "tagline": "One quiet place for what matters"
+  },
+  "nav": {
+    "main": "Main navigation",
+    "today": "Today",
+    "settings": "Settings"
+  },
   "today": {
     "title": "Today",
     "hijri": "Hijri",
     "dayType": "Day type",
-    "emptyTitle": "The foundation is ready",
-    "emptyBody": "Next here: your 3 habits and a one-minute evening check-in. Until then, keep sending the nightly message in the project.",
-    "emptyAction": "Write your vision sentence"
+    "nextPrayer": "Next prayer",
+    "in": "in {{time}}",
+    "habits": "Today's habits",
+    "minimumMode": "Hard day? Minimum versions",
+    "minimumModeOn": "Hard-day mode is on. The minimum version of each habit counts as a full success.",
+    "minimumModeOff": "Back to a normal day",
+    "checkIn": "Check in (1 minute)",
+    "checkInDone": "Day checked in. Edit",
+    "allDone": "Your day is complete. Alhamdulillah."
   },
   "dayTypes": {
     "hospital": "Hospital day",
@@ -19,7 +32,11 @@
     "title": "Settings",
     "language": "Language",
     "theme": "Theme",
-    "themes": { "system": "Match device", "light": "Light", "dark": "Dark" },
+    "themes": {
+      "system": "Match device",
+      "light": "Light",
+      "dark": "Dark"
+    },
     "vision": "Vision sentence",
     "visionHint": "One sentence about what you want your life to look like.",
     "visionPlaceholder": "One quiet place where I can see what matters…",
@@ -28,11 +45,71 @@
     "areas": "Life areas",
     "areasHint": "Editing them comes in the next phase.",
     "about": "About",
-    "storage": "Your data stays on this device until sync is added."
+    "storage": "Your data stays on this device until sync is added.",
+    "location": "Your location (for prayer times)",
+    "locationHint": "Computed on your device only and never sent anywhere.",
+    "useMyLocation": "Use my current location",
+    "locationDenied": "Couldn't get your location. Times use Cairo.",
+    "locationSaved": "Location saved.",
+    "data": "Your data",
+    "dataHint": "Download a copy of all your data, or restore an older copy.",
+    "export": "Download backup",
+    "import": "Restore from backup",
+    "importPreview": "This file will add {{added}} and replace {{replaced}} records.",
+    "importConfirm": "Restore",
+    "importCancel": "Cancel",
+    "importDone": "Data restored.",
+    "importError": "This file is not a Haya backup, or it is damaged."
   },
   "pwa": {
     "offlineReady": "The app is ready to work offline.",
     "dismiss": "OK"
   },
-  "states": { "loading": "Loading…", "error": "Something went wrong. Try reopening the page." }
+  "states": {
+    "loading": "Loading…",
+    "error": "Something went wrong. Try reopening the page."
+  },
+  "blocks": {
+    "after_fajr": "After Fajr",
+    "duha": "Duha",
+    "after_dhuhr": "After Dhuhr",
+    "after_asr": "After Asr",
+    "maghrib_isha": "Maghrib to Isha",
+    "after_isha": "After Isha"
+  },
+  "prayers": {
+    "fajr": "Fajr",
+    "dhuhr": "Dhuhr",
+    "asr": "Asr",
+    "maghrib": "Maghrib",
+    "isha": "Isha"
+  },
+  "habit": {
+    "full": "Full",
+    "minimum": "Minimum",
+    "skipped": "Not today",
+    "fullVersion": "Normal",
+    "minimumVersion": "Hard day",
+    "clear": "Clear",
+    "last7": "Last 7 days",
+    "statusOn": "{{date}}: {{status}}",
+    "none": "nothing logged"
+  },
+  "review": {
+    "title": "Evening check-in",
+    "intro": "One minute. There are no wrong answers.",
+    "habits": "Habits",
+    "energy": "Your energy today",
+    "energyHint": "1 exhausted, 5 at your best",
+    "sleep": "Hours slept last night (optional)",
+    "gratitude": "Alhamdulillah for… (optional)",
+    "tomorrow": "The one most important thing tomorrow (optional)",
+    "save": "Save",
+    "saved": "Saved. Good night.",
+    "back": "Back to Today"
+  },
+  "duration": {
+    "hm": "{{h}}h {{m}}m",
+    "m": "{{m}} min"
+  }
 }

@@ -1,5 +1,6 @@
 import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router'
 import { AppShell } from '@/components/layout/AppShell'
+import { EveningReviewPage } from '@/modules/reviews/pages/EveningReviewPage'
 import { SettingsPage } from '@/modules/settings/pages/SettingsPage'
 import { TodayPage } from '@/modules/today/pages/TodayPage'
 
@@ -21,13 +22,19 @@ const todayRoute = createRoute({
   component: TodayPage,
 })
 
+const reviewRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/today/review',
+  component: EveningReviewPage,
+})
+
 const settingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings',
   component: SettingsPage,
 })
 
-const routeTree = rootRoute.addChildren([indexRoute, todayRoute, settingsRoute])
+const routeTree = rootRoute.addChildren([indexRoute, todayRoute, reviewRoute, settingsRoute])
 
 export const router = createRouter({ routeTree })
 
