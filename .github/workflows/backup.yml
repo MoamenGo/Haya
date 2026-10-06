@@ -1,0 +1,67 @@
+name: Weekly encrypted backup
+
+# Every Friday: dump the cloud database, encrypt it with `age`, and commit it to
+# a separate PRIVATE repository (CLAUDE.md §7.5). Only the owner's age secret
+# key (kept off GitHub) can decrypt it. Does nothing until these secrets exist:
+#   SUPABASE_DB_URL     Supabase → Project Settings → Database → Connection string (URI, session pooler)
+#   AGE_RECIPIENT       the public key printed by `age-keygen` (starts with age1…)
+#   BACKUP_REPO         owner/name of the private backup repository, e.g. MoamenGo/haya-backups
+#   BACKUP_REPO_TOKEN   a fine-grained token with Contents: read & write on that repository only
+# Restore: docs/setup-cloud.md → "Backups".
+
+on:
+  schedule:
+    - cron: '0 20 * * 5' # Fridays 20:00 UTC (late evening in Cairo)
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      AGE_RECIPIENT: ${{ secrets.AGE_RECIPIENT }}
+      BACKUP_REPO: ${{ secrets.BACKUP_REPO }}
+      BACKUP_REPO_TOKEN: ${{ secrets.BACKUP_REPO_TOKEN }}
+    steps:
+      - name: Check secrets
+        id: ready
+        run: |
+          if [ -n "$SUPABASE_DB_URL" ] && [ -n "$AGE_RECIPIENT" ] && [ -n "$BACKUP_REPO" ] && [ -n "$BACKUP_REPO_TOKEN" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Backup secrets not set yet; nothing to do."
+          fi
+
+      - name: Install tools
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
+          sudo apt-get update -q
+          sudo apt-get install -y -q postgresql-client-17 age
+
+      - name: Dump and encrypt
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          # Only the app's data (schema `public`), as plain SQL. Nothing is written unencrypted to disk.
+          /usr/lib/postgresql/17/bin/pg_dump "$SUPABASE_DB_URL" \
+            --schema=public --data-only --no-owner --no-privileges \
+            | gzip | age --encrypt --recipient "$AGE_RECIPIENT" > backup.sql.gz.age
+          ls -l backup.sql.gz.age
+
+      - name: Commit to the private backup repository
+        if: steps.ready.outputs.ok == 'true'
+        run: |
+          git clone --depth 1 "https://x-access-token:${BACKUP_REPO_TOKEN}@github.com/${BACKUP_REPO}.git" store
+          name="haya-$(date -u +%Y-%m-%d).sql.gz.age"
+          mkdir -p store/backups
+          mv backup.sql.gz.age "store/backups/$name"
+          cd store
+          git config user.name "haya-backup"
+          git config user.email "haya-backup@users.noreply.github.com"
+          git add "backups/$name"
+          git commit -m "backup $name"
+          git push

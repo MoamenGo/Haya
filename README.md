@@ -41,6 +41,10 @@ CI runs it on every PR. See ADR-002.
 (or link), and a small indicator shows synced / syncing / offline / problem. Without the two
 `VITE_SUPABASE_*` variables the app stays local-only. One-time setup: `docs/setup-cloud.md`.
 
+**Phase 2, part 4 — Keep-alive and backups**: a daily GitHub Action keeps the free Supabase project
+from pausing, and a Friday Action commits an `age`-encrypted dump to a separate private repository.
+Both stay idle until their secrets are added (see `docs/setup-cloud.md`).
+
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).
 

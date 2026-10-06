@@ -34,3 +34,24 @@ Then redeploy. Never use the `service_role` key in the app: it bypasses all secu
 ## Local development
 `supabase start` (needs Docker) runs a local copy with the same migrations; emails go to Mailpit at
 http://127.0.0.1:54324. Put the local URL and anon key printed by `supabase start` in `.env.local`.
+
+## Keep-alive and weekly backups (optional but recommended)
+Two GitHub Actions do nothing until their secrets exist (GitHub → the Haya repo → **Settings →
+Secrets and variables → Actions**):
+
+- **Keep-alive** (`keepalive.yml`, daily): `SUPABASE_URL`, `SUPABASE_ANON_KEY`. Free projects pause
+  after 7 quiet days; this prevents it.
+- **Backup** (`backup.yml`, Fridays): an encrypted dump committed to a separate private repository.
+  1. Create a **private** repository, e.g. `haya-backups`.
+  2. On your computer, install `age` and run `age-keygen -o haya-backup-key.txt`. Keep that file
+     safe and **off GitHub** (a USB stick and a password manager). It prints a public key `age1…`.
+  3. Add secrets: `AGE_RECIPIENT` (the `age1…` key), `BACKUP_REPO` (`MoamenGo/haya-backups`),
+     `BACKUP_REPO_TOKEN` (fine-grained token, only that repo, Contents read & write),
+     `SUPABASE_DB_URL` (Supabase → Project Settings → Database → connection string, with your
+     database password).
+  4. Run it once by hand: Actions → Weekly encrypted backup → Run workflow.
+
+To read a backup: `age --decrypt -i haya-backup-key.txt FILE.sql.gz.age | gunzip > backup.sql`.
+It is data only, for the same project (rows carry your account id); to restore, empty the tables
+and run it in the SQL Editor. To move to a brand-new project, use the in-app JSON export instead
+(Settings → Data), which doesn't depend on account ids.

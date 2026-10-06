@@ -1,0 +1,33 @@
+name: Keep Supabase awake
+
+# Free Supabase projects pause after 7 days without activity (CLAUDE.md §7.1).
+# One tiny read a day keeps the project awake even during a week away from the app.
+# Does nothing until the two secrets below are added in GitHub:
+#   Settings → Secrets and variables → Actions → New repository secret
+#   SUPABASE_URL       the Project URL
+#   SUPABASE_ANON_KEY  the anon public key (RLS returns no rows to it; the request is enough)
+
+on:
+  schedule:
+    - cron: '17 3 * * *' # every day 03:17 UTC
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+    steps:
+      - name: Ping the database
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+            echo "Supabase secrets not set yet; nothing to do."
+            exit 0
+          fi
+          curl --fail --silent --show-error \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            "$SUPABASE_URL/rest/v1/life_areas?select=id&limit=1" > /dev/null
+          echo "Supabase is awake."
