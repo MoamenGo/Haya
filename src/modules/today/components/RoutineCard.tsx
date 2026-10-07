@@ -19,8 +19,8 @@ export function RoutineCard({ routine, status, minimumMode, days, onChange }: Ro
     <Card className="flex flex-col gap-3">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs text-muted">{t(`blocks.${routine.anchor}`)}</p>
-          <h3 className="font-medium">{routine.title}</h3>
+          <p className="text-xs font-medium text-gold">{t(`blocks.${routine.anchor}`)}</p>
+          <h3 className="text-lg font-semibold">{routine.title}</h3>
         </div>
         <div className="pt-1">
           <ContinuityDots days={days} />

@@ -8,6 +8,7 @@ import { WeekFactsCard } from '../components/WeekFactsCard'
 import { WeeklyReviewForm } from '../components/WeeklyReviewForm'
 import { useWeekFacts } from '../hooks'
 import { getReview } from '../repo'
+import { PageHeader } from '@/components/layout/PageHeader'
 
 /** The Friday review of the current week (Saturday to Friday). 10 minutes, not more. */
 export function WeeklyReviewPage() {
@@ -20,13 +21,18 @@ export function WeeklyReviewPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <header>
-        <Link to="/week" className="text-sm text-muted underline-offset-4 hover:underline">
-          {t('weekly.back')}
-        </Link>
-        <h1 className="mt-2 text-2xl font-semibold">{t('weekly.title')}</h1>
-        <p className="mt-1 text-muted">{t('weekly.intro')}</p>
-      </header>
+      <PageHeader
+        title={t('weekly.title')}
+        intro={t('weekly.intro')}
+        eyebrow={
+          <Link
+            to="/week"
+            className="w-fit text-sm text-muted underline-offset-4 hover:text-primary hover:underline"
+          >
+            {t('weekly.back')}
+          </Link>
+        }
+      />
 
       {facts && <WeekFactsCard facts={facts} />}
 

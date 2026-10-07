@@ -35,7 +35,7 @@ export function AddGoalForm() {
         <select
           value={horizon}
           onChange={(e) => setHorizon(e.target.value as GoalHorizon)}
-          className="min-h-11 rounded-lg border border-border bg-surface px-3"
+          className="min-h-11 rounded-xl border border-border bg-surface-raised px-3"
         >
           {GOAL_HORIZONS.map((h) => (
             <option key={h} value={h}>

@@ -39,7 +39,7 @@ export function WeekPage() {
     <div className="flex flex-col gap-5">
       <header className="flex flex-col gap-3">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h1 className="text-2xl font-semibold">{t('week.title')}</h1>
+          <h1 className="text-2xl">{t('week.title')}</h1>
           <Link
             to="/reviews/weekly"
             className="text-sm text-primary underline-offset-4 hover:underline"
@@ -62,7 +62,10 @@ export function WeekPage() {
       </header>
 
       {focus && focus.length > 0 && (
-        <section aria-labelledby="focus-title" className="rounded-xl bg-accent p-4 text-sm">
+        <section
+          aria-labelledby="focus-title"
+          className="rounded-2xl border-s-4 border-gold bg-gold-soft/60 p-4 text-sm"
+        >
           <h2 id="focus-title" className="font-medium">
             {t('week.focus')}
           </h2>

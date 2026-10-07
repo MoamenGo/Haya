@@ -45,12 +45,12 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
 
   return (
     <section aria-labelledby="rocks-title" className="flex flex-col gap-3">
-      <h2 id="rocks-title" className="text-lg font-medium">
+      <h2 id="rocks-title" className="text-lg font-semibold">
         {t('today.bigRocks')}
       </h2>
 
       {suggestion && !minimumMode && (
-        <div className="flex flex-col gap-2 rounded-xl bg-accent p-3 text-sm">
+        <div className="flex flex-col gap-2 rounded-2xl border-s-4 border-gold bg-gold-soft/60 p-4 text-sm">
           <p>
             {t('today.fromLastNight')} <strong dir="auto">{suggestion}</strong>
           </p>
@@ -88,9 +88,12 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
           <p className="text-muted">
             {t('today.capacity', { planned: capacity.planned, plannable: capacity.plannable })}
           </p>
-          <div className="h-2 overflow-hidden rounded-full bg-accent" aria-hidden>
+          <div className="h-2.5 overflow-hidden rounded-full bg-accent" aria-hidden>
             <div
-              className={cn('h-full rounded-full', capacity.over ? 'bg-muted' : 'bg-primary')}
+              className={cn(
+                'h-full rounded-full transition-[width] duration-500',
+                capacity.over ? 'bg-gold' : 'bg-primary',
+              )}
               style={{
                 width: `${Math.min(PERCENT, (capacity.planned / capacity.plannable) * PERCENT)}%`,
               }}

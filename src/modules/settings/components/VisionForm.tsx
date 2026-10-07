@@ -40,7 +40,7 @@ export function VisionForm() {
           setDraft(event.target.value)
           setSaved(false)
         }}
-        className="rounded-lg border border-border bg-surface p-3 leading-relaxed focus-visible:outline-2 focus-visible:outline-primary"
+        className="rounded-xl border border-border bg-surface-raised p-3 leading-relaxed focus-visible:outline-2 focus-visible:outline-primary"
       />
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={draft === null}>

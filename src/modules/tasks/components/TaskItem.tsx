@@ -18,7 +18,7 @@ export function TaskItem({ task, todayISO, showDate = false }: TaskItemProps) {
   const overdue = !done && task.scheduled_date !== null && task.scheduled_date < todayISO
 
   return (
-    <li className="flex items-start gap-3 rounded-xl border border-border bg-surface p-3">
+    <li className="flex items-start gap-3 rounded-2xl border border-border/80 bg-surface p-3 shadow-card transition-colors sm:p-4">
       <button
         type="button"
         role="checkbox"
@@ -27,7 +27,9 @@ export function TaskItem({ task, todayISO, showDate = false }: TaskItemProps) {
         onClick={() => void setTaskDone(task, !done)}
         className={cn(
           'mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full border-2 focus-visible:outline-2 focus-visible:outline-primary',
-          done ? 'border-primary bg-primary text-primary-foreground' : 'border-border',
+          done
+            ? 'border-primary bg-primary text-primary-foreground'
+            : 'border-border hover:border-primary/60',
         )}
       >
         {done && <Check aria-hidden className="size-4" />}
@@ -35,7 +37,7 @@ export function TaskItem({ task, todayISO, showDate = false }: TaskItemProps) {
       <div className="min-w-0 flex-1">
         <p dir="auto" className={cn('break-words', done && 'text-muted line-through')}>
           {task.is_big_rock && (
-            <Star aria-hidden className="me-1 inline size-4 fill-current text-primary" />
+            <Star aria-hidden className="me-1 inline size-4 fill-current text-gold" />
           )}
           {task.title}
         </p>

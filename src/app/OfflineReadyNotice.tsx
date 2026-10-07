@@ -27,7 +27,7 @@ export function OfflineReadyNotice() {
   return (
     <div
       role="status"
-      className="fixed inset-x-4 bottom-20 z-20 flex items-center justify-between gap-3 rounded-xl border border-border bg-surface p-3 text-sm shadow-sm md:inset-x-auto md:end-6 md:bottom-6"
+      className="fixed inset-x-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-20 flex items-center justify-between gap-3 rounded-xl border border-border bg-surface-raised p-3 text-sm shadow-float md:inset-x-auto md:end-6 md:bottom-6"
     >
       <span>{t('pwa.offlineReady')}</span>
       <Button variant="ghost" onClick={() => setOfflineReady(false)}>

@@ -6,6 +6,8 @@ desktop, installs on a phone like a native app, and works offline.
 The full specification is [`CLAUDE.md`](CLAUDE.md). Decisions are in [`docs/decisions/`](docs/decisions/),
 the data model in [`docs/erd.md`](docs/erd.md), and the screen map in [`docs/routes.md`](docs/routes.md).
 
+**New to the code?** Start with the Arabic code guide: [`docs/code-guide-ar.md`](docs/code-guide-ar.md).
+
 ## Status
 **Phase 0 — Foundation** (this version): Arabic-first RTL shell with English, light/dark theme,
 responsive navigation (phone bottom bar, desktop sidebar), local database (Dexie) with settings and
@@ -45,6 +47,10 @@ CI runs it on every PR. See ADR-002.
 from pausing, and a Friday Action commits an `age`-encrypted dump to a separate private repository.
 Both stay idle until their secrets are added (see `docs/setup-cloud.md`).
 
+**Design refresh**: calmer, more polished look (warm paper background, soft card shadows, a
+Today "hero" card, clearer navigation) and a fluid type scale so text sizes adapt smoothly from phone
+to wide desktop. All design tokens live in `src/index.css`.
+
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).
 
@@ -61,7 +67,8 @@ pnpm build && pnpm preview   # test the installable/offline build here
 ```
 src/
   app/                 router, PWA registration, language/theme sync
-  components/layout/   app shell, sidebar, bottom nav
+  components/layout/   app shell, sidebar, bottom nav, page header
+  index.css            design tokens: colours, fluid type scale, radii, shadows
   components/ui/       small UI primitives (shadcn/ui style)
   core/db/             Dexie schema (versions), row helpers, seed data
   core/time/           day types, Gregorian + Hijri formatting

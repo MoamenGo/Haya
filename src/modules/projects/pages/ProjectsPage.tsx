@@ -6,6 +6,7 @@ import { MAX_ACTIVE_PROJECTS } from '@/core/planner/config'
 import { AddProjectForm } from '../components/AddProjectForm'
 import { ProjectCard } from '../components/ProjectCard'
 import { listProjects, type ProjectWithNext } from '../repo'
+import { PageHeader } from '@/components/layout/PageHeader'
 
 const GROUPS = ['active', 'planned', 'paused', 'done'] as const
 
@@ -17,14 +18,16 @@ export function ProjectsPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <header className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="text-2xl font-semibold">{t('projects.title')}</h1>
-        <Link to="/goals" className="text-sm text-primary underline-offset-4 hover:underline">
-          {t('projects.goals')}
-        </Link>
-      </header>
+      <PageHeader
+        title={t('projects.title')}
+        action={
+          <Link to="/goals" className="text-sm text-primary underline-offset-4 hover:underline">
+            {t('projects.goals')}
+          </Link>
+        }
+      />
 
-      <div className="rounded-xl bg-accent p-3 text-sm">
+      <div className="rounded-2xl bg-accent p-4 text-sm">
         <p className="font-medium">
           {t('projects.wip', { active: active.length, max: MAX_ACTIVE_PROJECTS })}
         </p>

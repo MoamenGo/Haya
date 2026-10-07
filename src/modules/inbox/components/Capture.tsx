@@ -57,14 +57,14 @@ export function Capture() {
         type="button"
         onClick={open}
         aria-label={t('capture.open')}
-        className="fixed end-4 bottom-20 z-10 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:hidden"
+        className="fixed end-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-10 flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-float transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-95 md:hidden"
       >
         <Plus aria-hidden className="size-7" />
       </button>
       {saved && (
         <p
           role="status"
-          className="fixed inset-x-4 bottom-36 z-20 rounded-xl border border-border bg-surface p-3 text-center text-sm shadow-sm md:inset-x-auto md:end-6 md:bottom-6"
+          className="fixed inset-x-4 bottom-[calc(9rem+env(safe-area-inset-bottom))] z-20 rounded-xl border border-border bg-surface-raised p-3 text-center text-sm shadow-float md:inset-x-auto md:end-6 md:bottom-6"
         >
           {t('capture.saved')}
         </p>
@@ -73,9 +73,9 @@ export function Capture() {
       <dialog
         ref={dialog}
         aria-labelledby="capture-title"
-        className="m-auto w-[min(32rem,calc(100%-2rem))] rounded-2xl border border-border bg-surface p-0 text-foreground backdrop:bg-black/40"
+        className="m-auto w-[min(34rem,calc(100%-2rem))] rounded-2xl border border-border bg-surface-raised p-0 text-foreground shadow-float backdrop:bg-black/40 backdrop:backdrop-blur-[2px]"
       >
-        <form onSubmit={onSubmit} className="flex flex-col gap-3 p-5">
+        <form onSubmit={onSubmit} className="flex flex-col gap-3 p-5 sm:p-6">
           <h2 id="capture-title" className="font-medium">
             {t('capture.title')}
           </h2>
@@ -94,7 +94,7 @@ export function Capture() {
                 e.currentTarget.form?.requestSubmit()
               }
             }}
-            className="rounded-lg border border-border bg-background p-3 leading-relaxed focus-visible:outline-2 focus-visible:outline-primary"
+            className="rounded-xl border border-border bg-background p-3 leading-relaxed"
           />
           <p id="capture-hint" className="text-xs text-muted">
             {t('capture.hint')}

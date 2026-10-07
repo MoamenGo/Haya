@@ -9,6 +9,7 @@ import { StatusButtons } from '@/modules/today/components/StatusButtons'
 import { useRoutinesToday } from '@/modules/today/hooks'
 import { DailyLogForm } from '../components/DailyLogForm'
 import { getDailyLog } from '../repo'
+import { PageHeader } from '@/components/layout/PageHeader'
 
 /** The one-minute evening check-in (CLAUDE.md §6.18, plan step 4). */
 export function EveningReviewPage() {
@@ -20,13 +21,18 @@ export function EveningReviewPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <header>
-        <Link to="/today" className="text-sm text-muted underline-offset-4 hover:underline">
-          {t('review.back')}
-        </Link>
-        <h1 className="mt-2 text-2xl font-semibold">{t('review.title')}</h1>
-        <p className="mt-1 text-muted">{t('review.intro')}</p>
-      </header>
+      <PageHeader
+        title={t('review.title')}
+        intro={t('review.intro')}
+        eyebrow={
+          <Link
+            to="/today"
+            className="w-fit text-sm text-muted underline-offset-4 hover:text-primary hover:underline"
+          >
+            {t('review.back')}
+          </Link>
+        }
+      />
 
       <Card className="flex flex-col gap-4">
         <h2 className="font-medium">{t('review.habits')}</h2>

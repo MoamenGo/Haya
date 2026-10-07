@@ -26,7 +26,7 @@ export function AddTaskForm({ scheduledDate }: { scheduledDate: string | null })
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder={t('tasks.addPlaceholder')}
-        className="min-h-11 min-w-0 flex-1 rounded-lg border border-border bg-surface px-3 focus-visible:outline-2 focus-visible:outline-primary"
+        className="min-h-11 min-w-0 flex-1 rounded-xl border border-border bg-surface-raised px-3 focus-visible:outline-2 focus-visible:outline-primary"
       />
       <Button type="submit" disabled={!title.trim()}>
         {t('tasks.addButton')}

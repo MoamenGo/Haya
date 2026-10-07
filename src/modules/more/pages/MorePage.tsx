@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { NAV_ITEMS } from '@/components/layout/nav-items'
+import { PageHeader } from '@/components/layout/PageHeader'
 
 /** On the phone, the sections that don't fit in the bottom bar live here. */
 export function MorePage() {
@@ -11,12 +12,17 @@ export function MorePage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-semibold">{t('nav.more')}</h1>
-      <ul className="flex flex-col divide-y divide-border rounded-xl border border-border bg-surface">
+      <PageHeader title={t('nav.more')} />
+      <ul className="flex flex-col divide-y divide-border overflow-hidden rounded-2xl border border-border/80 bg-surface shadow-card">
         {items.map(({ to, labelKey, icon: Icon }) => (
           <li key={to}>
-            <Link to={to} className="flex min-h-14 items-center gap-3 px-4 hover:bg-accent">
-              <Icon aria-hidden className="size-5 text-muted" />
+            <Link
+              to={to}
+              className="flex min-h-16 items-center gap-3 px-4 transition-colors hover:bg-accent"
+            >
+              <span className="flex size-9 items-center justify-center rounded-xl bg-accent text-primary">
+                <Icon aria-hidden className="size-5" />
+              </span>
               <span className="flex-1">{t(labelKey)}</span>
               <Chevron aria-hidden className="size-4 text-muted" />
             </Link>

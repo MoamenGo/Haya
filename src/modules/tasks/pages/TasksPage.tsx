@@ -5,6 +5,7 @@ import { useNow } from '@/hooks/useNow'
 import { AddTaskForm } from '../components/AddTaskForm'
 import { TaskItem } from '../components/TaskItem'
 import { openTasksExcept, recentlyDone, tasksForDate } from '../repo'
+import { PageHeader } from '@/components/layout/PageHeader'
 
 const RECENT_DONE_LIMIT = 10
 
@@ -20,7 +21,7 @@ export function TasksPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-2xl font-semibold">{t('tasks.title')}</h1>
+      <PageHeader title={t('tasks.title')} />
       <AddTaskForm scheduledDate={today} />
 
       <TaskSection title={t('tasks.today')} empty={t('tasks.emptyToday')}>
