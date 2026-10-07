@@ -65,11 +65,20 @@ export async function tasksCompletedBetween(startISO: string, endISO: string): P
   })
 }
 
-/** Open tasks that are not scheduled for `dateISO`: overdue, upcoming, or undated. */
+/**
+ * Open tasks that are not scheduled for `dateISO`: overdue, upcoming, or undated.
+ * Undated steps of projects that are not active stay on the Projects page, so a
+ * long list of "Not now" plans never crowds the task list.
+ */
 export async function openTasksExcept(dateISO: string): Promise<TaskRow[]> {
   const rows = await db.tasks.where('status').anyOf('next', 'scheduled', 'waiting').toArray()
+  const activeProjects = new Set(
+    (await db.projects.where('status').equals('active').toArray()).map((p) => p.id),
+  )
+  const waitsOnProject = (t: TaskRow) =>
+    t.project_id !== null && t.scheduled_date === null && !activeProjects.has(t.project_id)
   return rows
-    .filter((t) => isLive(t) && t.scheduled_date !== dateISO)
+    .filter((t) => isLive(t) && t.scheduled_date !== dateISO && !waitsOnProject(t))
     .sort((a, b) => (a.scheduled_date ?? '9999').localeCompare(b.scheduled_date ?? '9999'))
 }
 

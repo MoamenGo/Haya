@@ -6,6 +6,7 @@ import { MorePage } from '@/modules/more/pages/MorePage'
 import { EveningReviewPage } from '@/modules/reviews/pages/EveningReviewPage'
 import { WeeklyReviewPage } from '@/modules/reviews/pages/WeeklyReviewPage'
 import { ProjectsPage } from '@/modules/projects/pages/ProjectsPage'
+import { HabitsPage } from '@/modules/routines/pages/HabitsPage'
 import { SettingsPage } from '@/modules/settings/pages/SettingsPage'
 import { TasksPage } from '@/modules/tasks/pages/TasksPage'
 import { TodayPage } from '@/modules/today/pages/TodayPage'
@@ -59,6 +60,12 @@ const goalsRoute = createRoute({
   component: GoalsPage,
 })
 
+const habitsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/habits',
+  component: HabitsPage,
+})
+
 const weekRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/week',
@@ -91,6 +98,7 @@ const routeTree = rootRoute.addChildren([
   tasksRoute,
   projectsRoute,
   goalsRoute,
+  habitsRoute,
   weekRoute,
   weeklyReviewRoute,
   moreRoute,

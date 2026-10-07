@@ -6,6 +6,7 @@ import type { ProjectRow } from '@/core/db/types'
 import type { ProjectWithNext } from '../repo'
 import { ProjectWipLimitError, activateProject, setProjectStatus } from '../repo'
 import { NextAction } from './NextAction'
+import { ProjectSteps } from './ProjectSteps'
 
 interface ProjectCardProps {
   item: ProjectWithNext
@@ -42,6 +43,9 @@ export function ProjectCard({ item, active }: ProjectCardProps) {
       </div>
 
       {project.status === 'active' && <NextAction project={project} task={nextAction} />}
+      {project.status !== 'done' && (
+        <ProjectSteps projectId={project.id} open={project.status === 'active'} />
+      )}
 
       {choosing && (
         <div role="status" className="flex flex-col gap-2 rounded-lg bg-accent p-3 text-sm">

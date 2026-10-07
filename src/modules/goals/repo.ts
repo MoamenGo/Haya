@@ -18,7 +18,6 @@ export async function createGoal(input: NewGoalInput): Promise<GoalRow> {
   const row: GoalRow = {
     ...newRowMeta(),
     ...valid,
-    area_id: null,
     desired_outcome: '',
     success_metric: '',
     status: 'idea',

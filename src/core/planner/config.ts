@@ -9,3 +9,9 @@ export const MAX_BIG_ROCKS = 3
 /** Work-in-progress limits (CLAUDE.md §6.3, §6.4): the system helps say no. */
 export const MAX_ACTIVE_PROJECTS = 3
 export const MAX_ACTIVE_GOALS_PER_HORIZON = 3
+
+/**
+ * Habits are not hard-limited, but past this many active ones the Habits page
+ * gently suggests pausing one: a few kept habits beat many dropped ones.
+ */
+export const GENTLE_ACTIVE_HABITS = 5

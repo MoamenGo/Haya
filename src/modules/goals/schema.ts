@@ -8,5 +8,6 @@ export const newGoalInput = z.object({
   title: z.string().trim().min(1).max(TITLE_MAX),
   why: z.string().trim().max(TEXT_MAX).default(''),
   horizon: z.enum(GOAL_HORIZONS).default('quarter'),
+  area_id: z.string().nullable().default(null),
 })
 export type NewGoalInput = z.input<typeof newGoalInput>
