@@ -64,11 +64,57 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "theme": "Theme",
+    "theme": "Appearance",
+    "mode": "Mode",
     "themes": {
       "system": "Match device",
       "light": "Light",
       "dark": "Dark"
+    },
+    "palette": "Theme",
+    "paletteHint": "Every theme has a light and a dark version.",
+    "morePalettes": "More themes",
+    "palettes": {
+      "haya": {
+        "name": "Haya",
+        "mood": "Calm teal, the original."
+      },
+      "nile": {
+        "name": "Nile",
+        "mood": "River blue on cool water greys."
+      },
+      "sahara": {
+        "name": "Sahara",
+        "mood": "Warm sand with a gold-ochre accent."
+      },
+      "zaytoun": {
+        "name": "Olive",
+        "mood": "Olive green on soft cream."
+      },
+      "andalus": {
+        "name": "Andalus",
+        "mood": "Deep indigo tiles with a gold star."
+      },
+      "fajr": {
+        "name": "Fajr",
+        "mood": "The violet and rose of first light."
+      },
+      "layl": {
+        "name": "Night",
+        "mood": "Navy by day, gold lanterns by night."
+      },
+      "ward": {
+        "name": "Rose",
+        "mood": "Rose on blush; deep wine at night."
+      },
+      "hibr": {
+        "name": "Ink & Paper",
+        "mood": "Ink on paper, with a red seal."
+      },
+      "maghrib": {
+        "name": "Maghrib",
+        "mood": "Sunset coral and warm dusk."
+      }
     },
     "vision": "Vision sentence",
     "visionHint": "One sentence about what you want your life to look like.",

@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { DEFAULT_LOCATION } from '@/core/time/config'
+import { DEFAULT_PALETTE, PALETTES } from './palettes'
 
 /**
  * Every setting has a Zod schema and a default. The repo validates on read
@@ -9,6 +10,8 @@ import { DEFAULT_LOCATION } from '@/core/time/config'
 export const settingSchemas = {
   language: z.enum(['ar', 'en']),
   theme: z.enum(['system', 'light', 'dark']),
+  /** Colour palette, independent of light / dark (see palettes.ts). */
+  palette: z.enum(PALETTES),
   vision: z.string().max(500),
   /** Used only on the device to compute prayer times. */
   location: z.object({
@@ -23,6 +26,7 @@ export type SettingValue<K extends SettingKey> = z.infer<(typeof settingSchemas)
 export const settingDefaults: { [K in SettingKey]: SettingValue<K> } = {
   language: 'ar',
   theme: 'system',
+  palette: DEFAULT_PALETTE,
   vision: '',
   location: DEFAULT_LOCATION,
 }

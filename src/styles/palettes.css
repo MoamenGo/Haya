@@ -1,0 +1,355 @@
+/*
+ * Colour palettes (Settings → Theme). Each palette re-defines the same tokens
+ * as :root / .dark in index.css, once for light and once for dark, so every
+ * palette works with the light / dark / system choice.
+ *
+ * How it applies: PreferencesSync puts data-palette="…" on <html>. The theme
+ * previews in Settings put it on their own small box, so each preview shows
+ * its palette while the rest of the page keeps the current one.
+ *
+ * Every pair of text and background here passes WCAG AA (4.5:1);
+ * tests/unit/palettes.test.ts checks it, so a new palette must pass too.
+ * The default palette ("haya") lives in index.css.
+ */
+
+/* River blue on cool water greys. */
+[data-palette='nile'] {
+  --background: #f5f9fc;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --subtle: #eaf2f8;
+  --foreground: #0c1f2e;
+  --muted: #52697e;
+  --border: #dbe7f0;
+  --border-strong: #c3d5e3;
+  --primary: #0369a1;
+  --primary-strong: #075985;
+  --primary-foreground: #ffffff;
+  --accent: #eaf5fc;
+  --accent-foreground: #075985;
+  --ring: #0ea5e9;
+  --highlight: #7dd3fc;
+}
+
+.dark [data-palette='nile'],
+[data-palette='nile'].dark {
+  --background: #08131d;
+  --surface: #0d1c2a;
+  --surface-raised: #132536;
+  --subtle: #12222f;
+  --foreground: #e0ecf5;
+  --muted: #8fa9bd;
+  --border: #1a2d3e;
+  --border-strong: #284056;
+  --primary: #38bdf8;
+  --primary-strong: #7dd3fc;
+  --primary-foreground: #082f49;
+  --accent: #0c2a3d;
+  --accent-foreground: #bae6fd;
+  --ring: #38bdf8;
+  --highlight: #082f49;
+}
+
+/* Warm sand with a gold-ochre accent. */
+[data-palette='sahara'] {
+  --background: #faf6ee;
+  --surface: #fffdf8;
+  --surface-raised: #fffdf8;
+  --subtle: #f3ecdf;
+  --foreground: #2b2116;
+  --muted: #73634e;
+  --border: #ebe1cf;
+  --border-strong: #dacbb2;
+  --primary: #9a5806;
+  --primary-strong: #7c4a0a;
+  --primary-foreground: #ffffff;
+  --accent: #fbf1dc;
+  --accent-foreground: #7c4a0a;
+  --ring: #d97706;
+  --highlight: #fcd34d;
+}
+
+.dark [data-palette='sahara'],
+[data-palette='sahara'].dark {
+  --background: #16120c;
+  --surface: #1f1912;
+  --surface-raised: #282017;
+  --subtle: #261e15;
+  --foreground: #f2e8d8;
+  --muted: #b5a38a;
+  --border: #33291d;
+  --border-strong: #4a3c2a;
+  --primary: #f5b84a;
+  --primary-strong: #fcd38a;
+  --primary-foreground: #2b1a04;
+  --accent: #3a2a12;
+  --accent-foreground: #fde5b0;
+  --ring: #f5b84a;
+  --highlight: #2b1a04;
+}
+
+/* Olive green on soft cream. */
+[data-palette='zaytoun'] {
+  --background: #f6f7f1;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --subtle: #ecefe2;
+  --foreground: #1e2414;
+  --muted: #606a54;
+  --border: #e0e4d4;
+  --border-strong: #c9cfb8;
+  --primary: #4d6b1f;
+  --primary-strong: #3d5518;
+  --primary-foreground: #ffffff;
+  --accent: #eff4e1;
+  --accent-foreground: #3d5518;
+  --ring: #84a33a;
+  --highlight: #c5dc8a;
+}
+
+.dark [data-palette='zaytoun'],
+[data-palette='zaytoun'].dark {
+  --background: #0f120b;
+  --surface: #161b10;
+  --surface-raised: #1e2416;
+  --subtle: #1c2215;
+  --foreground: #e6ead9;
+  --muted: #a1aa8e;
+  --border: #262e1c;
+  --border-strong: #374229;
+  --primary: #a3c962;
+  --primary-strong: #c2df8e;
+  --primary-foreground: #1a2508;
+  --accent: #25321a;
+  --accent-foreground: #d9ecb3;
+  --ring: #a3c962;
+  --highlight: #1a2508;
+}
+
+/* Deep indigo tiles with a gold star. */
+[data-palette='andalus'] {
+  --background: #f7f6fb;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --subtle: #eeedf7;
+  --foreground: #1b1838;
+  --muted: #5e5b7c;
+  --border: #e2e0ef;
+  --border-strong: #cbc8e0;
+  --primary: #3f37c9;
+  --primary-strong: #322ba3;
+  --primary-foreground: #ffffff;
+  --accent: #efeefe;
+  --accent-foreground: #322ba3;
+  --ring: #6366f1;
+  --highlight: #e0b54a;
+}
+
+.dark [data-palette='andalus'],
+[data-palette='andalus'].dark {
+  --background: #0d0c1d;
+  --surface: #141329;
+  --surface-raised: #1b1a35;
+  --subtle: #1a1932;
+  --foreground: #e6e5f5;
+  --muted: #a09ec0;
+  --border: #24223f;
+  --border-strong: #353258;
+  --primary: #a5a2ff;
+  --primary-strong: #c4c2ff;
+  --primary-foreground: #17144a;
+  --accent: #24215a;
+  --accent-foreground: #d6d4ff;
+  --ring: #a5a2ff;
+  --highlight: #e0b54a;
+}
+
+/* The violet and rose of first light. */
+[data-palette='fajr'] {
+  --background: #fbf7fb;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --subtle: #f4ecf4;
+  --foreground: #2a1630;
+  --muted: #75607b;
+  --border: #ece0ee;
+  --border-strong: #dccbe0;
+  --primary: #7e3aa8;
+  --primary-strong: #66298c;
+  --primary-foreground: #ffffff;
+  --accent: #f7eefb;
+  --accent-foreground: #66298c;
+  --ring: #b06ad6;
+  --highlight: #f9a8d4;
+}
+
+.dark [data-palette='fajr'],
+[data-palette='fajr'].dark {
+  --background: #150d19;
+  --surface: #1d1323;
+  --surface-raised: #261a2e;
+  --subtle: #24192b;
+  --foreground: #f1e6f4;
+  --muted: #b7a1bd;
+  --border: #31233a;
+  --border-strong: #463452;
+  --primary: #d8a4f5;
+  --primary-strong: #e8c6fa;
+  --primary-foreground: #2e0f42;
+  --accent: #36204a;
+  --accent-foreground: #f0d9fc;
+  --ring: #d8a4f5;
+  --highlight: #f9a8d4;
+}
+
+/* Navy by day, gold lamps by night. */
+[data-palette='layl'] {
+  --background: #f6f7fa;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --subtle: #eceef4;
+  --foreground: #111a33;
+  --muted: #5b6680;
+  --border: #dfe3ec;
+  --border-strong: #c7cddb;
+  --primary: #1e3a8a;
+  --primary-strong: #172e6e;
+  --primary-foreground: #ffffff;
+  --accent: #eef2fb;
+  --accent-foreground: #1e3a8a;
+  --ring: #3b5bdb;
+  --highlight: #f2c14e;
+}
+
+.dark [data-palette='layl'],
+[data-palette='layl'].dark {
+  --background: #070b18;
+  --surface: #0d1426;
+  --surface-raised: #131c33;
+  --subtle: #121a2e;
+  --foreground: #e8ebf3;
+  --muted: #98a2bb;
+  --border: #1b2540;
+  --border-strong: #2a3658;
+  --primary: #f2c14e;
+  --primary-strong: #f7d681;
+  --primary-foreground: #241a02;
+  --accent: #2a2410;
+  --accent-foreground: #f9e3a6;
+  --ring: #f2c14e;
+  --highlight: #241a02;
+}
+
+/* Rose on blush; deep wine at night. */
+[data-palette='ward'] {
+  --background: #fcf7f8;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --subtle: #f6ecee;
+  --foreground: #2d151b;
+  --muted: #7a5d65;
+  --border: #f0e0e4;
+  --border-strong: #e2cad0;
+  --primary: #b4234a;
+  --primary-strong: #941c3d;
+  --primary-foreground: #ffffff;
+  --accent: #fdeef2;
+  --accent-foreground: #941c3d;
+  --ring: #e05a7e;
+  --highlight: #fda4af;
+}
+
+.dark [data-palette='ward'],
+[data-palette='ward'].dark {
+  --background: #170c0f;
+  --surface: #211317;
+  --surface-raised: #2a1a1f;
+  --subtle: #28191d;
+  --foreground: #f6e6ea;
+  --muted: #bfa2aa;
+  --border: #362229;
+  --border-strong: #4d333b;
+  --primary: #f591ab;
+  --primary-strong: #f9b8c9;
+  --primary-foreground: #3d0816;
+  --accent: #3d1a24;
+  --accent-foreground: #fcd3de;
+  --ring: #f591ab;
+  --highlight: #3d0816;
+}
+
+/* Ink on paper, with a red seal. */
+[data-palette='hibr'] {
+  --background: #f6f4ef;
+  --surface: #fffefb;
+  --surface-raised: #fffefb;
+  --subtle: #edeae3;
+  --foreground: #1c1a17;
+  --muted: #67625a;
+  --border: #e3dfd6;
+  --border-strong: #cdc7bb;
+  --primary: #1c1a17;
+  --primary-strong: #3a3631;
+  --primary-foreground: #fffefb;
+  --accent: #ece8df;
+  --accent-foreground: #1c1a17;
+  --ring: #57534e;
+  --highlight: #b4432b;
+}
+
+.dark [data-palette='hibr'],
+[data-palette='hibr'].dark {
+  --background: #121110;
+  --surface: #1a1917;
+  --surface-raised: #22201e;
+  --subtle: #201f1c;
+  --foreground: #ece8e0;
+  --muted: #a39d92;
+  --border: #2b2926;
+  --border-strong: #3d3a35;
+  --primary: #ece8e0;
+  --primary-strong: #ffffff;
+  --primary-foreground: #121110;
+  --accent: #2b2925;
+  --accent-foreground: #ece8e0;
+  --ring: #a39d92;
+  --highlight: #d9634a;
+}
+
+/* Sunset coral and warm dusk. */
+[data-palette='maghrib'] {
+  --background: #fcf7f4;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --subtle: #f6ece6;
+  --foreground: #2b1710;
+  --muted: #7a6156;
+  --border: #f0e1d9;
+  --border-strong: #e1cbbf;
+  --primary: #c2410c;
+  --primary-strong: #9a3412;
+  --primary-foreground: #ffffff;
+  --accent: #fef0e7;
+  --accent-foreground: #9a3412;
+  --ring: #f97316;
+  --highlight: #fdba74;
+}
+
+.dark [data-palette='maghrib'],
+[data-palette='maghrib'].dark {
+  --background: #160d0a;
+  --surface: #20140f;
+  --surface-raised: #2a1b15;
+  --subtle: #271a14;
+  --foreground: #f6e8e1;
+  --muted: #bea497;
+  --border: #36241c;
+  --border-strong: #4e352a;
+  --primary: #fb9a62;
+  --primary-strong: #fdbb91;
+  --primary-foreground: #3a1404;
+  --accent: #3d1f12;
+  --accent-foreground: #fed7bf;
+  --ring: #fb9a62;
+  --highlight: #3a1404;
+}
