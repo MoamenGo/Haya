@@ -1,5 +1,6 @@
 import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router'
 import { AppShell } from '@/components/layout/AppShell'
+import { RouteError } from './RouteError'
 import { GoalMapPage } from '@/modules/goals/pages/GoalMapPage'
 import { GoalsPage } from '@/modules/goals/pages/GoalsPage'
 import { InboxPage } from '@/modules/inbox/pages/InboxPage'
@@ -113,7 +114,8 @@ const routeTree = rootRoute.addChildren([
   settingsRoute,
 ])
 
-export const router = createRouter({ routeTree })
+// A page that throws shows RouteError inside the shell, so navigation still works.
+export const router = createRouter({ routeTree, defaultErrorComponent: RouteError })
 
 // Lets TypeScript check every <Link to="..."> against the real routes.
 declare module '@tanstack/react-router' {

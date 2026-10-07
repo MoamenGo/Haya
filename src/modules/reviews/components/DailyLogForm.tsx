@@ -2,13 +2,11 @@ import { useNavigate } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import type { DailyLogRow } from '@/core/db/types'
 import { saveDailyLog } from '../repo'
 import { SLEEP_HOURS_MAX } from '../schema'
 import { EnergyPicker } from './EnergyPicker'
-
-const inputClass =
-  'min-h-11 rounded-xl border border-border bg-surface-raised px-3 focus-visible:outline-2 focus-visible:outline-primary'
 
 interface DailyLogFormProps {
   dateISO: string
@@ -43,7 +41,7 @@ export function DailyLogForm({ dateISO, initial }: DailyLogFormProps) {
 
       <label className="flex flex-col gap-2">
         <span className="font-medium">{t('review.sleep')}</span>
-        <input
+        <Input
           type="number"
           inputMode="decimal"
           min={0}
@@ -51,28 +49,18 @@ export function DailyLogForm({ dateISO, initial }: DailyLogFormProps) {
           step={0.5}
           value={sleep}
           onChange={(e) => setSleep(e.target.value)}
-          className={`${inputClass} w-28`}
+          className="w-28"
         />
       </label>
 
       <label className="flex flex-col gap-2">
         <span className="font-medium">{t('review.gratitude')}</span>
-        <input
-          dir="auto"
-          value={gratitude}
-          onChange={(e) => setGratitude(e.target.value)}
-          className={inputClass}
-        />
+        <Input dir="auto" value={gratitude} onChange={(e) => setGratitude(e.target.value)} />
       </label>
 
       <label className="flex flex-col gap-2">
         <span className="font-medium">{t('review.tomorrow')}</span>
-        <input
-          dir="auto"
-          value={tomorrow}
-          onChange={(e) => setTomorrow(e.target.value)}
-          className={inputClass}
-        />
+        <Input dir="auto" value={tomorrow} onChange={(e) => setTomorrow(e.target.value)} />
       </label>
 
       <Button type="submit" className="min-h-12 text-base">

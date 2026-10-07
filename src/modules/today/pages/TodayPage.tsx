@@ -14,6 +14,7 @@ import { RoutineCard } from '../components/RoutineCard'
 import { TodayTasks } from '../components/TodayTasks'
 import { useRoutinesToday } from '../hooks'
 import { isMinimumMode, setMinimumMode } from '../repo'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 export function TodayPage() {
   const { t } = useTranslation()
@@ -34,7 +35,7 @@ export function TodayPage() {
       {vision && (
         <blockquote
           dir="auto"
-          className="font-display max-w-prose px-1 text-xl leading-relaxed text-primary"
+          className="max-w-prose border-s-2 border-primary ps-4 text-lg leading-relaxed text-foreground"
         >
           {vision}
         </blockquote>
@@ -65,7 +66,7 @@ export function TodayPage() {
           </p>
         )}
         {routines === undefined ? (
-          <p className="text-sm text-muted">{t('states.loading')}</p>
+          <ListSkeleton rows={3} />
         ) : routines.length === 0 ? null : (
           // One panel with rows, rather than a stack of separate cards.
           <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">

@@ -8,6 +8,7 @@ import { AddHabitForm } from '../components/AddHabitForm'
 import { HabitPresets } from '../components/HabitPresets'
 import { HabitRow } from '../components/HabitRow'
 import { listRoutines } from '../repo'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 /** Manage which habits Today tracks. Logging itself happens on Today. */
 export function HabitsPage() {
@@ -27,7 +28,7 @@ export function HabitsPage() {
       )}
 
       {routines === undefined ? (
-        <p className="text-sm text-muted">{t('states.loading')}</p>
+        <ListSkeleton rows={3} />
       ) : (
         <>
           <HabitList title={t('habits.active')} items={active} empty={t('habits.emptyActive')} />

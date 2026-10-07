@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Input, Select } from '@/components/ui/input'
 import type { ProjectRow } from '@/core/db/types'
 import { DuplicateResourceError, InvalidUrlError, addResource } from '../repo'
 
@@ -56,18 +56,14 @@ export function AddResourceForm({ goalId, projects }: AddResourceFormProps) {
       {projects.length > 0 && (
         <label className="flex flex-col gap-1 text-sm">
           {t('resources.projectLabel')}
-          <select
-            value={projectId}
-            onChange={(e) => setProjectId(e.target.value)}
-            className="min-h-11 rounded-xl border border-border bg-surface-raised px-3"
-          >
+          <Select value={projectId} onChange={(e) => setProjectId(e.target.value)}>
             <option value="">{t('resources.wholeGoal')}</option>
             {projects.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.title}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
       )}
       {error && (

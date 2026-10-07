@@ -10,6 +10,7 @@ import { useRoutinesToday } from '@/modules/today/hooks'
 import { DailyLogForm } from '../components/DailyLogForm'
 import { getDailyLog } from '../repo'
 import { PageHeader } from '@/components/layout/PageHeader'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 /** The one-minute evening check-in (CLAUDE.md §6.18, plan step 4). */
 export function EveningReviewPage() {
@@ -50,7 +51,7 @@ export function EveningReviewPage() {
 
       <Card>
         {log === undefined ? (
-          <p className="text-sm text-muted">{t('states.loading')}</p>
+          <ListSkeleton rows={2} />
         ) : (
           // `key` resets the form if the date changes at midnight while it is open.
           <DailyLogForm key={today} dateISO={today} initial={log.row} />

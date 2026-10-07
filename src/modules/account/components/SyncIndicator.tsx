@@ -14,26 +14,41 @@ const ICONS: Record<SyncPhase, LucideIcon> = {
   error: CloudAlert,
 }
 
-/** Small "synced ✓ / syncing / offline / error" badge. Tapping it opens the account section. */
-export function SyncIndicator({ className }: { className?: string }) {
+/**
+ * Small "synced ✓ / syncing / offline / error" badge. Tapping it opens the
+ * account section. `compact` shows the icon only (the top bar), with the
+ * status still in its accessible name and tooltip.
+ */
+export function SyncIndicator({
+  className,
+  compact = false,
+}: {
+  className?: string
+  compact?: boolean
+}) {
   const { t } = useTranslation()
   const { phase } = useSyncStatus()
   if (!isCloudConfigured) return null
   const Icon = ICONS[phase]
+  const label = t(`sync.phase.${phase}`)
   return (
     <Link
       to="/settings"
       hash="account"
+      title={compact ? label : undefined}
+      aria-label={compact ? label : undefined}
       className={cn(
-        'inline-flex min-h-11 items-center gap-2 rounded-lg px-2 text-sm text-muted hover:bg-accent',
+        'inline-flex min-h-10 items-center gap-2 rounded-lg px-2.5 text-sm text-muted transition-colors hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring',
+        phase === 'error' && 'text-danger',
+        compact && 'size-10 justify-center px-0',
         className,
       )}
     >
       <Icon
         aria-hidden
-        className={cn('size-5', phase === 'syncing' && 'motion-safe:animate-spin')}
+        className={cn('size-[1.125rem]', phase === 'syncing' && 'motion-safe:animate-spin')}
       />
-      <span>{t(`sync.phase.${phase}`)}</span>
+      {!compact && <span>{label}</span>}
     </Link>
   )
 }

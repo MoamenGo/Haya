@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { Map, Play } from 'lucide-react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -34,9 +35,9 @@ export function ProjectCard({ item, active, showGoalLink = true }: ProjectCardPr
   }
 
   return (
-    <Card className="flex flex-col gap-3">
+    <Card className="flex flex-col gap-3 transition-shadow duration-200 hover:shadow-card">
       <div>
-        <h3 dir="auto" className="font-medium">
+        <h3 dir="auto" className="font-semibold">
           {project.title}
         </h3>
         {project.outcome && (
@@ -67,39 +68,51 @@ export function ProjectCard({ item, active, showGoalLink = true }: ProjectCardPr
         </div>
       )}
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2 border-t border-border pt-3">
         {project.status === 'active' ? (
           <>
-            <Button variant="outline" onClick={() => void setProjectStatus(project.id, 'paused')}>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => void setProjectStatus(project.id, 'paused')}
+            >
               {t('projects.pause')}
             </Button>
-            <Button variant="ghost" onClick={() => void setProjectStatus(project.id, 'done')}>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => void setProjectStatus(project.id, 'done')}
+            >
               {t('projects.finish')}
             </Button>
           </>
         ) : project.status !== 'done' ? (
           <>
-            <Button onClick={() => void start()}>{t('projects.start')}</Button>
+            <Button size="sm" onClick={() => void start()}>
+              <Play aria-hidden />
+              {t('projects.start')}
+            </Button>
             {project.status === 'paused' && (
-              <Button variant="ghost" onClick={() => void setProjectStatus(project.id, 'planned')}>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => void setProjectStatus(project.id, 'planned')}
+              >
                 {t('projects.backToPlanned')}
               </Button>
             )}
           </>
         ) : null}
-      </div>
-
-      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-2">
-        {showGoalLink && project.goal_id ? (
+        <span className="flex-1" />
+        {showGoalLink && project.goal_id && (
           <Link
             to="/goals/$goalId"
             params={{ goalId: project.goal_id }}
-            className="text-sm text-primary underline-offset-4 hover:underline"
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 text-sm text-muted hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
           >
+            <Map aria-hidden className="size-4" />
             {t('projects.goalMap')}
           </Link>
-        ) : (
-          <span />
         )}
         <ProjectManage project={project} />
       </div>

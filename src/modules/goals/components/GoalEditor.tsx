@@ -2,7 +2,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Input, Select } from '@/components/ui/input'
 import { GOAL_HORIZONS, type GoalHorizon, type GoalRow } from '@/core/db/types'
 import { deleteGoal, updateGoal } from '../repo'
 
@@ -97,17 +97,13 @@ function GoalForm({ goal, onDone }: { goal: GoalRow; onDone: () => void }) {
       </label>
       <label className="flex flex-col gap-1 text-sm">
         {t('goals.horizonLabel')}
-        <select
-          value={horizon}
-          onChange={(e) => setHorizon(e.target.value as GoalHorizon)}
-          className="min-h-11 rounded-xl border border-border bg-surface-raised px-3"
-        >
+        <Select value={horizon} onChange={(e) => setHorizon(e.target.value as GoalHorizon)}>
           {GOAL_HORIZONS.map((h) => (
             <option key={h} value={h}>
               {t(`goals.horizons.${h}`)}
             </option>
           ))}
-        </select>
+        </Select>
       </label>
       <div className="flex gap-2">
         <Button type="submit" disabled={!title.trim()}>

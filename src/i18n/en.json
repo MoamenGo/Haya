@@ -1,12 +1,15 @@
 {
   "app": {
     "name": "Haya",
-    "tagline": "One quiet place for what matters"
+    "tagline": "Organize your life, grow calmly"
   },
   "common": {
     "edit": "Edit",
     "save": "Save",
-    "delete": "Delete"
+    "delete": "Delete",
+    "close": "Close",
+    "cancel": "Cancel",
+    "retry": "Try again"
   },
   "nav": {
     "main": "Main navigation",
@@ -19,7 +22,14 @@
     "week": "Week",
     "weeklyReview": "Weekly review",
     "habits": "Habits",
-    "more": "More"
+    "more": "More",
+    "expand": "Expand sidebar",
+    "collapse": "Collapse sidebar",
+    "groups": {
+      "plan": "Plan",
+      "grow": "Grow",
+      "reflect": "Reflect"
+    }
   },
   "today": {
     "title": "Today",
@@ -90,7 +100,10 @@
   },
   "states": {
     "loading": "Loading…",
-    "error": "Something went wrong. Try reopening the page."
+    "error": "Something went wrong. Try reopening the page.",
+    "saveFailed": "Couldn't save right now. Please try again.",
+    "errorTitle": "Something went wrong",
+    "errorBody": "Something did not work as expected. Please try again; your data is safe on this device."
   },
   "blocks": {
     "after_fajr": "After Fajr",
@@ -175,7 +188,51 @@
     "estimate": "Estimate",
     "noEstimate": "No estimate",
     "overdue": "Overdue",
-    "actions": "Options for {{title}}"
+    "actions": "Options for {{title}}",
+    "subtitle": "Organize what matters and make progress every day.",
+    "search": "Search tasks",
+    "sortBy": "Sort",
+    "sort": {
+      "date": "By date",
+      "priority": "By priority"
+    },
+    "views": "Task views",
+    "views_": {
+      "all": "All",
+      "today": "Today",
+      "upcoming": "Later",
+      "done": "Done"
+    },
+    "emptyDone": "Nothing finished yet. The first one is coming.",
+    "emptyAllTitle": "Your task list is clear",
+    "emptyAll": "Add something you'd like to accomplish, even a small one.",
+    "noMatches": "No tasks match \"{{query}}\"",
+    "quickAddToday": "Add a task for today",
+    "quickAddLater": "Add a task for later",
+    "yesterday": "Yesterday",
+    "priorities": {
+      "low": "Low",
+      "normal": "Normal",
+      "important": "Important",
+      "critical": "Urgent"
+    }
+  },
+  "taskForm": {
+    "newTitle": "New task",
+    "editTitle": "Edit task",
+    "hint": "Make it a clear step you could start right away.",
+    "title": "Task",
+    "titleRequired": "Write the task first.",
+    "when": "When?",
+    "pickDate": "Pick a day",
+    "priority": "Priority",
+    "project": "Project",
+    "noProject": "No project",
+    "notes": "Notes",
+    "notesPlaceholder": "Anything that helps when you do it (optional)",
+    "create": "Add task",
+    "created": "Task added",
+    "saved": "Changes saved"
   },
   "projects": {
     "title": "Projects",

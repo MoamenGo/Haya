@@ -6,6 +6,7 @@ import { AddGoalForm } from '../components/AddGoalForm'
 import { GoalCard } from '../components/GoalCard'
 import { listGoals } from '../repo'
 import { PageHeader } from '@/components/layout/PageHeader'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 /** Paused/planned goals show with "Not now": both are "not a commitment right now". */
 const GROUPS: ReadonlyArray<{ key: 'active' | 'idea' | 'done'; match: (g: GoalRow) => boolean }> = [
@@ -22,7 +23,7 @@ export function GoalsPage() {
     <div className="flex flex-col gap-5">
       <PageHeader title={t('goals.title')} intro={t('goals.intro')} />
       {goals === undefined ? (
-        <p className="text-sm text-muted">{t('states.loading')}</p>
+        <ListSkeleton rows={3} />
       ) : goals.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-border p-8 text-center text-muted">
           {t('goals.empty')}

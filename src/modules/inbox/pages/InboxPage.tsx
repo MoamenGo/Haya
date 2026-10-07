@@ -6,6 +6,7 @@ import { localDateISO } from '@/core/time/date'
 import { useNow } from '@/hooks/useNow'
 import { discardItem, listInbox, processAsTask } from '../repo'
 import { PageHeader } from '@/components/layout/PageHeader'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 /** Processing screen: each captured item becomes a task or is deleted (CLAUDE.md §6.1). */
 export function InboxPage() {
@@ -17,7 +18,7 @@ export function InboxPage() {
     <div className="flex flex-col gap-5">
       <PageHeader title={t('inbox.title')} intro={t('inbox.intro')} />
       {items === undefined ? (
-        <p className="text-sm text-muted">{t('states.loading')}</p>
+        <ListSkeleton rows={3} />
       ) : items.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-border p-8 text-center text-muted">
           {t('inbox.empty')}

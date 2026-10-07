@@ -1,3 +1,4 @@
+import { Pencil, Trash2 } from 'lucide-react'
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -25,7 +26,7 @@ export function ProjectManage({ project }: { project: ProjectRow }) {
     return (
       <form
         onSubmit={onSave}
-        className="flex w-full flex-col gap-2 rounded-xl bg-background p-3 text-sm"
+        className="flex w-full flex-col gap-2 rounded-lg border border-border bg-subtle/50 p-3 text-sm"
       >
         <label className="flex flex-col gap-1">
           {t('projects.titleLabel')}
@@ -49,10 +50,13 @@ export function ProjectManage({ project }: { project: ProjectRow }) {
 
   if (mode === 'confirmDelete') {
     return (
-      <div role="alert" className="flex w-full flex-col gap-2 rounded-xl bg-background p-3 text-sm">
+      <div
+        role="alert"
+        className="flex w-full flex-col gap-2 rounded-lg border border-border bg-subtle/50 p-3 text-sm"
+      >
         <p>{t('projects.deleteConfirm', { title: project.title })}</p>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => void deleteProject(project.id)}>
+          <Button variant="danger" onClick={() => void deleteProject(project.id)}>
             {t('projects.deleteYes')}
           </Button>
           <Button variant="ghost" onClick={() => setMode('idle')}>
@@ -64,12 +68,25 @@ export function ProjectManage({ project }: { project: ProjectRow }) {
   }
 
   return (
-    <div className="flex gap-1 text-sm">
-      <Button variant="ghost" onClick={() => setMode('editing')}>
-        {t('common.edit')}
+    <div className="flex gap-1">
+      <Button
+        size="icon"
+        variant="ghost"
+        aria-label={t('common.edit')}
+        title={t('common.edit')}
+        onClick={() => setMode('editing')}
+      >
+        <Pencil aria-hidden />
       </Button>
-      <Button variant="ghost" onClick={() => setMode('confirmDelete')}>
-        {t('projects.delete')}
+      <Button
+        size="icon"
+        variant="ghost"
+        aria-label={t('projects.delete')}
+        title={t('projects.delete')}
+        className="hover:text-danger"
+        onClick={() => setMode('confirmDelete')}
+      >
+        <Trash2 aria-hidden />
       </Button>
     </div>
   )

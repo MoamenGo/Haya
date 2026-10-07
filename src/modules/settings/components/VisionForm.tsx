@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/input'
 import { useSetting } from '../hooks'
 
 const VISION_MAX_LENGTH = 500
@@ -28,7 +29,7 @@ export function VisionForm() {
       <p id="vision-hint" className="text-sm text-muted">
         {t('settings.visionHint')}
       </p>
-      <textarea
+      <Textarea
         id="vision-input"
         dir="auto"
         aria-describedby="vision-hint"
@@ -40,7 +41,6 @@ export function VisionForm() {
           setDraft(event.target.value)
           setSaved(false)
         }}
-        className="rounded-xl border border-border bg-surface-raised p-3 leading-relaxed focus-visible:outline-2 focus-visible:outline-primary"
       />
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={draft === null}>

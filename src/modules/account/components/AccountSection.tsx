@@ -6,6 +6,7 @@ import { isCloudConfigured } from '@/core/auth/client'
 import { useSession, useSyncStatus } from '../hooks'
 import { SignInForm } from './SignInForm'
 import { SyncIndicator } from './SyncIndicator'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 /** Settings → Account & sync: sign in, see sync state, sign out (CLAUDE.md §7.3–7.4). */
 export function AccountSection() {
@@ -20,7 +21,7 @@ export function AccountSection() {
       {!isCloudConfigured ? (
         <p className="text-sm text-muted">{t('sync.notConfigured')}</p>
       ) : session === undefined ? (
-        <p className="text-sm text-muted">{t('states.loading')}</p>
+        <ListSkeleton rows={1} />
       ) : session === null ? (
         <>
           <p className="text-sm text-muted">{t('sync.intro')}</p>
