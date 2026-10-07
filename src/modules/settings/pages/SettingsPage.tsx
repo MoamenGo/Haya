@@ -7,6 +7,7 @@ import { LocationSection } from '../components/LocationSection'
 import { ChoiceGroup } from '@/components/ui/choice-group'
 import { VisionForm } from '../components/VisionForm'
 import { useSetting } from '../hooks'
+import { PageHeader } from '@/components/layout/PageHeader'
 
 export function SettingsPage() {
   const { t } = useTranslation()
@@ -15,7 +16,7 @@ export function SettingsPage() {
 
   return (
     <div className="flex flex-col gap-5">
-      <h1 className="text-2xl font-semibold">{t('settings.title')}</h1>
+      <PageHeader title={t('settings.title')} />
 
       <Card className="flex flex-col gap-5">
         <div className="flex flex-col gap-2">

@@ -17,12 +17,12 @@ export function NextPrayer({ now }: { now: Date }) {
   const left = h > 0 ? t('duration.hm', { h, m }) : t('duration.m', { m })
 
   return (
-    <p className="flex flex-wrap items-baseline gap-x-2 text-sm">
-      <span className="text-muted">{t('today.nextPrayer')}:</span>
-      <span className="font-medium">
+    <p className="flex flex-wrap items-baseline gap-x-2">
+      <span className="text-sm opacity-80">{t('today.nextPrayer')}:</span>
+      <span className="text-lg font-semibold">
         {t(`prayers.${next.name}`)} {formatTime(next.at, language)}
       </span>
-      <span className="text-muted">({t('today.in', { time: left })})</span>
+      <span className="text-sm opacity-80">({t('today.in', { time: left })})</span>
     </p>
   )
 }

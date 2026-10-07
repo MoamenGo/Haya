@@ -26,12 +26,12 @@ export function StatusButtons({ label, status, onChange }: StatusButtonsProps) {
             aria-checked={selected}
             onClick={() => onChange(selected ? null : option)}
             className={cn(
-              'inline-flex min-h-11 items-center gap-1.5 rounded-lg border px-3 text-sm focus-visible:outline-2 focus-visible:outline-primary',
+              'inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border px-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-ring sm:flex-none',
               selected && option !== 'skipped'
-                ? 'border-primary bg-primary text-primary-foreground'
+                ? 'border-primary bg-primary text-primary-foreground shadow-card'
                 : selected
                   ? 'border-muted bg-accent'
-                  : 'border-border bg-surface text-muted hover:bg-accent',
+                  : 'border-border bg-surface text-muted hover:border-primary/40 hover:bg-accent',
             )}
           >
             {selected && option !== 'skipped' && <Check aria-hidden className="size-4" />}

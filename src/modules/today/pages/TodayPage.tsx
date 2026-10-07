@@ -31,28 +31,40 @@ export function TodayPage() {
   const allDone = routines?.length ? routines.every((r) => isDone(r.status)) : false
 
   return (
-    <div className="flex flex-col gap-5">
-      <header className="flex flex-col gap-1">
-        <div className="flex items-center justify-between gap-2">
-          <h1 className="text-2xl font-semibold">{t('today.title')}</h1>
+    <div className="flex flex-col gap-6 sm:gap-7">
+      {/* The "hero": date, Hijri date, day type and next prayer on one calm block. */}
+      <header className="relative overflow-hidden rounded-2xl bg-gradient-to-bl from-primary to-primary-strong p-5 text-primary-foreground shadow-float sm:p-7 dark:from-accent dark:to-surface dark:text-foreground">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-3xl">{t('today.title')}</h1>
+            <p className="text-base opacity-90 sm:text-lg">{formatGregorian(now, language)}</p>
+          </div>
           {/* On desktop the sidebar shows it. */}
-          <SyncIndicator className="md:hidden" />
+          <SyncIndicator className="text-current opacity-90 hover:bg-white/10 md:hidden" />
         </div>
-        <p className="text-muted">{formatGregorian(now, language)}</p>
-        <p className="text-sm text-muted">
-          {formatHijri(now, language)}
-          <span aria-hidden> · </span>
-          <Link to="/week" className="underline-offset-4 hover:underline">
+        <div className="mt-4 flex flex-wrap items-center gap-2 text-sm">
+          <span className="rounded-full bg-white/12 px-3 py-1 dark:bg-gold-soft dark:text-gold">
+            {formatHijri(now, language)}
+          </span>
+          <Link
+            to="/week"
+            className="rounded-full bg-white/12 px-3 py-1 underline-offset-4 hover:underline dark:bg-background/60"
+          >
             <span className="sr-only">{t('today.dayType')}: </span>
             {t(`dayTypes.${dayType}`)}
+            {override?.note && <span dir="auto"> ({override.note})</span>}
           </Link>
-          {override?.note && <span dir="auto"> ({override.note})</span>}
-        </p>
-        <NextPrayer now={now} />
+        </div>
+        <div className="mt-4 border-t border-current/15 pt-4">
+          <NextPrayer now={now} />
+        </div>
       </header>
 
       {vision && (
-        <blockquote dir="auto" className="border-s-4 border-primary ps-4 leading-relaxed">
+        <blockquote
+          dir="auto"
+          className="rounded-2xl border-s-4 border-gold bg-gold-soft/50 px-4 py-3 leading-relaxed sm:text-lg"
+        >
           {vision}
         </blockquote>
       )}
@@ -66,7 +78,7 @@ export function TodayPage() {
 
       <section aria-labelledby="habits-title" className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 id="habits-title" className="text-lg font-medium">
+          <h2 id="habits-title" className="text-lg font-semibold">
             {t('today.habits')}
           </h2>
           <Button
@@ -77,7 +89,7 @@ export function TodayPage() {
           </Button>
         </div>
         {minimumMode && (
-          <p role="status" className="rounded-lg bg-accent p-3 text-sm leading-relaxed">
+          <p role="status" className="rounded-2xl bg-accent p-4 text-sm leading-relaxed">
             {t('today.minimumModeOn')}
           </p>
         )}
@@ -100,7 +112,7 @@ export function TodayPage() {
 
       <Link
         to="/today/review"
-        className="inline-flex min-h-12 items-center justify-center rounded-lg bg-primary px-4 font-medium text-primary-foreground"
+        className="inline-flex min-h-13 items-center justify-center rounded-2xl bg-primary px-4 font-semibold text-primary-foreground shadow-card transition-colors hover:bg-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
       >
         {checkedIn ? t('today.checkInDone') : t('today.checkIn')}
       </Link>

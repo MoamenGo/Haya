@@ -26,10 +26,10 @@ export function ChoiceGroup<T extends string>({
             aria-checked={selected}
             onClick={() => onChange(option.value)}
             className={cn(
-              'min-h-11 rounded-lg border px-4 text-sm focus-visible:outline-2 focus-visible:outline-primary',
+              'min-h-11 rounded-xl border px-4 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-ring',
               selected
-                ? 'border-primary bg-primary text-primary-foreground'
-                : 'border-border bg-surface hover:bg-accent',
+                ? 'border-primary bg-primary text-primary-foreground shadow-card'
+                : 'border-border bg-surface hover:border-primary/40 hover:bg-accent',
             )}
           >
             {option.label}

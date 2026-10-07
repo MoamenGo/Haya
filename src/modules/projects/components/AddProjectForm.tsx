@@ -39,7 +39,7 @@ export function AddProjectForm() {
           <select
             value={goalId}
             onChange={(e) => setGoalId(e.target.value)}
-            className="min-h-11 rounded-lg border border-border bg-surface px-3"
+            className="min-h-11 rounded-xl border border-border bg-surface-raised px-3"
           >
             <option value="">{t('projects.noGoal')}</option>
             {goals.map((goal) => (

@@ -41,7 +41,7 @@ export function WeeklyReviewForm({ periodStart, periodEnd, initial }: WeeklyRevi
             rows={2}
             value={answers[key] ?? ''}
             onChange={(e) => set(key, e.target.value)}
-            className="rounded-lg border border-border bg-surface p-3 focus-visible:outline-2 focus-visible:outline-primary"
+            className="rounded-xl border border-border bg-surface-raised p-3 focus-visible:outline-2 focus-visible:outline-primary"
           />
         </label>
       ))}

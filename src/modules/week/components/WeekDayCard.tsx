@@ -26,15 +26,19 @@ export function WeekDayCard({ day, isToday }: WeekDayCardProps) {
     <section
       aria-labelledby={headingId}
       className={cn(
-        'flex flex-col gap-3 rounded-xl border bg-surface p-4',
-        isToday ? 'border-primary' : 'border-border',
+        'flex flex-col gap-3 rounded-2xl border bg-surface p-4 shadow-card',
+        isToday ? 'border-primary ring-2 ring-primary/15' : 'border-border/80',
       )}
     >
       <header className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <h2 id={headingId} className="font-medium">
             {formatDayHeading(instant, language)}
-            {isToday && <span className="ms-2 text-sm text-primary">{t('week.today')}</span>}
+            {isToday && (
+              <span className="ms-2 rounded-full bg-accent px-2 py-0.5 text-xs font-semibold text-primary">
+                {t('week.today')}
+              </span>
+            )}
           </h2>
           <p className="text-sm text-muted">{formatHijriShort(instant, language)}</p>
         </div>
@@ -42,7 +46,7 @@ export function WeekDayCard({ day, isToday }: WeekDayCardProps) {
           type="button"
           aria-expanded={editing}
           onClick={() => setEditing(!editing)}
-          className="min-h-11 rounded-lg border border-border px-3 text-sm hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
+          className="min-h-11 rounded-xl border border-border px-3 text-sm transition-colors hover:border-primary/40 hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring"
         >
           {t(`dayTypes.${day.dayType}`)}
           {day.override && <span className="sr-only"> ({t('week.changed')})</span>}

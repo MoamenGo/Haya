@@ -8,7 +8,7 @@ import { SLEEP_HOURS_MAX } from '../schema'
 import { EnergyPicker } from './EnergyPicker'
 
 const inputClass =
-  'min-h-11 rounded-lg border border-border bg-surface px-3 focus-visible:outline-2 focus-visible:outline-primary'
+  'min-h-11 rounded-xl border border-border bg-surface-raised px-3 focus-visible:outline-2 focus-visible:outline-primary'
 
 interface DailyLogFormProps {
   dateISO: string

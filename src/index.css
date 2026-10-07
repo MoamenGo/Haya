@@ -2,6 +2,7 @@
 @import '@fontsource/ibm-plex-sans-arabic/400.css';
 @import '@fontsource/ibm-plex-sans-arabic/500.css';
 @import '@fontsource/ibm-plex-sans-arabic/600.css';
+@import '@fontsource/ibm-plex-sans-arabic/700.css';
 
 /* Dark mode follows a `dark` class on <html>, set from the theme setting. */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -9,50 +10,128 @@
 /*
  * Colour tokens. Components use names like `bg-surface` or `text-muted`,
  * never raw colours, so light and dark themes change in one place.
+ * docs/code-guide-ar.md (section "التصميم") explains every token.
  */
 :root {
-  --background: #f7f5f0;
-  --surface: #ffffff;
-  --foreground: #1d2422;
-  --muted: #5f6b67;
-  --border: #e3dfd6;
-  --primary: #1f4d45;
+  --background: #f5f2ea; /* warm paper */
+  --surface: #fffdf8; /* cards */
+  --surface-raised: #ffffff; /* menus, dialogs */
+  --foreground: #1b2421;
+  --muted: #5d6965;
+  --border: #e4ded1;
+  --primary: #1f4d45; /* deep green, the app's colour */
+  --primary-strong: #163a34; /* hover / hero gradient end */
   --primary-foreground: #f7f5f0;
-  --accent: #e8efe9;
+  --accent: #e9efe9; /* soft green tint for selected / info areas */
+  --gold: #80612a; /* small highlights only: Hijri date, vision, active marks */
+  --gold-soft: #f3ead6;
+  --ring: #2c6b60;
+  --shadow-color: 30 40 35;
 }
 
 .dark {
-  --background: #141917;
-  --surface: #1c2220;
-  --foreground: #e9ece8;
-  --muted: #9aa6a1;
-  --border: #2c3431;
+  --background: #111614;
+  --surface: #182019;
+  --surface-raised: #1e2724;
+  --foreground: #e8ece8;
+  --muted: #9ba7a2;
+  --border: #2a3430;
   --primary: #8cc5b5;
-  --primary-foreground: #102421;
-  --accent: #23302c;
+  --primary-strong: #a7d6c8;
+  --primary-foreground: #0f2420;
+  --accent: #21302b;
+  --gold: #d6b26a;
+  --gold-soft: #2d281c;
+  --ring: #8cc5b5;
+  --shadow-color: 0 0 0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
+  --color-gold: var(--gold);
+  --color-gold-soft: var(--gold-soft);
+  --color-ring: var(--ring);
   --font-sans: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+
+  /* Soft, low shadows: depth without noise. `shadow-card` is used by cards. */
+  --shadow-card:
+    0 1px 2px rgb(var(--shadow-color) / 0.04), 0 6px 20px -12px rgb(var(--shadow-color) / 0.18);
+  --shadow-float:
+    0 2px 6px rgb(var(--shadow-color) / 0.08), 0 16px 36px -12px rgb(var(--shadow-color) / 0.3);
 }
 
-html,
-body {
-  background: var(--background);
-  color: var(--foreground);
+/*
+ * Fluid type scale. Each size grows smoothly between a phone (~360px) and a
+ * wide desktop (~1440px) with clamp(min, preferred, max), so text is never
+ * tiny on a big screen or huge on a phone, and there are no sudden jumps.
+ * Every `text-sm`, `text-2xl`… class in the app uses these values.
+ * Arabic letters need more vertical room, so line heights are generous.
+ */
+@theme {
+  --text-xs: clamp(0.75rem, 0.72rem + 0.12vw, 0.8125rem);
+  --text-xs--line-height: 1.6;
+  --text-sm: clamp(0.875rem, 0.84rem + 0.16vw, 0.96875rem);
+  --text-sm--line-height: 1.7;
+  --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.0938rem);
+  --text-base--line-height: 1.75;
+  --text-lg: clamp(1.0625rem, 0.99rem + 0.34vw, 1.25rem);
+  --text-lg--line-height: 1.6;
+  --text-xl: clamp(1.1875rem, 1.06rem + 0.56vw, 1.5rem);
+  --text-xl--line-height: 1.5;
+  --text-2xl: clamp(1.5rem, 1.28rem + 1vw, 2.125rem);
+  --text-2xl--line-height: 1.35;
+  --text-3xl: clamp(1.75rem, 1.42rem + 1.5vw, 2.625rem);
+  --text-3xl--line-height: 1.3;
+
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.375rem;
 }
 
-body {
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+@layer base {
+  html,
+  body {
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Page and section titles get a consistent rhythm even without classes. */
+  h1 {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  h2 {
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+  }
+
+  /* One focus style for every form control (keyboard users see where they are). */
+  :where(input, textarea, select):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 1px;
+  }
+
+  ::selection {
+    background: var(--gold-soft);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
