@@ -13,7 +13,7 @@ export function MorePage() {
   return (
     <div className="flex flex-col gap-5">
       <PageHeader title={t('nav.more')} />
-      <ul className="flex flex-col divide-y divide-border overflow-hidden rounded-2xl border border-border/80 bg-surface shadow-card">
+      <ul className="flex flex-col divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface shadow-card">
         {items.map(({ to, labelKey, icon: Icon }) => (
           <li key={to}>
             <Link

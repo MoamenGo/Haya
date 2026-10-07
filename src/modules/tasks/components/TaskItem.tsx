@@ -18,7 +18,7 @@ export function TaskItem({ task, todayISO, showDate = false }: TaskItemProps) {
   const overdue = !done && task.scheduled_date !== null && task.scheduled_date < todayISO
 
   return (
-    <li className="flex items-start gap-3 rounded-2xl border border-border/80 bg-surface p-3 shadow-card transition-colors sm:p-4">
+    <li className="flex items-start gap-3 rounded-2xl border border-border bg-surface p-3 transition-colors sm:p-4">
       <button
         type="button"
         role="checkbox"
@@ -37,7 +37,7 @@ export function TaskItem({ task, todayISO, showDate = false }: TaskItemProps) {
       <div className="min-w-0 flex-1">
         <p dir="auto" className={cn('break-words', done && 'text-muted line-through')}>
           {task.is_big_rock && (
-            <Star aria-hidden className="me-1 inline size-4 fill-current text-gold" />
+            <Star aria-hidden className="me-1 inline size-4 fill-current text-primary" />
           )}
           {task.title}
         </p>

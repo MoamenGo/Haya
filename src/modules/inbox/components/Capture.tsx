@@ -57,14 +57,14 @@ export function Capture() {
         type="button"
         onClick={open}
         aria-label={t('capture.open')}
-        className="fixed end-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-10 flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-float transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-95 md:hidden"
+        className="fixed end-4 bottom-[calc(6.25rem+env(safe-area-inset-bottom))] z-10 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-float transition-transform focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-95 md:hidden"
       >
         <Plus aria-hidden className="size-7" />
       </button>
       {saved && (
         <p
           role="status"
-          className="fixed inset-x-4 bottom-[calc(9rem+env(safe-area-inset-bottom))] z-20 rounded-xl border border-border bg-surface-raised p-3 text-center text-sm shadow-float md:inset-x-auto md:end-6 md:bottom-6"
+          className="fixed inset-x-4 bottom-[calc(10.5rem+env(safe-area-inset-bottom))] z-20 rounded-xl border border-border bg-surface-raised p-3 text-center text-sm shadow-float md:inset-x-auto md:end-6 md:bottom-6"
         >
           {t('capture.saved')}
         </p>

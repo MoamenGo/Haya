@@ -11,11 +11,18 @@ interface StatusButtonsProps {
   onChange: (status: HabitStatus | null) => void
 }
 
-/** Pick how a habit went today. Tapping the selected option again clears it. */
+/**
+ * Pick how a habit went today, as one segmented control.
+ * Tapping the selected option again clears it.
+ */
 export function StatusButtons({ label, status, onChange }: StatusButtonsProps) {
   const { t } = useTranslation()
   return (
-    <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2">
+    <div
+      role="radiogroup"
+      aria-label={label}
+      className="flex w-full gap-1 rounded-full bg-background p-1 sm:w-fit"
+    >
       {OPTIONS.map((option) => {
         const selected = status === option
         return (
@@ -26,12 +33,12 @@ export function StatusButtons({ label, status, onChange }: StatusButtonsProps) {
             aria-checked={selected}
             onClick={() => onChange(selected ? null : option)}
             className={cn(
-              'inline-flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border px-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-ring sm:flex-none',
+              'inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-2 text-sm whitespace-nowrap sm:px-4 transition-colors focus-visible:outline-2 focus-visible:outline-ring sm:flex-none',
               selected && option !== 'skipped'
-                ? 'border-primary bg-primary text-primary-foreground shadow-card'
+                ? 'bg-primary font-medium text-primary-foreground'
                 : selected
-                  ? 'border-muted bg-accent'
-                  : 'border-border bg-surface text-muted hover:border-primary/40 hover:bg-accent',
+                  ? 'bg-surface font-medium shadow-card'
+                  : 'text-muted hover:text-foreground',
             )}
           >
             {selected && option !== 'skipped' && <Check aria-hidden className="size-4" />}

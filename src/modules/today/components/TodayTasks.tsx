@@ -50,7 +50,7 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
       </h2>
 
       {suggestion && !minimumMode && (
-        <div className="flex flex-col gap-2 rounded-2xl border-s-4 border-gold bg-gold-soft/60 p-4 text-sm">
+        <div className="flex flex-col gap-2 rounded-2xl bg-accent p-4 text-sm">
           <p>
             {t('today.fromLastNight')} <strong dir="auto">{suggestion}</strong>
           </p>
@@ -92,7 +92,7 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
             <div
               className={cn(
                 'h-full rounded-full transition-[width] duration-500',
-                capacity.over ? 'bg-gold' : 'bg-primary',
+                capacity.over ? 'bg-muted' : 'bg-primary',
               )}
               style={{
                 width: `${Math.min(PERCENT, (capacity.planned / capacity.plannable) * PERCENT)}%`,
