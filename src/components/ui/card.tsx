@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 export function Card({ className, ...props }: HTMLAttributes<HTMLElement>) {
   return (
     <section
-      className={cn('rounded-2xl border border-border bg-surface p-4 sm:p-6', className)}
+      className={cn('rounded-2xl border border-border bg-surface p-4 sm:p-5', className)}
       {...props}
     />
   )

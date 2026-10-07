@@ -31,7 +31,7 @@ export function ProjectSteps({ projectId, open }: ProjectStepsProps) {
   const done = steps.filter((s) => s.status === 'done').length
 
   return (
-    <details open={open} className="group rounded-xl bg-background p-3">
+    <details open={open} className="group rounded-lg border border-border bg-subtle/50 px-3 py-1.5">
       <summary className="flex min-h-9 cursor-pointer list-none items-center gap-2 text-sm">
         <ChevronDown
           aria-hidden
@@ -76,13 +76,13 @@ function StepItem({ step, todayISO }: { step: TaskRow; todayISO: string }) {
         aria-label={t('tasks.markDone', { title: step.title })}
         onClick={() => void setTaskDone(step, !done)}
         className={cn(
-          'flex size-6 shrink-0 items-center justify-center rounded-full border-2 focus-visible:outline-2 focus-visible:outline-primary',
+          'flex size-5 shrink-0 items-center justify-center rounded-full border-[1.5px] transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-ring',
           done
             ? 'border-primary bg-primary text-primary-foreground'
-            : 'border-border bg-surface hover:border-primary/60',
+            : 'border-border-strong bg-surface hover:border-primary',
         )}
       >
-        {done && <Check aria-hidden className="size-3.5" />}
+        {done && <Check aria-hidden className="size-3 animate-pop" />}
       </button>
       {editing ? (
         <RenameStep step={step} onDone={() => setEditing(false)} />

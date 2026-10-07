@@ -8,10 +8,18 @@ import { BigRockLimitError, deleteTask, scheduleTask, setBigRock, setEstimate } 
 /** Estimate choices in minutes. Rough on purpose: estimates are guesses. */
 const ESTIMATES = [15, 30, 60, 90] as const
 
-const itemClass = 'min-h-10 rounded-lg px-3 text-start text-sm hover:bg-accent'
+const itemClass =
+  'min-h-10 rounded-lg px-2.5 text-start text-sm hover:bg-subtle focus-visible:outline-2 focus-visible:outline-ring'
 
 /** A small menu of one-tap actions, built on <details> so it needs no JavaScript library. */
-export function TaskActions({ task, todayISO }: { task: TaskRow; todayISO: string }) {
+interface TaskActionsProps {
+  task: TaskRow
+  todayISO: string
+  /** When given, the menu starts with "Edit", which opens the task dialog. */
+  onEdit?: (task: TaskRow) => void
+}
+
+export function TaskActions({ task, todayISO, onEdit }: TaskActionsProps) {
   const { t } = useTranslation()
   const [message, setMessage] = useState<string | null>(null)
   const menu = useRef<HTMLDetailsElement>(null)
@@ -51,11 +59,16 @@ export function TaskActions({ task, todayISO }: { task: TaskRow; todayISO: strin
     <details ref={menu} className="relative">
       <summary
         aria-label={t('tasks.actions', { title: task.title })}
-        className="flex size-9 cursor-pointer list-none items-center justify-center rounded-lg text-muted hover:bg-accent"
+        className="-my-1.5 flex size-9 cursor-pointer list-none items-center justify-center rounded-lg text-muted transition-colors hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
       >
         <MoreHorizontal aria-hidden className="size-5" />
       </summary>
-      <div className="absolute end-0 z-10 mt-1 flex w-52 flex-col rounded-xl border border-border bg-surface p-1 shadow-lg">
+      <div className="absolute end-0 z-30 mt-1 flex w-52 animate-fade-up flex-col rounded-xl border border-border bg-surface-raised p-1 shadow-float">
+        {onEdit && (
+          <button type="button" className={itemClass} onClick={run(async () => onEdit(task))}>
+            {t('common.edit')}
+          </button>
+        )}
         <button type="button" className={itemClass} onClick={() => void toggleRock()}>
           {task.is_big_rock && isToday ? t('tasks.unBigRock') : t('tasks.bigRock')}
         </button>
@@ -91,13 +104,17 @@ export function TaskActions({ task, todayISO }: { task: TaskRow; todayISO: strin
               onClick={run(() =>
                 setEstimate(task.id, task.est_minutes === minutes ? null : minutes),
               )}
-              className="min-h-9 rounded-md border border-border px-2 text-xs aria-pressed:border-primary aria-pressed:bg-accent"
+              className="min-h-9 rounded-md border border-border px-2 text-xs aria-pressed:border-primary aria-pressed:bg-accent aria-pressed:text-accent-foreground"
             >
               {minutes}
             </button>
           ))}
         </div>
-        <button type="button" className={itemClass} onClick={run(() => deleteTask(task.id))}>
+        <button
+          type="button"
+          className={`${itemClass} text-danger hover:bg-danger-soft`}
+          onClick={run(() => deleteTask(task.id))}
+        >
           {t('tasks.delete')}
         </button>
       </div>

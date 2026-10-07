@@ -2,7 +2,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Input, Select } from '@/components/ui/input'
 import { listGoals } from '@/modules/goals/repo'
 import { createProject } from '../repo'
 
@@ -37,18 +37,14 @@ export function AddProjectForm({ goalId: fixedGoal }: { goalId?: string } = {}) 
       {!fixedGoal && goals.length > 0 && (
         <label className="flex flex-col gap-1 text-sm">
           {t('projects.goalLabel')}
-          <select
-            value={goalId}
-            onChange={(e) => setGoalId(e.target.value)}
-            className="min-h-11 rounded-xl border border-border bg-surface-raised px-3"
-          >
+          <Select value={goalId} onChange={(e) => setGoalId(e.target.value)}>
             <option value="">{t('projects.noGoal')}</option>
             {goals.map((goal) => (
               <option key={goal.id} value={goal.id}>
                 {goal.title}
               </option>
             ))}
-          </select>
+          </Select>
         </label>
       )}
       <div>

@@ -7,6 +7,7 @@ import { ResourceSection } from '@/modules/resources/components/ResourceSection'
 import { GoalEditor } from '../components/GoalEditor'
 import { GoalProjectsTree } from '../components/GoalProjectsTree'
 import { getGoal } from '../repo'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 const route = getRouteApi('/goals/$goalId')
 
@@ -26,7 +27,7 @@ export function GoalMapPage() {
     </Link>
   )
 
-  if (goal === undefined) return <p className="text-sm text-muted">{t('states.loading')}</p>
+  if (goal === undefined) return <ListSkeleton rows={2} />
   if (goal === null) {
     return (
       <div className="flex flex-col gap-3">

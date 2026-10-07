@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Input, Select } from '@/components/ui/input'
 import { PRAYER_BLOCKS, type PrayerBlock } from '@/core/db/types'
 import { createRoutine } from '../repo'
 
@@ -40,17 +40,13 @@ export function AddHabitForm() {
       </label>
       <label className="flex flex-col gap-1 text-sm">
         {t('habits.anchorLabel')}
-        <select
-          value={anchor}
-          onChange={(e) => setAnchor(e.target.value as PrayerBlock)}
-          className="min-h-11 rounded-xl border border-border bg-surface-raised px-3"
-        >
+        <Select value={anchor} onChange={(e) => setAnchor(e.target.value as PrayerBlock)}>
           {PRAYER_BLOCKS.map((block) => (
             <option key={block} value={block}>
               {t(`blocks.${block}`)}
             </option>
           ))}
-        </select>
+        </Select>
       </label>
       <label className="flex flex-col gap-1 text-sm">
         {t('habits.fullLabel')}

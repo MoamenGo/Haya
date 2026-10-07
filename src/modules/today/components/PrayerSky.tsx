@@ -6,7 +6,6 @@ import { formatGregorian, formatHijri } from '@/core/time/format'
 import { formatTime, nextPrayer, prayersForDate } from '@/core/time/prayers'
 import { skyPhase } from '@/core/time/sky'
 import { cn } from '@/lib/utils'
-import { SyncIndicator } from '@/modules/account/components/SyncIndicator'
 import { useSetting } from '@/modules/settings/hooks'
 import { PrayerTrackLine } from './PrayerTrack'
 
@@ -41,16 +40,14 @@ export function PrayerSky({ now, dayType, note }: PrayerSkyProps) {
       className={cn(
         'sky',
         `sky-${skyPhase(now, prayers)}`,
-        'relative overflow-hidden rounded-3xl p-5 shadow-float sm:p-8',
+        'relative overflow-hidden rounded-2xl p-5 shadow-card sm:p-7',
       )}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <h1 className="text-3xl leading-none">{t('today.title')}</h1>
+          <h1 className="text-2xl leading-none sm:text-[1.75rem]">{t('today.title')}</h1>
           <p className="mt-1 opacity-85">{formatGregorian(now, language)}</p>
         </div>
-        {/* On desktop the sidebar shows it. */}
-        <SyncIndicator className="text-current opacity-90 hover:bg-white/10 md:hidden" />
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2 text-sm">
@@ -65,12 +62,10 @@ export function PrayerSky({ now, dayType, note }: PrayerSkyProps) {
         </Link>
       </div>
 
-      <p className="mt-7 text-sm opacity-80">{t('today.nextPrayer')}</p>
+      <p className="mt-6 text-sm opacity-80">{t('today.nextPrayer')}</p>
       <p className="flex flex-wrap items-baseline gap-x-3">
-        <span className="font-display text-4xl font-bold">{t(`prayers.${next.name}`)}</span>
-        <span className="font-display text-2xl tabular-nums opacity-90">
-          {formatTime(next.at, language)}
-        </span>
+        <span className="text-3xl font-semibold tracking-tight">{t(`prayers.${next.name}`)}</span>
+        <span className="text-xl tabular-nums opacity-90">{formatTime(next.at, language)}</span>
         <span className="text-sm opacity-80">{t('today.in', { time: left })}</span>
       </p>
 

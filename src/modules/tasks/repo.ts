@@ -3,7 +3,7 @@ import { newRowMeta, touchMeta } from '@/core/db/rows'
 import type { TaskRow } from '@/core/db/types'
 import { canAddBigRock } from '@/core/planner/capacity'
 import { localDateISO } from '@/core/time/date'
-import { newTaskInput, type NewTaskInput } from './schema'
+import { newTaskInput, taskChange, type NewTaskInput, type TaskChange } from './schema'
 
 /** The only code that reads or writes `tasks`. */
 
@@ -25,7 +25,6 @@ export async function createTask(input: NewTaskInput): Promise<TaskRow> {
     ...newRowMeta(),
     ...valid,
     goal_id: null,
-    notes: '',
     checklist: [],
     status: valid.scheduled_date ? 'scheduled' : 'next',
     commitment_level: 2,
@@ -141,4 +140,22 @@ export async function setEstimate(taskId: string, minutes: number | null): Promi
 export async function renameTask(taskId: string, title: string): Promise<void> {
   const valid = newTaskInput.shape.title.parse(title)
   await db.tasks.update(taskId, { title: valid, ...touchMeta() })
+}
+
+/**
+ * Saves edits from the task dialog. A new date keeps the status consistent
+ * (scheduled / next), and a Big Rock stays one only if the new day has room.
+ */
+export async function updateTask(task: TaskRow, change: TaskChange): Promise<void> {
+  const valid = taskChange.parse(change)
+  const dateChanged =
+    valid.scheduled_date !== undefined && valid.scheduled_date !== task.scheduled_date
+  const extra: Partial<TaskRow> = {}
+  if (dateChanged) {
+    const date = valid.scheduled_date ?? null
+    extra.status = task.status === 'done' ? 'done' : date ? 'scheduled' : 'next'
+    extra.is_big_rock =
+      task.is_big_rock && date !== null && canAddBigRock(await countBigRocks(date))
+  }
+  await db.tasks.update(task.id, { ...valid, ...extra, ...touchMeta() })
 }

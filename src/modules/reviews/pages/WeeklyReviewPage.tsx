@@ -9,6 +9,7 @@ import { WeeklyReviewForm } from '../components/WeeklyReviewForm'
 import { useWeekFacts } from '../hooks'
 import { getReview } from '../repo'
 import { PageHeader } from '@/components/layout/PageHeader'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 /** The Friday review of the current week (Saturday to Friday). 10 minutes, not more. */
 export function WeeklyReviewPage() {
@@ -38,7 +39,7 @@ export function WeeklyReviewPage() {
 
       <Card>
         {review === undefined ? (
-          <p className="text-sm text-muted">{t('states.loading')}</p>
+          <ListSkeleton rows={3} />
         ) : (
           <WeeklyReviewForm key={start} periodStart={start} periodEnd={end} initial={review.row} />
         )}

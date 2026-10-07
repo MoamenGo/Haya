@@ -6,7 +6,7 @@ import type { DayType } from '@/core/time/config'
 import { addDaysISO } from '@/core/time/date'
 import { cn } from '@/lib/utils'
 import { getDailyLog } from '@/modules/reviews/repo'
-import { TaskItem } from '@/modules/tasks/components/TaskItem'
+import { TaskItem, TaskList } from '@/modules/tasks/components/TaskItem'
 import { countBigRocks, createTask, tasksForDate } from '@/modules/tasks/repo'
 
 const PERCENT = 100
@@ -50,7 +50,7 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
       </h2>
 
       {suggestion && !minimumMode && (
-        <div className="flex flex-col gap-2 rounded-2xl bg-accent p-4 text-sm">
+        <div className="flex flex-col gap-2 rounded-2xl border border-primary/20 bg-accent p-4 text-sm">
           <p>
             {t('today.fromLastNight')} <strong dir="auto">{suggestion}</strong>
           </p>
@@ -65,21 +65,21 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
       {rocks.length === 0 ? (
         <p className="text-sm text-muted">{t('today.bigRocksEmpty')}</p>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <TaskList>
           {rocks.map((task) => (
             <TaskItem key={task.id} task={task} todayISO={today} />
           ))}
-        </ul>
+        </TaskList>
       )}
 
       {others.length > 0 && (
         <>
           <h3 className="mt-2 text-sm font-medium text-muted">{t('today.otherTasks')}</h3>
-          <ul className="flex flex-col gap-2">
+          <TaskList>
             {others.map((task) => (
               <TaskItem key={task.id} task={task} todayISO={today} />
             ))}
-          </ul>
+          </TaskList>
         </>
       )}
 
@@ -88,11 +88,11 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
           <p className="text-muted">
             {t('today.capacity', { planned: capacity.planned, plannable: capacity.plannable })}
           </p>
-          <div className="h-2.5 overflow-hidden rounded-full bg-accent" aria-hidden>
+          <div className="h-2 overflow-hidden rounded-full bg-subtle" aria-hidden>
             <div
               className={cn(
                 'h-full rounded-full transition-[width] duration-500',
-                capacity.over ? 'bg-muted' : 'bg-primary',
+                capacity.over ? 'bg-warning' : 'bg-primary',
               )}
               style={{
                 width: `${Math.min(PERCENT, (capacity.planned / capacity.plannable) * PERCENT)}%`,

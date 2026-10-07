@@ -2,6 +2,7 @@ import { useLiveQuery } from 'dexie-react-hooks'
 import { useTranslation } from 'react-i18next'
 import { listActiveAreas } from '@/modules/areas/repo'
 import { useSetting } from '../hooks'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 export function AreasList() {
   const { t } = useTranslation()
@@ -13,7 +14,7 @@ export function AreasList() {
       <h2 className="font-medium">{t('settings.areas')}</h2>
       <p className="mt-1 text-sm text-muted">{t('settings.areasHint')}</p>
       {areas === undefined ? (
-        <p className="mt-3 text-sm text-muted">{t('states.loading')}</p>
+        <ListSkeleton rows={4} />
       ) : (
         <ul className="mt-3 flex flex-wrap gap-2">
           {areas.map((area) => (

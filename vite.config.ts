@@ -19,14 +19,14 @@ export default defineConfig({
       manifest: {
         name: 'حياة',
         short_name: 'حياة',
-        description: 'نظام هادئ لإدارة الحياة',
+        description: 'حياة: مكان هادئ لتنظيم حياتك ونموّك',
         lang: 'ar',
         dir: 'rtl',
         start_url: '/',
         scope: '/',
         display: 'standalone',
-        background_color: '#f7f5f0',
-        theme_color: '#1f4d45',
+        background_color: '#f8fafc',
+        theme_color: '#0f766e',
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },

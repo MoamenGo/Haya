@@ -9,6 +9,7 @@ the data model in [`docs/erd.md`](docs/erd.md), and the screen map in [`docs/rou
 **New to the code?** Start with the Arabic code guide: [`docs/code-guide-ar.md`](docs/code-guide-ar.md).
 
 ## Status
+
 **Phase 0 — Foundation** (this version): Arabic-first RTL shell with English, light/dark theme,
 responsive navigation (phone bottom bar, desktop sidebar), local database (Dexie) with settings and
 the 11 seeded life areas, installable PWA with offline app shell, CI.
@@ -47,12 +48,15 @@ CI runs it on every PR. See ADR-002.
 from pausing, and a Friday Action commits an `age`-encrypted dump to a separate private repository.
 Both stay idle until their secrets are added (see `docs/setup-cloud.md`).
 
-**Design**: a quiet, flat interface (cool mineral greys, hairline panels, one Nile-green colour)
-with a single rich element: the prayer "sky" on Today, whose colour follows the real time of day and
-shows the five prayers on one track. Readex Pro for text, Reem Kufi for titles, and a fluid type scale
-that adapts from phone to wide desktop. All design tokens live in `src/index.css`.
+**Design**: a calm, minimal interface: slate neutrals, one teal accent, hairline cards, a
+collapsible sidebar and a designed (not inverted) dark mode, with Light / Dark / System themes. The one
+rich element is the prayer "sky" on Today, whose colour follows the real time of day. Inter and IBM
+Plex Sans Arabic, a restrained fluid type scale, 4px spacing, and reusable components (dialog, toast,
+badge, empty state, skeleton). The logo is an open circle with a rising dot. All design tokens live in
+`src/index.css`.
 
 ## Run it locally
+
 Requires Node.js 22+ and pnpm (`corepack enable`).
 
 ```bash
@@ -65,6 +69,7 @@ pnpm build && pnpm preview   # test the installable/offline build here
 ```
 
 ## Project layout
+
 ```
 src/
   app/                 router, PWA registration, language/theme sync
@@ -79,10 +84,12 @@ tests/unit/            Vitest tests (IndexedDB is faked in Node)
 ```
 
 ## Deploy (Cloudflare Pages, free)
+
 1. In Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**, pick this repository.
 2. Build command `pnpm build`, output directory `dist`.
 3. Security headers come from `public/_headers`.
 
 ## Install on the phone
+
 Open the deployed URL. Android Chrome: menu → **Install app**. iPhone Safari: Share →
 **Add to Home Screen**.

@@ -17,6 +17,7 @@ import { WEEKLY_NEXT_KEYS } from '@/modules/reviews/weeklyQuestions'
 import { useSetting } from '@/modules/settings/hooks'
 import { WeekDayCard } from '../components/WeekDayCard'
 import { useWeek } from '../hooks'
+import { ListSkeleton } from '@/components/ui/skeleton'
 
 /** Saturday to Friday at a glance; any day's type can be changed here (CLAUDE.md §4.2). */
 export function WeekPage() {
@@ -77,7 +78,7 @@ export function WeekPage() {
       )}
 
       {days === undefined ? (
-        <p className="text-sm text-muted">{t('states.loading')}</p>
+        <ListSkeleton rows={4} />
       ) : (
         <div className="grid gap-3 lg:grid-cols-2">
           {days.map((day) => (

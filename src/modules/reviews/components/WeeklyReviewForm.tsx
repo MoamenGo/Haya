@@ -2,7 +2,7 @@ import { useNavigate } from '@tanstack/react-router'
 import { useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Input, Textarea } from '@/components/ui/input'
 import type { ReviewRow } from '@/core/db/types'
 import { saveReview } from '../repo'
 import { WEEKLY_NEXT_KEYS, WEEKLY_QUESTIONS } from '../weeklyQuestions'
@@ -36,12 +36,11 @@ export function WeeklyReviewForm({ periodStart, periodEnd, initial }: WeeklyRevi
       {WEEKLY_QUESTIONS.map((key) => (
         <label key={key} className="flex flex-col gap-2">
           <span className="font-medium">{t(`weekly.q.${key}`)}</span>
-          <textarea
+          <Textarea
             dir="auto"
             rows={2}
             value={answers[key] ?? ''}
             onChange={(e) => set(key, e.target.value)}
-            className="rounded-xl border border-border bg-surface-raised p-3 focus-visible:outline-2 focus-visible:outline-primary"
           />
         </label>
       ))}
