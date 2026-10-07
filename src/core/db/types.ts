@@ -182,6 +182,43 @@ export interface GoalRow extends SyncedRow {
   target_date: string | null
 }
 
+/** What kind of thing a link points at, guessed from its URL (CLAUDE.md §6.11). */
+export const RESOURCE_TYPES = [
+  'course',
+  'book',
+  'paper',
+  'documentation',
+  'video',
+  'playlist',
+  'article',
+  'repository',
+  'dataset',
+  'tool',
+  'podcast',
+  'lecture',
+  'other',
+] as const
+export type ResourceType = (typeof RESOURCE_TYPES)[number]
+export const RESOURCE_STATUSES = ['queued', 'in_progress', 'done', 'dropped'] as const
+export type ResourceStatus = (typeof RESOURCE_STATUSES)[number]
+
+/**
+ * A link to a learning source. For now each one hangs off a goal (and
+ * optionally one of its projects); learning domains and paths come in Phase 4.
+ */
+export interface ResourceRow extends SyncedRow {
+  url: string
+  /** Tracking parameters stripped, host lower-cased: used to spot duplicates. */
+  url_normalized: string
+  title: string
+  type: ResourceType
+  goal_id: string | null
+  project_id: string | null
+  status: ResourceStatus
+  /** Why this source is (or isn't) trustworthy, in the owner's words. */
+  reliability_note: string
+}
+
 /** A per-date change to the weekly pattern: leave, exam, travel, illness (CLAUDE.md §4.2). */
 export interface DayOverrideRow extends SyncedRow {
   /** `YYYY-MM-DD`, unique. */

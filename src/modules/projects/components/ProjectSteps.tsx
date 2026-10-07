@@ -1,12 +1,15 @@
 import { useLiveQuery } from 'dexie-react-hooks'
+import { useState, type FormEvent } from 'react'
 import { Check, ChevronDown } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import type { TaskRow } from '@/core/db/types'
 import { localDateISO } from '@/core/time/date'
 import { useNow } from '@/hooks/useNow'
 import { cn } from '@/lib/utils'
 import { TaskActions } from '@/modules/tasks/components/TaskActions'
-import { setTaskDone } from '@/modules/tasks/repo'
+import { renameTask, setTaskDone } from '@/modules/tasks/repo'
 import { stepsForProject } from '../repo'
 import { AddStepForm } from './AddStepForm'
 
@@ -55,6 +58,7 @@ export function ProjectSteps({ projectId, open }: ProjectStepsProps) {
 
 function StepItem({ step, todayISO }: { step: TaskRow; todayISO: string }) {
   const { t } = useTranslation()
+  const [editing, setEditing] = useState(false)
   const done = step.status === 'done'
   const when =
     step.scheduled_date === todayISO
@@ -80,18 +84,59 @@ function StepItem({ step, todayISO }: { step: TaskRow; todayISO: string }) {
       >
         {done && <Check aria-hidden className="size-3.5" />}
       </button>
-      <div className="min-w-0 flex-1 text-sm">
-        <p dir="auto" className={cn('break-words', done && 'text-muted line-through')}>
-          {step.title}
-        </p>
-        {(when || step.est_minutes !== null) && (
-          <p className="flex gap-2 text-xs text-muted">
-            {when && <span>{when}</span>}
-            {step.est_minutes !== null && <span>{t('duration.m', { m: step.est_minutes })}</span>}
-          </p>
-        )}
-      </div>
-      {!done && <TaskActions task={step} todayISO={todayISO} />}
+      {editing ? (
+        <RenameStep step={step} onDone={() => setEditing(false)} />
+      ) : (
+        <div className="min-w-0 flex-1 text-sm">
+          <button
+            type="button"
+            dir="auto"
+            title={t('projects.renameStep')}
+            onClick={() => setEditing(true)}
+            className={cn(
+              'w-full break-words text-start hover:text-primary',
+              done && 'text-muted line-through',
+            )}
+          >
+            {step.title}
+          </button>
+          {(when || step.est_minutes !== null) && (
+            <p className="flex gap-2 text-xs text-muted">
+              {when && <span>{when}</span>}
+              {step.est_minutes !== null && <span>{t('duration.m', { m: step.est_minutes })}</span>}
+            </p>
+          )}
+        </div>
+      )}
+      {!done && !editing && <TaskActions task={step} todayISO={todayISO} />}
     </li>
+  )
+}
+
+/** Inline rename: Enter saves, Escape or an empty name cancels. */
+function RenameStep({ step, onDone }: { step: TaskRow; onDone: () => void }) {
+  const { t } = useTranslation()
+  const [title, setTitle] = useState(step.title)
+
+  async function onSubmit(event: FormEvent) {
+    event.preventDefault()
+    if (title.trim() && title.trim() !== step.title) await renameTask(step.id, title)
+    onDone()
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="flex min-w-0 flex-1 gap-2">
+      <Input
+        autoFocus
+        aria-label={t('projects.renameStep')}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onKeyDown={(e) => e.key === 'Escape' && onDone()}
+        className="min-w-0 flex-1 text-sm"
+      />
+      <Button type="submit" variant="outline">
+        {t('common.save')}
+      </Button>
+    </form>
   )
 }

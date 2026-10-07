@@ -1,5 +1,6 @@
 import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router'
 import { AppShell } from '@/components/layout/AppShell'
+import { GoalMapPage } from '@/modules/goals/pages/GoalMapPage'
 import { GoalsPage } from '@/modules/goals/pages/GoalsPage'
 import { InboxPage } from '@/modules/inbox/pages/InboxPage'
 import { MorePage } from '@/modules/more/pages/MorePage'
@@ -60,6 +61,12 @@ const goalsRoute = createRoute({
   component: GoalsPage,
 })
 
+const goalMapRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/goals/$goalId',
+  component: GoalMapPage,
+})
+
 const habitsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/habits',
@@ -98,6 +105,7 @@ const routeTree = rootRoute.addChildren([
   tasksRoute,
   projectsRoute,
   goalsRoute,
+  goalMapRoute,
   habitsRoute,
   weekRoute,
   weeklyReviewRoute,

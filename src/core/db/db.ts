@@ -8,6 +8,7 @@ import type {
   HabitLogRow,
   InboxItemRow,
   ProjectRow,
+  ResourceRow,
   LifeAreaRow,
   ReviewRow,
   SyncConflictRow,
@@ -41,6 +42,7 @@ export class HayaDB extends Dexie {
   goals!: EntityTable<GoalRow, 'id'>
   day_overrides!: EntityTable<DayOverrideRow, 'id'>
   reviews!: EntityTable<ReviewRow, 'id'>
+  resources!: EntityTable<ResourceRow, 'id'>
   sync_state!: EntityTable<SyncStateRow, 'table'>
   sync_conflicts!: EntityTable<SyncConflictRow, 'id'>
 
@@ -90,6 +92,11 @@ export class HayaDB extends Dexie {
     this.version(6).stores({
       sync_state: 'table',
       sync_conflicts: 'id, at',
+    })
+
+    // v7: links to sources, shown on each goal's map.
+    this.version(7).stores({
+      resources: 'id, goal_id, project_id, url_normalized, updated_at, _dirty',
     })
 
     // …and brand-new databases get everything here (upgrades don't run for them).
