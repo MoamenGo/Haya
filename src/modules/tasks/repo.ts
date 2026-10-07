@@ -136,3 +136,9 @@ export async function deleteTask(taskId: string): Promise<void> {
 export async function setEstimate(taskId: string, minutes: number | null): Promise<void> {
   await db.tasks.update(taskId, { est_minutes: minutes, ...touchMeta() })
 }
+
+/** Renames a task (titles are validated like new tasks). */
+export async function renameTask(taskId: string, title: string): Promise<void> {
+  const valid = newTaskInput.shape.title.parse(title)
+  await db.tasks.update(taskId, { title: valid, ...touchMeta() })
+}

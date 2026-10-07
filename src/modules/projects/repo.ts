@@ -4,7 +4,7 @@ import type { ProjectRow, ProjectStatus, TaskRow } from '@/core/db/types'
 import { canActivateProject } from '@/core/planner/wip'
 import { createGoal } from '@/modules/goals/repo'
 import { createTask } from '@/modules/tasks/repo'
-import { newProjectInput, type NewProjectInput } from './schema'
+import { newProjectInput, projectChange, type NewProjectInput, type ProjectChange } from './schema'
 import { STARTER_GOALS, type StarterGoal } from './starterGoals'
 
 /** The only code that reads or writes `projects`. */
@@ -165,4 +165,33 @@ export async function setNextAction(project: ProjectRow, title: string): Promise
     const task = await createTask({ title, project_id: project.id })
     await db.projects.update(project.id, { next_action_task_id: task.id, ...touchMeta() })
   })
+}
+
+export async function updateProject(projectId: string, change: ProjectChange): Promise<void> {
+  await db.projects.update(projectId, { ...projectChange.parse(change), ...touchMeta() })
+}
+
+/**
+ * Soft-deletes a project and its steps. Its links stay on the goal. Soft
+ * delete means rows are hidden and the deletion syncs; nothing is erased.
+ */
+export async function deleteProject(projectId: string): Promise<void> {
+  const deleted = { deleted_at: new Date().toISOString(), ...touchMeta() }
+  await db.transaction('rw', db.projects, db.tasks, db.resources, async () => {
+    await db.projects.update(projectId, deleted)
+    await db.tasks
+      .where('project_id')
+      .equals(projectId)
+      .filter((t) => !t.deleted_at)
+      .modify(deleted)
+    await db.resources
+      .where('project_id')
+      .equals(projectId)
+      .modify({ project_id: null, ...touchMeta() })
+  })
+}
+
+/** Projects under one goal, each with its next step (for the goal map). */
+export async function projectsForGoal(goalId: string): Promise<ProjectWithNext[]> {
+  return (await listProjects()).filter((item) => item.project.goal_id === goalId)
 }

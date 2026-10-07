@@ -44,6 +44,8 @@ insert into day_overrides (id, created_at, updated_at, date, day_type)
   values ('10000000-0000-7000-8000-00000000000b', :ts, :ts, '2026-10-07', 'rest');
 insert into reviews (id, created_at, updated_at, kind, period_start, period_end)
   values ('10000000-0000-7000-8000-00000000000c', :ts, :ts, 'weekly', '2026-10-03', '2026-10-09');
+insert into resources (id, created_at, updated_at, url, url_normalized, type, status)
+  values ('10000000-0000-7000-8000-00000000000d', :ts, :ts, 'https://example.com', 'https://example.com', 'article', 'queued');
 
 -- Checks every table from the intruder's side.
 create function pg_temp.check_isolation(owner_id uuid) returns void
@@ -54,7 +56,7 @@ declare
 begin
   foreach t in array array[
     'settings', 'life_areas', 'routines', 'habit_logs', 'daily_plans', 'daily_logs',
-    'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews'
+    'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews', 'resources'
   ] loop
     execute format('select count(*) from public.%I', t) into n;
     if n <> 0 then raise exception '% : intruder can read % rows', t, n; end if;
@@ -95,7 +97,7 @@ begin
 exception when insufficient_privilege then null;
 end $$;
 
--- The owner still has all 12 rows, untouched, and each got a server stamp.
+-- The owner still has all 13 rows, untouched, and each got a server stamp.
 reset role;
 set role authenticated;
 select pg_temp.sign_in(:'owner');
@@ -106,7 +108,7 @@ declare
 begin
   foreach t in array array[
     'settings', 'life_areas', 'routines', 'habit_logs', 'daily_plans', 'daily_logs',
-    'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews'
+    'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews', 'resources'
   ] loop
     execute format(
       'select count(*) from public.%I where deleted_at is null and server_updated_at is not null',

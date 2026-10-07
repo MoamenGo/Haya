@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
@@ -6,15 +7,18 @@ import type { ProjectRow } from '@/core/db/types'
 import type { ProjectWithNext } from '../repo'
 import { ProjectWipLimitError, activateProject, setProjectStatus } from '../repo'
 import { NextAction } from './NextAction'
+import { ProjectManage } from './ProjectManage'
 import { ProjectSteps } from './ProjectSteps'
 
 interface ProjectCardProps {
   item: ProjectWithNext
   /** Currently active projects, offered for pausing when the WIP limit is reached. */
   active: ProjectRow[]
+  /** On the Projects page, a link to the project's goal map. Off on the map itself. */
+  showGoalLink?: boolean
 }
 
-export function ProjectCard({ item, active }: ProjectCardProps) {
+export function ProjectCard({ item, active, showGoalLink = true }: ProjectCardProps) {
   const { t } = useTranslation()
   const { project, nextAction } = item
   const [choosing, setChoosing] = useState(false)
@@ -83,6 +87,21 @@ export function ProjectCard({ item, active }: ProjectCardProps) {
             )}
           </>
         ) : null}
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-2">
+        {showGoalLink && project.goal_id ? (
+          <Link
+            to="/goals/$goalId"
+            params={{ goalId: project.goal_id }}
+            className="text-sm text-primary underline-offset-4 hover:underline"
+          >
+            {t('projects.goalMap')}
+          </Link>
+        ) : (
+          <span />
+        )}
+        <ProjectManage project={project} />
       </div>
     </Card>
   )

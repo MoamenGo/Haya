@@ -6,7 +6,8 @@ import { Input } from '@/components/ui/input'
 import { listGoals } from '@/modules/goals/repo'
 import { createProject } from '../repo'
 
-export function AddProjectForm() {
+/** `goalId` fixes the goal (on the goal map); without it the owner may pick one. */
+export function AddProjectForm({ goalId: fixedGoal }: { goalId?: string } = {}) {
   const { t } = useTranslation()
   const goals = useLiveQuery(listGoals, []) ?? []
   const [title, setTitle] = useState('')
@@ -16,7 +17,7 @@ export function AddProjectForm() {
   async function onSubmit(event: FormEvent) {
     event.preventDefault()
     if (!title.trim()) return
-    await createProject({ title, outcome, goal_id: goalId || null })
+    await createProject({ title, outcome, goal_id: fixedGoal ?? (goalId || null) })
     setTitle('')
     setOutcome('')
     setGoalId('')
@@ -33,7 +34,7 @@ export function AddProjectForm() {
         {t('projects.outcomeLabel')}
         <Input value={outcome} onChange={(e) => setOutcome(e.target.value)} />
       </label>
-      {goals.length > 0 && (
+      {!fixedGoal && goals.length > 0 && (
         <label className="flex flex-col gap-1 text-sm">
           {t('projects.goalLabel')}
           <select

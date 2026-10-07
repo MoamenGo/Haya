@@ -18,6 +18,7 @@ export const SYNC_TABLES = [
   'inbox_items',
   'day_overrides',
   'reviews',
+  'resources',
 ] as const
 export type SyncTable = (typeof SYNC_TABLES)[number]
 
@@ -36,6 +37,7 @@ export const INSTANT_COLUMNS: Readonly<Record<SyncTable, readonly string[]>> = {
   inbox_items: [...COMMON_INSTANTS, 'processed_at'],
   day_overrides: COMMON_INSTANTS,
   reviews: COMMON_INSTANTS,
+  resources: COMMON_INSTANTS,
 }
 
 /**
@@ -68,8 +70,12 @@ export const REFERENCES: Readonly<Partial<Record<SyncTable, ReadonlyArray<[SyncT
     goals: [
       ['projects', 'goal_id'],
       ['tasks', 'goal_id'],
+      ['resources', 'goal_id'],
     ],
-    projects: [['tasks', 'project_id']],
+    projects: [
+      ['tasks', 'project_id'],
+      ['resources', 'project_id'],
+    ],
     tasks: [
       ['projects', 'next_action_task_id'],
       ['inbox_items', 'converted_id'],

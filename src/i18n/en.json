@@ -3,6 +3,11 @@
     "name": "Haya",
     "tagline": "One quiet place for what matters"
   },
+  "common": {
+    "edit": "Edit",
+    "save": "Save",
+    "delete": "Delete"
+  },
   "nav": {
     "main": "Main navigation",
     "today": "Today",
@@ -210,7 +215,12 @@
     "starterTitle": "The goals we talked about",
     "starterBody": "{{count}} goals, each with a project and 3 small steps. They are all added to \"Not now\" and nothing starts by itself. Then pick up to 3 projects to start.",
     "starterAdd": "Add them",
-    "starterAdded": "Added {{count}} goals with their projects and steps to \"Not now\". Pick up to 3 to start; the rest wait quietly."
+    "starterAdded": "Added {{count}} goals with their projects and steps to \"Not now\". Pick up to 3 to start; the rest wait quietly.",
+    "delete": "Delete",
+    "deleteConfirm": "Delete \"{{title}}\" and its steps? Its links stay on the goal.",
+    "deleteYes": "Yes, delete",
+    "goalMap": "Goal map",
+    "renameStep": "Tap to edit the step"
   },
   "goals": {
     "title": "Goals",
@@ -233,6 +243,28 @@
       "quarter": "Quarter",
       "year": "Year",
       "long_term": "Long term"
+    },
+    "openMap": "Open map"
+  },
+  "goalMap": {
+    "back": "All goals",
+    "missing": "This goal does not exist or was deleted.",
+    "why": "Why",
+    "outcome": "Success looks like",
+    "outcomeLabel": "Success looks like (optional)",
+    "delete": "Delete goal",
+    "deleteConfirm": "Delete the goal and its links? Its projects stay on the Projects page.",
+    "deleteYes": "Yes, delete",
+    "projects": "Projects ({{count}})",
+    "noProjects": "No projects for this goal yet. Add a small one below.",
+    "status": {
+      "idea": "Not now",
+      "planned": "Not now",
+      "active": "Active",
+      "paused": "Paused",
+      "done": "Achieved",
+      "cancelled": "Cancelled",
+      "archived": "Archived"
     }
   },
   "habits": {
@@ -256,6 +288,42 @@
     "minimumHint": "The smallest thing that counts, like \"one page\" or \"5 minutes\".",
     "worshipLabel": "Worship",
     "create": "Add"
+  },
+  "resources": {
+    "title": "Sources",
+    "hint": "Links to the courses, books and videos that help with this goal.",
+    "empty": "No links yet.",
+    "add": "Add a link",
+    "urlLabel": "Link",
+    "titleLabel": "Name (optional)",
+    "projectLabel": "For project",
+    "wholeGoal": "The whole goal",
+    "save": "Save link",
+    "invalid": "That is not a valid link. Try copying it again.",
+    "duplicate": "This link is already saved on this goal.",
+    "statusLabel": "Status of {{title}}",
+    "deleteYes": "Yes, delete",
+    "status": {
+      "queued": "Not yet",
+      "in_progress": "In progress",
+      "done": "Done",
+      "dropped": "Dropped"
+    },
+    "types": {
+      "course": "Course",
+      "book": "Book",
+      "paper": "Paper",
+      "documentation": "Documentation",
+      "video": "Video",
+      "playlist": "Playlist",
+      "article": "Article",
+      "repository": "Repository",
+      "dataset": "Dataset",
+      "tool": "Tool",
+      "podcast": "Podcast",
+      "lecture": "Lecture",
+      "other": "Link"
+    }
   },
   "week": {
     "title": "Week",

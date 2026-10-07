@@ -2,7 +2,7 @@ import { db } from '@/core/db/db'
 import { newRowMeta, touchMeta } from '@/core/db/rows'
 import type { GoalRow, GoalStatus } from '@/core/db/types'
 import { canActivateGoal } from '@/core/planner/wip'
-import { newGoalInput, type NewGoalInput } from './schema'
+import { goalChange, newGoalInput, type GoalChange, type NewGoalInput } from './schema'
 
 /** The only code that reads or writes `goals`. */
 
@@ -43,5 +43,32 @@ export async function setGoalStatus(goal: GoalRow, status: GoalStatus): Promise<
       if (!canActivateGoal(sameHorizon.length)) throw new GoalLimitError()
     }
     await db.goals.update(goal.id, { status, ...touchMeta() })
+  })
+}
+
+/** One goal, or undefined when it doesn't exist or was deleted. */
+export async function getGoal(goalId: string): Promise<GoalRow | undefined> {
+  const goal = await db.goals.get(goalId)
+  return goal && !goal.deleted_at ? goal : undefined
+}
+
+/** Edits the goal's words and horizon. Status changes go through setGoalStatus. */
+export async function updateGoal(goalId: string, change: GoalChange): Promise<void> {
+  await db.goals.update(goalId, { ...goalChange.parse(change), ...touchMeta() })
+}
+
+/**
+ * Soft-deletes a goal and its links. Its projects are kept (they may still
+ * matter) and simply stop pointing at it.
+ */
+export async function deleteGoal(goalId: string): Promise<void> {
+  const deleted = { deleted_at: new Date().toISOString(), ...touchMeta() }
+  await db.transaction('rw', db.goals, db.projects, db.resources, async () => {
+    await db.goals.update(goalId, deleted)
+    await db.projects
+      .where('goal_id')
+      .equals(goalId)
+      .modify({ goal_id: null, ...touchMeta() })
+    await db.resources.where('goal_id').equals(goalId).modify(deleted)
   })
 }
