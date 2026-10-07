@@ -1,0 +1,61 @@
+/*
+ * Design tokens. Components use names like `bg-surface` or `text-muted`,
+ * never raw colours, so light and dark themes change in one place.
+ * docs/code-guide-ar.md (section "التصميم") explains every token.
+ *
+ * Neutral slate greys + one teal accent. Status colours (success, warning,
+ * danger) each have a soft background twin for badges and notices.
+ */
+:root,
+[data-palette='haya'] {
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --surface-raised: #ffffff; /* menus, dialogs */
+  --subtle: #f1f5f9; /* hover rows, segmented tracks, inputs at rest */
+  --foreground: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --primary: #0f766e; /* teal 700: 5.4:1 on white */
+  --primary-strong: #115e59;
+  --primary-foreground: #ffffff;
+  --accent: #f0fdfa; /* soft teal tint for selected / info areas */
+  --accent-foreground: #115e59;
+  --success: #15803d;
+  --success-soft: #f0fdf4;
+  --warning: #b45309;
+  --warning-soft: #fffbeb;
+  --danger: #b91c1c;
+  --danger-soft: #fef2f2;
+  --ring: #14b8a6;
+  --highlight: #5eead4; /* the dot in the logo */
+  --shadow-color: 15 23 42;
+}
+
+/* Dark is designed, not inverted: deep blue-slate, lifted surfaces, softer teal. */
+.dark,
+.dark [data-palette='haya'],
+[data-palette='haya'].dark {
+  --background: #0b1220;
+  --surface: #111a2b;
+  --surface-raised: #172236;
+  --subtle: #18233a;
+  --foreground: #e2e8f0;
+  --muted: #94a3b8;
+  --border: #1f2b40;
+  --border-strong: #2c3a52;
+  --primary: #2dd4bf;
+  --primary-strong: #5eead4;
+  --primary-foreground: #042f2e;
+  --accent: #10302f;
+  --accent-foreground: #99f6e4;
+  --success: #4ade80;
+  --success-soft: #0f2a1c;
+  --warning: #fbbf24;
+  --warning-soft: #2d230d;
+  --danger: #f87171;
+  --danger-soft: #331618;
+  --ring: #2dd4bf;
+  --highlight: #042f2e;
+  --shadow-color: 0 0 0;
+}

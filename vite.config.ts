@@ -52,5 +52,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.test.{ts,tsx}'],
+    // Tests skip CSS by default; the palette contrast test reads the colour files.
+    css: { include: [/src\/styles\/.*\.css/] },
   },
 })

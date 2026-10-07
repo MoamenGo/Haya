@@ -16,12 +16,7 @@ export function BrandMark({ className }: { className?: string }) {
         strokeLinecap="round"
         className="stroke-primary-foreground"
       />
-      <circle
-        cx="45.65"
-        cy="18.35"
-        r="4.75"
-        className="fill-[#5eead4] dark:fill-primary-foreground"
-      />
+      <circle cx="45.65" cy="18.35" r="4.75" className="fill-highlight" />
     </svg>
   )
 }

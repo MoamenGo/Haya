@@ -1,4 +1,5 @@
-import { Check, Monitor, Moon, Sun } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { Check, Monitor, Moon, Palette, Sun } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
@@ -70,6 +71,19 @@ export function ThemeMenu() {
             {theme === value && <Check aria-hidden className="size-4 text-primary" />}
           </button>
         ))}
+        <div className="my-1 h-px bg-border" />
+        <Link
+          to="/settings"
+          hash="appearance"
+          role="menuitem"
+          onClick={() => {
+            if (menu.current) menu.current.open = false
+          }}
+          className="flex min-h-10 items-center gap-2.5 rounded-lg px-2.5 text-sm hover:bg-subtle"
+        >
+          <Palette aria-hidden className="size-4 text-muted" />
+          <span className="flex-1 text-start">{t('settings.morePalettes')}</span>
+        </Link>
       </div>
     </details>
   )

@@ -5,6 +5,7 @@ import { AreasList } from '../components/AreasList'
 import { DataSection } from '../components/DataSection'
 import { LocationSection } from '../components/LocationSection'
 import { ChoiceGroup } from '@/components/ui/choice-group'
+import { ThemePicker } from '../components/ThemePicker'
 import { VisionForm } from '../components/VisionForm'
 import { useSetting } from '../hooks'
 import { PageHeader } from '@/components/layout/PageHeader'
@@ -31,10 +32,14 @@ export function SettingsPage() {
             ]}
           />
         </div>
+      </Card>
+
+      <Card id="appearance" className="flex scroll-mt-20 flex-col gap-6">
+        <h2 className="text-base font-semibold">{t('settings.theme')}</h2>
         <div className="flex flex-col gap-2">
-          <h2 className="font-medium">{t('settings.theme')}</h2>
+          <h3 className="font-medium">{t('settings.mode')}</h3>
           <ChoiceGroup
-            label={t('settings.theme')}
+            label={t('settings.mode')}
             value={theme}
             onChange={setTheme}
             options={[
@@ -44,6 +49,7 @@ export function SettingsPage() {
             ]}
           />
         </div>
+        <ThemePicker />
       </Card>
 
       <Card id="account">
