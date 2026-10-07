@@ -1,8 +1,8 @@
 @import 'tailwindcss';
-@import '@fontsource/ibm-plex-sans-arabic/400.css';
-@import '@fontsource/ibm-plex-sans-arabic/500.css';
-@import '@fontsource/ibm-plex-sans-arabic/600.css';
-@import '@fontsource/ibm-plex-sans-arabic/700.css';
+/* Self-hosted, openly licensed (OFL) fonts: no network, no tracking. */
+@import '@fontsource-variable/readex-pro';
+@import '@fontsource/reem-kufi/500.css';
+@import '@fontsource/reem-kufi/700.css';
 
 /* Dark mode follows a `dark` class on <html>, set from the theme setting. */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -11,38 +11,37 @@
  * Colour tokens. Components use names like `bg-surface` or `text-muted`,
  * never raw colours, so light and dark themes change in one place.
  * docs/code-guide-ar.md (section "التصميم") explains every token.
+ *
+ * The palette is deliberately quiet (cool mineral greys + one Nile green).
+ * The only rich colour in the app is the prayer "sky" on Today.
  */
 :root {
-  --background: #f5f2ea; /* warm paper */
-  --surface: #fffdf8; /* cards */
+  --background: #edf1f0; /* cool mineral grey, the page */
+  --surface: #ffffff; /* panels */
   --surface-raised: #ffffff; /* menus, dialogs */
-  --foreground: #1b2421;
-  --muted: #5d6965;
-  --border: #e4ded1;
-  --primary: #1f4d45; /* deep green, the app's colour */
-  --primary-strong: #163a34; /* hover / hero gradient end */
-  --primary-foreground: #f7f5f0;
-  --accent: #e9efe9; /* soft green tint for selected / info areas */
-  --gold: #80612a; /* small highlights only: Hijri date, vision, active marks */
-  --gold-soft: #f3ead6;
-  --ring: #2c6b60;
-  --shadow-color: 30 40 35;
+  --foreground: #12201d; /* ink */
+  --muted: #566562;
+  --border: #d8e0de;
+  --primary: #0f6b5e; /* Nile green, the app's colour */
+  --primary-strong: #0a5249;
+  --primary-foreground: #f4fbf9;
+  --accent: #dcebe7; /* soft green tint for selected / info areas */
+  --ring: #0f6b5e;
+  --shadow-color: 18 32 29;
 }
 
 .dark {
-  --background: #111614;
-  --surface: #182019;
-  --surface-raised: #1e2724;
-  --foreground: #e8ece8;
-  --muted: #9ba7a2;
-  --border: #2a3430;
-  --primary: #8cc5b5;
-  --primary-strong: #a7d6c8;
-  --primary-foreground: #0f2420;
-  --accent: #21302b;
-  --gold: #d6b26a;
-  --gold-soft: #2d281c;
-  --ring: #8cc5b5;
+  --background: #0d1413;
+  --surface: #141e1c;
+  --surface-raised: #1b2725;
+  --foreground: #e6eeec;
+  --muted: #95a6a2;
+  --border: #26332f;
+  --primary: #6fd0bc;
+  --primary-strong: #93e0cf;
+  --primary-foreground: #06201b;
+  --accent: #1c302b;
+  --ring: #6fd0bc;
   --shadow-color: 0 0 0;
 }
 
@@ -57,16 +56,52 @@
   --color-primary-strong: var(--primary-strong);
   --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
-  --color-gold: var(--gold);
-  --color-gold-soft: var(--gold-soft);
   --color-ring: var(--ring);
-  --font-sans: 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  /* Readex Pro for everything; Reem Kufi (a geometric Kufi) only for big titles and numbers. */
+  --font-sans: 'Readex Pro Variable', system-ui, sans-serif;
+  --font-display: 'Reem Kufi', 'Readex Pro Variable', system-ui, sans-serif;
 
-  /* Soft, low shadows: depth without noise. `shadow-card` is used by cards. */
-  --shadow-card:
-    0 1px 2px rgb(var(--shadow-color) / 0.04), 0 6px 20px -12px rgb(var(--shadow-color) / 0.18);
+  /* Panels are flat (a hairline border). Only floating things cast a shadow. */
+  --shadow-card: 0 1px 0 rgb(var(--shadow-color) / 0.04);
   --shadow-float:
-    0 2px 6px rgb(var(--shadow-color) / 0.08), 0 16px 36px -12px rgb(var(--shadow-color) / 0.3);
+    0 2px 6px rgb(var(--shadow-color) / 0.08), 0 18px 40px -14px rgb(var(--shadow-color) / 0.35);
+}
+
+/*
+ * The prayer sky (Today). Each part of the day between two prayers gets its own
+ * two-colour gradient, picked by src/core/time/sky.ts. All are dark enough for
+ * white text, in both themes.
+ */
+.sky {
+  --sky-from: #101a33;
+  --sky-to: #26305a;
+  background: linear-gradient(135deg, var(--sky-from), var(--sky-to));
+  color: #ffffff;
+  transition: background 1s ease;
+}
+.sky-dawn {
+  --sky-from: #1c2b55;
+  --sky-to: #664a7d;
+}
+.sky-morning {
+  --sky-from: #134a63;
+  --sky-to: #2a7590;
+}
+.sky-noon {
+  --sky-from: #0d5a54;
+  --sky-to: #1f7d72;
+}
+.sky-afternoon {
+  --sky-from: #2f5162;
+  --sky-to: #8f5f30;
+}
+.sky-sunset {
+  --sky-from: #3e2648;
+  --sky-to: #9c4b2c;
+}
+.sky-night {
+  --sky-from: #0d1630;
+  --sky-to: #262a52;
 }
 
 /*
@@ -91,11 +126,14 @@
   --text-2xl--line-height: 1.35;
   --text-3xl: clamp(1.75rem, 1.42rem + 1.5vw, 2.625rem);
   --text-3xl--line-height: 1.3;
+  --text-4xl: clamp(2.25rem, 1.75rem + 2.4vw, 3.5rem);
+  --text-4xl--line-height: 1.15;
 
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
-  --radius-2xl: 1.375rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
 }
 
 @layer base {
@@ -115,8 +153,8 @@
 
   /* Page and section titles get a consistent rhythm even without classes. */
   h1 {
+    font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.01em;
   }
   h2 {
     font-size: var(--text-lg);
@@ -130,7 +168,7 @@
   }
 
   ::selection {
-    background: var(--gold-soft);
+    background: var(--accent);
   }
 }
 

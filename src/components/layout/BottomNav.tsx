@@ -3,27 +3,27 @@ import { useTranslation } from 'react-i18next'
 import { NAV_ITEMS } from './nav-items'
 
 /**
- * Phone navigation: large thumb targets at the bottom of the screen.
- * The active item gets a soft "pill" behind its icon. The bar is slightly
- * see-through (backdrop-blur) so content scrolling under it stays readable.
+ * Phone navigation: a floating "dock" with large thumb targets, lifted off
+ * the screen edges. The active item gets a filled pill behind its icon.
+ * The dock is slightly see-through (backdrop-blur) so content under it stays readable.
  */
 export function BottomNav() {
   const { t } = useTranslation()
   return (
     <nav
       aria-label={t('nav.main')}
-      className="fixed inset-x-0 bottom-0 z-10 border-t border-border/70 bg-surface/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden"
+      className="fixed inset-x-3 bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-10 rounded-full border border-border bg-surface/85 shadow-float backdrop-blur-lg md:hidden"
     >
-      <ul className="flex">
+      <ul className="flex px-1">
         {NAV_ITEMS.filter((item) => item.mobile).map(({ to, labelKey, icon: Icon }) => (
           <li key={to} className="flex-1">
             <Link
               to={to}
-              className="group flex min-h-16 flex-col items-center justify-center gap-1 text-xs text-muted"
-              activeProps={{ className: 'active font-semibold !text-primary' }}
+              className="group flex min-h-16 flex-col items-center justify-center gap-0.5 text-[0.6875rem] text-muted"
+              activeProps={{ className: 'active font-medium !text-foreground' }}
             >
-              <span className="flex h-8 w-14 items-center justify-center rounded-full transition-colors group-[.active]:bg-accent">
-                <Icon aria-hidden className="size-[1.375rem]" />
+              <span className="flex h-8 w-12 items-center justify-center rounded-full transition-colors group-[.active]:bg-foreground group-[.active]:text-background">
+                <Icon aria-hidden className="size-5" />
               </span>
               {t(labelKey)}
             </Link>

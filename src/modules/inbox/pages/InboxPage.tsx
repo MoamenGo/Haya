@@ -27,7 +27,7 @@ export function InboxPage() {
           {items.map((item) => (
             <li
               key={item.id}
-              className="flex flex-col gap-3 rounded-2xl border border-border/80 bg-surface p-4 shadow-card"
+              className="flex flex-col gap-3 rounded-2xl border border-border bg-surface p-4 shadow-card"
             >
               <p dir="auto" className="break-words leading-relaxed">
                 {item.text}

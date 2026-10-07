@@ -15,7 +15,11 @@ export function ChoiceGroup<T extends string>({
   onChange,
 }: ChoiceGroupProps<T>) {
   return (
-    <div role="radiogroup" aria-label={label} className="flex flex-wrap gap-2">
+    <div
+      role="radiogroup"
+      aria-label={label}
+      className="flex w-fit max-w-full flex-wrap gap-1 rounded-full bg-background p-1"
+    >
       {options.map((option) => {
         const selected = option.value === value
         return (
@@ -26,10 +30,10 @@ export function ChoiceGroup<T extends string>({
             aria-checked={selected}
             onClick={() => onChange(option.value)}
             className={cn(
-              'min-h-11 rounded-xl border px-4 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-ring',
+              'min-h-10 rounded-full px-4 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-ring',
               selected
-                ? 'border-primary bg-primary text-primary-foreground shadow-card'
-                : 'border-border bg-surface hover:border-primary/40 hover:bg-accent',
+                ? 'bg-primary font-medium text-primary-foreground'
+                : 'text-muted hover:text-foreground',
             )}
           >
             {option.label}

@@ -62,10 +62,7 @@ export function WeekPage() {
       </header>
 
       {focus && focus.length > 0 && (
-        <section
-          aria-labelledby="focus-title"
-          className="rounded-2xl border-s-4 border-gold bg-gold-soft/60 p-4 text-sm"
-        >
+        <section aria-labelledby="focus-title" className="rounded-2xl bg-accent p-4 text-sm">
           <h2 id="focus-title" className="font-medium">
             {t('week.focus')}
           </h2>

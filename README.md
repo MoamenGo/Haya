@@ -47,9 +47,10 @@ CI runs it on every PR. See ADR-002.
 from pausing, and a Friday Action commits an `age`-encrypted dump to a separate private repository.
 Both stay idle until their secrets are added (see `docs/setup-cloud.md`).
 
-**Design refresh**: calmer, more polished look (warm paper background, soft card shadows, a
-Today "hero" card, clearer navigation) and a fluid type scale so text sizes adapt smoothly from phone
-to wide desktop. All design tokens live in `src/index.css`.
+**Design**: a quiet, flat interface (cool mineral greys, hairline panels, one Nile-green colour)
+with a single rich element: the prayer "sky" on Today, whose colour follows the real time of day and
+shows the five prayers on one track. Readex Pro for text, Reem Kufi for titles, and a fluid type scale
+that adapts from phone to wide desktop. All design tokens live in `src/index.css`.
 
 ## Run it locally
 Requires Node.js 22+ and pnpm (`corepack enable`).

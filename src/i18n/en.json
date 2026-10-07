@@ -19,6 +19,7 @@
     "title": "Today",
     "hijri": "Hijri",
     "dayType": "Day type",
+    "prayerTimes": "Today's prayer times",
     "nextPrayer": "Next prayer",
     "in": "in {{time}}",
     "habits": "Today's habits",
