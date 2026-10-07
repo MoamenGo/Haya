@@ -1,12 +1,47 @@
 import { db } from '@/core/db/db'
 import { newRowMeta, touchMeta } from '@/core/db/rows'
 import type { HabitLogRow, HabitStatus, RoutineRow } from '@/core/db/types'
+import { newRoutineInput, type NewRoutineInput } from './schema'
 
 /** The only code that reads or writes `routines` and `habit_logs`. */
 
 export async function listActiveRoutines(): Promise<RoutineRow[]> {
   const rows = await db.routines.orderBy('sort_order').toArray()
   return rows.filter((r) => r.active && !r.deleted_at)
+}
+
+/** Every habit that is not deleted, active and paused, in display order (for the Habits page). */
+export async function listRoutines(): Promise<RoutineRow[]> {
+  const rows = await db.routines.orderBy('sort_order').toArray()
+  return rows.filter((r) => !r.deleted_at)
+}
+
+/** Adds a daily habit at the end of the list. New habits start active. */
+export async function createRoutine(input: NewRoutineInput): Promise<RoutineRow> {
+  const valid = newRoutineInput.parse(input)
+  const last = await db.routines.orderBy('sort_order').last()
+  const row: RoutineRow = {
+    ...newRowMeta(),
+    ...valid,
+    area_id: null,
+    rrule: 'FREQ=DAILY',
+    duration_min: null,
+    commitment_level: valid.is_worship ? 1 : 2,
+    active: true,
+    sort_order: (last?.sort_order ?? 0) + 1,
+  }
+  await db.routines.add(row)
+  return row
+}
+
+/** Pausing hides a habit from Today but keeps its history, so it can come back. */
+export async function setRoutineActive(routineId: string, active: boolean): Promise<void> {
+  await db.routines.update(routineId, { active, ...touchMeta() })
+}
+
+/** Soft delete, so the deletion can sync. Its old logs stay in the backup. */
+export async function deleteRoutine(routineId: string): Promise<void> {
+  await db.routines.update(routineId, { deleted_at: new Date().toISOString(), ...touchMeta() })
 }
 
 /** Logs between two dates, inclusive (`YYYY-MM-DD`). */

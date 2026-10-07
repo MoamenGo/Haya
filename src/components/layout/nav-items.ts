@@ -5,6 +5,7 @@ import {
   FolderKanban,
   House,
   Inbox,
+  Repeat,
   ListChecks,
   Settings,
   Target,
@@ -19,6 +20,7 @@ export interface NavItem {
     | '/tasks'
     | '/projects'
     | '/goals'
+    | '/habits'
     | '/reviews/weekly'
     | '/settings'
     | '/more'
@@ -29,6 +31,7 @@ export interface NavItem {
     | 'nav.tasks'
     | 'nav.projects'
     | 'nav.goals'
+    | 'nav.habits'
     | 'nav.weeklyReview'
     | 'nav.settings'
     | 'nav.more'
@@ -47,6 +50,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { to: '/tasks', labelKey: 'nav.tasks', icon: ListChecks, mobile: true, desktop: true },
   { to: '/projects', labelKey: 'nav.projects', icon: FolderKanban, mobile: false, desktop: true },
   { to: '/goals', labelKey: 'nav.goals', icon: Target, mobile: false, desktop: true },
+  { to: '/habits', labelKey: 'nav.habits', icon: Repeat, mobile: false, desktop: true },
   {
     to: '/reviews/weekly',
     labelKey: 'nav.weeklyReview',

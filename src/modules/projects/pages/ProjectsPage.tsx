@@ -5,6 +5,7 @@ import { Card } from '@/components/ui/card'
 import { MAX_ACTIVE_PROJECTS } from '@/core/planner/config'
 import { AddProjectForm } from '../components/AddProjectForm'
 import { ProjectCard } from '../components/ProjectCard'
+import { StarterGoalsCard } from '../components/StarterGoalsCard'
 import { listProjects, type ProjectWithNext } from '../repo'
 import { PageHeader } from '@/components/layout/PageHeader'
 
@@ -33,6 +34,8 @@ export function ProjectsPage() {
         </p>
         <p className="mt-1 text-muted">{t('projects.wipHint')}</p>
       </div>
+
+      <StarterGoalsCard />
 
       {items === undefined ? (
         <p className="text-sm text-muted">{t('states.loading')}</p>

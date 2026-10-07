@@ -13,6 +13,7 @@
     "goals": "Goals",
     "week": "Week",
     "weeklyReview": "Weekly review",
+    "habits": "Habits",
     "more": "More"
   },
   "today": {
@@ -35,7 +36,9 @@
     "capacity": "Planned {{planned}} of {{plannable}} min",
     "capacityOver": "More is planned than the time available. Postpone something instead of overloading yourself.",
     "fromLastNight": "Last night you said the most important thing today is:",
-    "makeBigRock": "Make it a Big Rock"
+    "makeBigRock": "Make it a Big Rock",
+    "manageHabits": "Edit your habits or add one",
+    "noHabits": "No active habits. Add one small habit."
   },
   "dayTypes": {
     "hospital": "Hospital day",
@@ -196,7 +199,18 @@
     "nextDone": "Step done",
     "pickToPause": "To start \"{{title}}\", pause one of these:",
     "cancel": "Cancel",
-    "goals": "Goals"
+    "goals": "Goals",
+    "steps": "Steps",
+    "noSteps": "No steps yet",
+    "stepsDone": "{{done}} of {{total}} done",
+    "stepToday": "Today",
+    "addStep": "Add step",
+    "stepPlaceholder": "A new small step",
+    "stepHint": "Keep each step to 25 minutes or less. Example: instead of \"Study AI\", write \"Watch lesson 3 and write 5 notes\". Use ⋯ to put it on today or tomorrow.",
+    "starterTitle": "The goals we talked about",
+    "starterBody": "{{count}} goals, each with a project and 3 small steps. They are all added to \"Not now\" and nothing starts by itself. Then pick up to 3 projects to start.",
+    "starterAdd": "Add them",
+    "starterAdded": "Added {{count}} goals with their projects and steps to \"Not now\". Pick up to 3 to start; the rest wait quietly."
   },
   "goals": {
     "title": "Goals",
@@ -220,6 +234,28 @@
       "year": "Year",
       "long_term": "Long term"
     }
+  },
+  "habits": {
+    "title": "Habits",
+    "intro": "The habits you track on Today. Add one at a time; each has a small hard-day version that counts as a full success.",
+    "active": "Tracking now",
+    "paused": "Paused",
+    "emptyActive": "No active habits.",
+    "many": "You have {{count}} active habits. If it feels heavy, pause one until the rest settle.",
+    "pause": "Pause",
+    "resume": "Resume",
+    "remove": "Remove",
+    "confirmRemove": "Yes, remove",
+    "suggested": "Suggested habits",
+    "suggestedHint": "One tap adds it. Start with just one.",
+    "add": "New habit",
+    "titleLabel": "Habit name",
+    "anchorLabel": "When?",
+    "fullLabel": "Normal version (optional)",
+    "minimumLabel": "Hard-day version",
+    "minimumHint": "The smallest thing that counts, like \"one page\" or \"5 minutes\".",
+    "worshipLabel": "Worship",
+    "create": "Add"
   },
   "week": {
     "title": "Week",

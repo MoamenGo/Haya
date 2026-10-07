@@ -66,7 +66,7 @@ export function TodayPage() {
         )}
         {routines === undefined ? (
           <p className="text-sm text-muted">{t('states.loading')}</p>
-        ) : (
+        ) : routines.length === 0 ? null : (
           // One panel with rows, rather than a stack of separate cards.
           <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
             {routines.map(({ routine, status, days }) => (
@@ -81,7 +81,11 @@ export function TodayPage() {
             ))}
           </ul>
         )}
+        {routines?.length === 0 && <p className="text-sm text-muted">{t('today.noHabits')}</p>}
         {allDone && <p className="text-sm text-muted">{t('today.allDone')}</p>}
+        <Link to="/habits" className="text-sm text-primary underline-offset-4 hover:underline">
+          {t('today.manageHabits')}
+        </Link>
       </section>
 
       <Link

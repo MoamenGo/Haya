@@ -8,5 +8,6 @@ export const newProjectInput = z.object({
   /** What "done" looks like, in one sentence. */
   outcome: z.string().trim().max(TEXT_MAX).default(''),
   goal_id: z.string().nullable().default(null),
+  area_id: z.string().nullable().default(null),
 })
 export type NewProjectInput = z.input<typeof newProjectInput>
