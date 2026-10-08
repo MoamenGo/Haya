@@ -21,7 +21,7 @@ export function StatusButtons({ label, status, onChange }: StatusButtonsProps) {
     <div
       role="radiogroup"
       aria-label={label}
-      className="flex w-full gap-1 rounded-full bg-background p-1 sm:w-fit"
+      className="flex w-full gap-1 rounded-full bg-subtle p-1 sm:w-fit"
     >
       {OPTIONS.map((option) => {
         const selected = status === option

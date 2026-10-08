@@ -20,11 +20,11 @@ export function EmptyState({ icon: Icon, title, description, action, className }
         className,
       )}
     >
-      <span className="flex size-12 items-center justify-center rounded-2xl bg-accent text-primary">
+      <span className="flex size-12 items-center justify-center rounded-full bg-accent text-primary">
         <Icon aria-hidden className="size-6" strokeWidth={1.75} />
       </span>
       <div className="flex max-w-sm flex-col gap-1">
-        <p className="font-medium">{title}</p>
+        <p className="font-display font-medium">{title}</p>
         {description && <p className="text-sm text-muted">{description}</p>}
       </div>
       {action}

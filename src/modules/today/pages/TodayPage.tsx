@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { useLiveQuery } from 'dexie-react-hooks'
+import { MoonStar } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { isDone } from '@/core/habits/continuity'
@@ -35,7 +36,7 @@ export function TodayPage() {
       {vision && (
         <blockquote
           dir="auto"
-          className="max-w-prose border-s-2 border-primary ps-4 text-lg leading-relaxed text-foreground"
+          className="max-w-prose border-s-2 border-primary ps-4 font-display text-xl leading-relaxed font-light text-foreground"
         >
           {vision}
         </blockquote>
@@ -50,7 +51,7 @@ export function TodayPage() {
 
       <section aria-labelledby="habits-title" className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 id="habits-title" className="text-lg font-semibold">
+          <h2 id="habits-title" className="text-xl font-medium">
             {t('today.habits')}
           </h2>
           <Button
@@ -61,7 +62,10 @@ export function TodayPage() {
           </Button>
         </div>
         {minimumMode && (
-          <p role="status" className="rounded-2xl bg-accent p-4 text-sm leading-relaxed">
+          <p
+            role="status"
+            className="rounded-2xl bg-accent p-4 text-sm leading-relaxed text-accent-foreground"
+          >
             {t('today.minimumModeOn')}
           </p>
         )}
@@ -69,7 +73,7 @@ export function TodayPage() {
           <ListSkeleton rows={3} />
         ) : routines.length === 0 ? null : (
           // One panel with rows, rather than a stack of separate cards.
-          <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border bg-surface">
+          <ul className="divide-y divide-border overflow-hidden rounded-3xl border border-border bg-surface">
             {routines.map(({ routine, status, days }) => (
               <RoutineCard
                 key={routine.id}
@@ -91,8 +95,9 @@ export function TodayPage() {
 
       <Link
         to="/today/review"
-        className="inline-flex min-h-13 items-center justify-center rounded-full bg-foreground px-6 font-medium text-background transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:self-start"
+        className="inline-flex min-h-13 items-center justify-center gap-2.5 rounded-full bg-primary px-7 font-display font-medium text-primary-foreground shadow-[0_10px_24px_-12px_var(--primary)] transition-colors hover:bg-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:self-start"
       >
+        <MoonStar aria-hidden className="size-5" strokeWidth={1.8} />
         {checkedIn ? t('today.checkInDone') : t('today.checkIn')}
       </Link>
     </div>

@@ -13,25 +13,47 @@ export function skyPhase(now: Date, prayers: DayPrayers): SkyPhase {
   return 'night'
 }
 
-export interface PrayerTrack {
+/**
+ * How far below the horizon Fajr and Isha sit on the sun's path, as a share
+ * of the daylight arc. The sun is under the horizon then, so their exact
+ * place is a drawing choice, not astronomy.
+ */
+export const TWILIGHT_SHARE = 0.08
+
+export interface SunPath {
   /** Prayers whose time has passed today. */
   passed: ReadonlySet<PrayerName>
   /**
-   * How far along the day's track "now" is, from 0 (at Fajr) to 1 (at Isha).
-   * Each of the 4 gaps between prayers gets an equal share of the track, so
-   * the 5 prayers sit evenly spaced and the marker moves within the current gap.
+   * Where each prayer sits on the sun's path: 0 is sunrise, 1 is sunset
+   * (Maghrib), 0.5 is about Dhuhr. Fajr is a little before 0 and Isha a
+   * little after 1, below the horizon.
    */
-  progress: number
+  positions: Record<PrayerName, number>
+  /** Where the sun is now on the same scale, or null at night (after Isha, before Fajr). */
+  sun: number | null
 }
 
-export function prayerTrack(now: Date, prayers: DayPrayers): PrayerTrack {
+/** Places the prayers and the sun on the day's arc, from real times. */
+export function sunPath(now: Date, prayers: DayPrayers): SunPath {
   const passed = new Set(PRAYER_NAMES.filter((name) => prayers[name] <= now))
-  const gaps = PRAYER_NAMES.length - 1
-  if (now <= prayers.fajr) return { passed, progress: 0 }
-  if (now >= prayers.isha) return { passed, progress: 1 }
-  const i = PRAYER_NAMES.findIndex((name) => prayers[name] > now) - 1
-  const from = prayers[PRAYER_NAMES[i]!].getTime()
-  const to = prayers[PRAYER_NAMES[i + 1]!].getTime()
-  const within = (now.getTime() - from) / (to - from)
-  return { passed, progress: (i + within) / gaps }
+  const share = (from: Date, to: Date, at: Date) =>
+    (at.getTime() - from.getTime()) / (to.getTime() - from.getTime())
+  const daylight = (at: Date) => share(prayers.sunrise, prayers.maghrib, at)
+
+  const positions: Record<PrayerName, number> = {
+    fajr: -TWILIGHT_SHARE,
+    dhuhr: daylight(prayers.dhuhr),
+    asr: daylight(prayers.asr),
+    maghrib: 1,
+    isha: 1 + TWILIGHT_SHARE,
+  }
+
+  let sun: number | null
+  if (now < prayers.fajr || now >= prayers.isha) sun = null
+  else if (now < prayers.sunrise)
+    sun = -TWILIGHT_SHARE + TWILIGHT_SHARE * share(prayers.fajr, prayers.sunrise, now)
+  else if (now < prayers.maghrib) sun = daylight(now)
+  else sun = 1 + TWILIGHT_SHARE * share(prayers.maghrib, prayers.isha, now)
+
+  return { passed, positions, sun }
 }

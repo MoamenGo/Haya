@@ -28,8 +28,8 @@ export function BrandLockup({ collapsed = false }: { collapsed?: boolean }) {
       <BrandMark />
       {!collapsed && (
         <span className="flex items-baseline gap-1.5 leading-none">
-          <span className="text-lg font-semibold">حياة</span>
-          <span className="text-xs font-medium tracking-wide text-muted">Haya</span>
+          <span className="font-display text-xl font-semibold">حياة</span>
+          <span className="font-display text-xs text-muted">Haya</span>
         </span>
       )}
     </span>

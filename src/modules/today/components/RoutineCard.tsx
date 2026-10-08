@@ -19,8 +19,11 @@ export function RoutineCard({ routine, status, minimumMode, days, onChange }: Ro
     <li className="flex flex-col gap-3 p-4 sm:p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs text-muted">{t(`blocks.${routine.anchor}`)}</p>
-          <h3 className="text-lg font-semibold">{routine.title}</h3>
+          <p className="inline-flex items-center gap-1.5 text-xs text-muted">
+            <span aria-hidden className="size-1.5 rounded-full bg-primary/60" />
+            {t(`blocks.${routine.anchor}`)}
+          </p>
+          <h3 className="mt-0.5 font-display text-lg font-medium">{routine.title}</h3>
         </div>
         <div className="pt-1.5">
           <ContinuityDots days={days} />
