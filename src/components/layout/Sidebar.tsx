@@ -33,11 +33,11 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
   return (
     <aside
       className={cn(
-        'sticky top-0 hidden h-dvh shrink-0 flex-col border-e border-border bg-surface transition-[width] duration-200 md:flex',
+        'sticky top-0 hidden h-dvh shrink-0 flex-col border-e border-border bg-surface/70 backdrop-blur-xl transition-[width] duration-200 md:flex',
         collapsed ? 'w-[4.25rem]' : 'w-60',
       )}
     >
-      <div className={cn('flex h-14 items-center', collapsed ? 'justify-center' : 'px-4')}>
+      <div className={cn('flex h-16 items-center', collapsed ? 'justify-center' : 'px-4')}>
         <Link
           to="/today"
           aria-label={t('app.name')}
@@ -54,7 +54,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
         {GROUPS.map((group) => (
           <div key={group} className="flex flex-col gap-0.5">
             {!collapsed && (
-              <p className="px-2.5 pb-1 text-xs font-medium text-muted">
+              <p className="px-3 pb-1 font-display text-xs text-muted">
                 {t(`nav.groups.${group}`)}
               </p>
             )}
@@ -89,7 +89,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 }
 
 const navRow =
-  'group relative flex min-h-9 items-center gap-2.5 rounded-lg px-2.5 text-sm transition-colors duration-150 hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring'
+  'group relative flex min-h-10 items-center gap-3 rounded-full px-3 text-sm transition-colors duration-150 hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring'
 
 function SidebarLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
   const { t } = useTranslation()
@@ -100,7 +100,10 @@ function SidebarLink({ item, collapsed }: { item: NavItem; collapsed: boolean })
       to={to}
       aria-label={collapsed ? label : undefined}
       className={cn(navRow, 'text-muted', collapsed && 'justify-center px-0')}
-      activeProps={{ className: 'bg-accent !text-accent-foreground font-medium' }}
+      activeProps={{
+        className:
+          'bg-accent !text-accent-foreground font-medium shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--primary)_18%,transparent)]',
+      }}
     >
       <Icon aria-hidden className="size-[1.125rem] shrink-0" strokeWidth={1.9} />
       {collapsed ? (

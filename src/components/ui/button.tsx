@@ -5,11 +5,12 @@ import { cn } from '@/lib/utils'
 // Same pattern as shadcn/ui's Button: variants are declared once with `cva`.
 // Heights: 44px on phones (thumb size), 40px from the `md` breakpoint up.
 const buttonVariants = cva(
-  'inline-flex shrink-0 items-center justify-center gap-2 rounded-lg text-sm font-medium whitespace-nowrap transition-[background-color,border-color,color,transform] duration-150 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0',
+  'inline-flex shrink-0 items-center justify-center gap-2 rounded-full text-sm font-medium whitespace-nowrap transition-[background-color,border-color,color,transform] duration-150 select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
-        primary: 'bg-primary text-primary-foreground shadow-card hover:bg-primary-strong',
+        primary:
+          'bg-primary text-primary-foreground shadow-[0_1px_0_rgb(255_255_255/0.18)_inset,0_6px_16px_-8px_var(--primary)] hover:bg-primary-strong',
         outline:
           'border border-border bg-surface text-foreground hover:border-border-strong hover:bg-subtle',
         ghost: 'text-muted hover:bg-subtle hover:text-foreground',

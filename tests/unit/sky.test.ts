@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { DayPrayers } from '@/core/time/prayers'
-import { prayerTrack, skyPhase } from '@/core/time/sky'
+import { TWILIGHT_SHARE, skyPhase, sunPath } from '@/core/time/sky'
 
 const at = (h: number, m = 0) => new Date(2026, 9, 7, h, m)
 const prayers: DayPrayers = {
@@ -24,17 +24,27 @@ describe('skyPhase', () => {
   })
 })
 
-describe('prayerTrack', () => {
-  it('is empty before Fajr and full after Isha', () => {
-    expect(prayerTrack(at(3), prayers)).toEqual({ passed: new Set(), progress: 0 })
-    expect(prayerTrack(at(23), prayers).progress).toBe(1)
-    expect(prayerTrack(at(23), prayers).passed.size).toBe(5)
+describe('sunPath', () => {
+  it('puts Dhuhr near the top of the arc and Maghrib on the horizon', () => {
+    const { positions } = sunPath(at(9), prayers)
+    // Sunrise 6:00 to Maghrib 18:00: Dhuhr (12:00) is the middle, Asr (15:30) later.
+    expect(positions.dhuhr).toBeCloseTo(0.5)
+    expect(positions.asr).toBeCloseTo(0.792, 2)
+    expect(positions.maghrib).toBe(1)
+    expect(positions.fajr).toBe(-TWILIGHT_SHARE)
+    expect(positions.isha).toBe(1 + TWILIGHT_SHARE)
   })
 
-  it('moves evenly between two prayers', () => {
-    // Halfway between Fajr (4:30) and Dhuhr (12:00) is 8:15: half of the first of 4 gaps.
-    const track = prayerTrack(at(8, 15), prayers)
-    expect(track.progress).toBeCloseTo(0.125)
-    expect([...track.passed]).toEqual(['fajr'])
+  it('has no sun at night and moves it with the clock by day', () => {
+    expect(sunPath(at(3), prayers).sun).toBeNull()
+    expect(sunPath(at(23), prayers).sun).toBeNull()
+    expect(sunPath(at(23), prayers).passed.size).toBe(5)
+    expect(sunPath(at(9), prayers).sun).toBeCloseTo(0.25)
+    expect([...sunPath(at(9), prayers).passed]).toEqual(['fajr'])
+  })
+
+  it('keeps the sun below the horizon between Fajr and sunrise, and after Maghrib', () => {
+    expect(sunPath(at(5, 15), prayers).sun).toBeCloseTo(-TWILIGHT_SHARE / 2)
+    expect(sunPath(at(18, 45), prayers).sun).toBeCloseTo(1 + TWILIGHT_SHARE / 2)
   })
 })

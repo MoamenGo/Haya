@@ -45,7 +45,7 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
 
   return (
     <section aria-labelledby="rocks-title" className="flex flex-col gap-3">
-      <h2 id="rocks-title" className="text-lg font-semibold">
+      <h2 id="rocks-title" className="text-xl font-medium">
         {t('today.bigRocks')}
       </h2>
 

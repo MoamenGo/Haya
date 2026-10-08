@@ -16,7 +16,7 @@ export function PageHeader({ title, intro, action, eyebrow }: PageHeaderProps) {
     <header className="flex flex-col gap-1.5">
       {eyebrow}
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-        <h1 className="text-2xl">{title}</h1>
+        <h1 className="text-3xl">{title}</h1>
         {action}
       </div>
       {intro && <p className="max-w-prose text-sm text-muted sm:text-base">{intro}</p>}

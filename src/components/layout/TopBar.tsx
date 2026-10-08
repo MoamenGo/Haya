@@ -28,7 +28,7 @@ export function TopBar() {
         >
           <Plus aria-hidden />
           <span className="flex-1 text-start">{t('capture.open')}</span>
-          <kbd className="rounded border border-border bg-subtle px-1.5 font-sans text-[0.6875rem] text-muted">
+          <kbd className="rounded-md border border-border bg-subtle px-1.5 font-sans text-[0.6875rem] text-muted">
             Ctrl K
           </kbd>
         </Button>
@@ -53,7 +53,7 @@ function AccountButton() {
       to="/settings"
       hash="account"
       aria-label={email ? `${t('sync.signedInAs')} ${email}` : t('sync.title')}
-      className="flex size-10 items-center justify-center rounded-lg hover:bg-subtle focus-visible:outline-2 focus-visible:outline-ring"
+      className="flex size-10 items-center justify-center rounded-full hover:bg-subtle focus-visible:outline-2 focus-visible:outline-ring"
     >
       <span className="flex size-7 items-center justify-center rounded-full bg-accent text-xs font-semibold text-accent-foreground uppercase">
         {email ? email[0] : <UserRound aria-hidden className="size-4" />}

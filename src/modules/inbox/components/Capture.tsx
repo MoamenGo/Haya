@@ -56,7 +56,7 @@ export function Capture() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={t('capture.open')}
-        className="fixed end-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-10 flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-float transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-95 motion-reduce:transition-none md:hidden"
+        className="fixed end-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] z-10 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-float transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-95 motion-reduce:transition-none md:hidden"
       >
         <Plus aria-hidden className="size-6" />
       </button>

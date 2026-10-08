@@ -9,6 +9,12 @@
 @import '@fontsource/ibm-plex-sans-arabic/arabic-500.css';
 @import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
 @import '@fontsource/ibm-plex-sans-arabic/arabic-700.css';
+/*
+ * Alexandria draws titles and big numbers, in Arabic and English. It was
+ * designed by the Egyptian type designer Mohamed Gaber and named after the
+ * city: modern, geometric, and at home in this app. OFL licensed.
+ */
+@import '@fontsource-variable/alexandria';
 /* Colour tokens (the default palette), then the other palettes, in that order. */
 @import './styles/tokens.css';
 @import './styles/palettes.css';
@@ -39,50 +45,76 @@
   --color-danger-soft: var(--danger-soft);
   --color-ring: var(--ring);
   --font-sans: 'Inter Variable', 'IBM Plex Sans Arabic', system-ui, sans-serif;
-  /* Titles use the same family, heavier: one voice across the app. */
-  --font-display: 'Inter Variable', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  /* Titles, the brand and big numbers: Alexandria. Body text stays on the reading fonts above. */
+  --font-display: 'Alexandria Variable', 'IBM Plex Sans Arabic', system-ui, sans-serif;
 
   /* Borders do most of the work; shadows only lift things that float. */
   --shadow-card: 0 1px 2px rgb(var(--shadow-color) / 0.04);
   --shadow-float:
-    0 1px 3px rgb(var(--shadow-color) / 0.08), 0 12px 32px -8px rgb(var(--shadow-color) / 0.18);
+    0 1px 3px rgb(var(--shadow-color) / 0.08), 0 16px 40px -12px rgb(var(--shadow-color) / 0.24);
 }
 
 /*
  * The prayer sky (Today). Each part of the day between two prayers gets its own
  * two-colour gradient, picked by src/core/time/sky.ts. All are dark enough for
- * white text, in both themes.
+ * white text, in both themes. A faint mashrabiya lattice (the carved wooden
+ * window screens of old Cairo) sits over the colour, drawn by .lattice below.
  */
 .sky {
   --sky-from: #101a33;
   --sky-to: #26305a;
-  background: linear-gradient(135deg, var(--sky-from), var(--sky-to));
+  --sky-glow: #8ea2ff;
+  background:
+    radial-gradient(
+      120% 90% at 50% 115%,
+      color-mix(in srgb, var(--sky-glow) 42%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(170deg, var(--sky-from), var(--sky-to));
   color: #ffffff;
   transition: background 1s ease;
 }
 .sky-dawn {
-  --sky-from: #1c2b55;
-  --sky-to: #664a7d;
+  --sky-from: #18244a;
+  --sky-to: #5a4377;
+  --sky-glow: #f2a37a;
 }
 .sky-morning {
-  --sky-from: #134a63;
-  --sky-to: #2a7590;
+  --sky-from: #0f4560;
+  --sky-to: #23708c;
+  --sky-glow: #ffd79a;
 }
 .sky-noon {
-  --sky-from: #0d5a54;
-  --sky-to: #1f7d72;
+  --sky-from: #0b524d;
+  --sky-to: #1b766c;
+  --sky-glow: #fff1b8;
 }
 .sky-afternoon {
-  --sky-from: #2f5162;
-  --sky-to: #8f5f30;
+  --sky-from: #2a4b5c;
+  --sky-to: #7f5528;
+  --sky-glow: #ffbf6b;
 }
 .sky-sunset {
-  --sky-from: #3e2648;
-  --sky-to: #9c4b2c;
+  --sky-from: #33203f;
+  --sky-to: #8a4026;
+  --sky-glow: #ff8a5c;
 }
 .sky-night {
-  --sky-from: #0d1630;
-  --sky-to: #262a52;
+  --sky-from: #0a1229;
+  --sky-to: #1f2450;
+  --sky-glow: #6f7cff;
+}
+
+/*
+ * The lattice: an eight-pointed star (khatam) repeated, with lines joining
+ * the stars. One 48px tile, drawn as an inline SVG so nothing loads from the
+ * network. currentColor is not available inside a data URL, so it is white;
+ * the element's opacity decides how strong it looks.
+ */
+.lattice {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none' stroke='white' stroke-width='1'%3E%3Cpath d='M24 12l3.5 8.5L36 24l-8.5 3.5L24 36l-3.5-8.5L12 24l8.5-3.5z'/%3E%3Cpath d='M15.5 15.5h17v17h-17z'/%3E%3Cpath d='M0 24h12M36 24h12M24 0v12M24 36v12M0 0l15.5 15.5M48 0L32.5 15.5M0 48l15.5-15.5M48 48L32.5 32.5'/%3E%3C/svg%3E");
+  background-size: 48px 48px;
+  background-position: center top;
 }
 
 /*
@@ -111,15 +143,15 @@
   --text-4xl--line-height: 1.15;
 
   /*
-   * Three radii only: small 6px (chips, inner items), medium 10px (buttons,
-   * inputs), large 14px (panels, dialogs). Older class names map onto them.
+   * Soft, generous corners: 8–10px for chips and inner items, 14–16px for
+   * fields and rows, 22px for panels and dialogs. Buttons are fully round.
    */
-  --radius-sm: 0.375rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.625rem;
-  --radius-xl: 0.625rem;
-  --radius-2xl: 0.875rem;
-  --radius-3xl: 0.875rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.375rem;
+  --radius-3xl: 1.75rem;
 
   --animate-pop: pop 200ms ease-out;
   --animate-fade-up: fade-up 200ms ease-out;
@@ -164,6 +196,19 @@
     color: var(--foreground);
   }
 
+  /*
+   * A soft wash of the theme colour at the top of every page, like light
+   * coming in from above. It is tinted from --primary, so all ten palettes get it.
+   */
+  body {
+    background-image: radial-gradient(
+      90rem 32rem at 50% -14rem,
+      color-mix(in srgb, var(--primary) 11%, transparent),
+      transparent 70%
+    );
+    background-repeat: no-repeat;
+  }
+
   body {
     font-family: var(--font-sans);
     font-size: var(--text-base);
@@ -173,20 +218,24 @@
   }
 
   /* Page and section titles get a consistent rhythm even without classes. */
+  h1,
+  h2 {
+    font-family: var(--font-display);
+  }
   h1 {
-    font-weight: 650;
-    letter-spacing: -0.015em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
   }
   h2 {
-    font-size: var(--text-base);
-    line-height: var(--text-base--line-height);
-    font-weight: 600;
+    font-size: var(--text-lg);
+    line-height: var(--text-lg--line-height);
+    font-weight: 550;
   }
   h3 {
     font-weight: 550;
   }
   /* Arabic letters must never be squeezed: no negative tracking in RTL. */
-  [dir='rtl'] h1 {
+  [dir='rtl'] :is(h1, h2) {
     letter-spacing: 0;
   }
 
@@ -215,4 +264,12 @@
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+/* The sun on the prayer arc: a warm disc with a halo in the colour of the hour. */
+.sun {
+  background: radial-gradient(circle at 35% 35%, #ffffff, #fff4d6 60%, #ffe3a3);
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--sky-glow) 30%, transparent),
+    0 0 28px 8px color-mix(in srgb, var(--sky-glow) 55%, transparent);
 }

@@ -15,7 +15,7 @@ export function Toaster() {
     // Polite live region: screen readers announce each toast without interrupting.
     <div
       aria-live="polite"
-      className="pointer-events-none fixed inset-x-4 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] z-50 flex flex-col items-center gap-2 md:bottom-6"
+      className="pointer-events-none fixed inset-x-4 bottom-[calc(6.25rem+env(safe-area-inset-bottom))] z-50 flex flex-col items-center gap-2 md:bottom-6"
     >
       {current.map((item) => {
         const Icon = ICONS[item.tone]

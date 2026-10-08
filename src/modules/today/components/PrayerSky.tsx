@@ -7,7 +7,7 @@ import { formatTime, nextPrayer, prayersForDate } from '@/core/time/prayers'
 import { skyPhase } from '@/core/time/sky'
 import { cn } from '@/lib/utils'
 import { useSetting } from '@/modules/settings/hooks'
-import { PrayerTrackLine } from './PrayerTrack'
+import { PrayerArc } from './PrayerArc'
 
 const MS_PER_MINUTE = 60_000
 const MINUTES_PER_HOUR = 60
@@ -21,6 +21,7 @@ interface PrayerSkyProps {
 /**
  * The top of Today: the date, the day type and the prayers, on a panel whose
  * colour follows the real sky (dawn, morning, noon, afternoon, sunset, night).
+ * The prayers sit on the sun's path, and the next one waits under the dome.
  * It is the one rich, colourful element in the app; everything else is quiet.
  */
 export function PrayerSky({ now, dayType, note }: PrayerSkyProps) {
@@ -40,37 +41,46 @@ export function PrayerSky({ now, dayType, note }: PrayerSkyProps) {
       className={cn(
         'sky',
         `sky-${skyPhase(now, prayers)}`,
-        'relative overflow-hidden rounded-2xl p-5 shadow-card sm:p-7',
+        'relative isolate overflow-hidden rounded-3xl px-4 pt-5 pb-6 shadow-float sm:px-8 sm:pt-7 sm:pb-8',
       )}
     >
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-2xl leading-none sm:text-[1.75rem]">{t('today.title')}</h1>
-          <p className="mt-1 opacity-85">{formatGregorian(now, language)}</p>
+      {/* The lattice fades out toward the bottom, so it frames the top like a window screen. */}
+      <div
+        aria-hidden
+        className="lattice absolute inset-0 -z-10 opacity-[0.09] [mask-image:linear-gradient(to_bottom,black,transparent_75%)]"
+      />
+
+      <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3">
+        <div>
+          <h1 className="text-3xl leading-none">{t('today.title')}</h1>
+          <p className="mt-2 text-sm opacity-85 sm:text-base">{formatGregorian(now, language)}</p>
+        </div>
+        <div className="flex flex-wrap gap-1.5 text-xs sm:text-sm">
+          <span className="rounded-full bg-white/12 px-3 py-1 ring-1 ring-white/15">
+            {formatHijri(now, language)}
+          </span>
+          <Link
+            to="/week"
+            className="rounded-full bg-white/12 px-3 py-1 ring-1 ring-white/15 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-white"
+          >
+            <span className="sr-only">{t('today.dayType')}: </span>
+            {t(`dayTypes.${dayType}`)}
+            {note && <span dir="auto"> ({note})</span>}
+          </Link>
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2 text-sm">
-        <span className="rounded-full bg-white/12 px-3 py-1">{formatHijri(now, language)}</span>
-        <Link
-          to="/week"
-          className="rounded-full bg-white/12 px-3 py-1 underline-offset-4 hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-white"
-        >
-          <span className="sr-only">{t('today.dayType')}: </span>
-          {t(`dayTypes.${dayType}`)}
-          {note && <span dir="auto"> ({note})</span>}
-        </Link>
-      </div>
-
-      <p className="mt-6 text-sm opacity-80">{t('today.nextPrayer')}</p>
-      <p className="flex flex-wrap items-baseline gap-x-3">
-        <span className="text-3xl font-semibold tracking-tight">{t(`prayers.${next.name}`)}</span>
-        <span className="text-xl tabular-nums opacity-90">{formatTime(next.at, language)}</span>
-        <span className="text-sm opacity-80">{t('today.in', { time: left })}</span>
-      </p>
-
-      <div className="mt-6">
-        <PrayerTrackLine now={now} prayers={prayers} next={next.name} language={language} />
+      <div className="mt-8 pb-8 sm:mt-6">
+        <PrayerArc now={now} prayers={prayers} next={next.name} language={language}>
+          <p className="text-xs opacity-80 sm:text-sm">{t('today.nextPrayer')}</p>
+          <p className="font-display text-3xl leading-tight font-semibold sm:text-4xl">
+            {t(`prayers.${next.name}`)}
+          </p>
+          <p className="mt-1 flex flex-wrap items-baseline justify-center gap-x-2 text-sm">
+            <span className="font-display tabular-nums">{formatTime(next.at, language)}</span>
+            <span className="opacity-75">{t('today.in', { time: left })}</span>
+          </p>
+        </PrayerArc>
       </div>
     </header>
   )
