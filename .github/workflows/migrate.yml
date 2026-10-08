@@ -1,0 +1,39 @@
+name: Apply database migrations
+
+# After a merge that adds a file to supabase/migrations, apply it to the cloud
+# database, so new tables never have to be pasted into the SQL Editor by hand.
+# supabase/apply-migrations.sh runs only what the database has not seen yet;
+# files that were already run by hand are recognised and recorded.
+# Does nothing until this secret exists (the backup workflow uses the same one):
+#   SUPABASE_DB_URL   Supabase → Connect → "Session pooler" URI, with your database password
+# It can also be started by hand: Actions → Apply database migrations → Run workflow.
+
+on:
+  push:
+    branches: [main]
+    paths: ['supabase/migrations/**', 'supabase/apply-migrations.sh']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Never two runs at once against the same database.
+concurrency:
+  group: migrate
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: ${{ secrets.SUPABASE_DB_URL }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Apply new migrations
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::warning::SUPABASE_DB_URL is not set, so nothing was applied. See docs/setup-cloud.md."
+            exit 0
+          fi
+          supabase/apply-migrations.sh
