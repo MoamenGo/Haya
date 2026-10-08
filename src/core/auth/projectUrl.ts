@@ -16,9 +16,6 @@ export function projectOrigin(raw: string | undefined): string | undefined {
 
 /** Trims spaces and stray quotes that sneak in when copying a value. */
 export function cleanSetting(raw: string | undefined): string | undefined {
-  const value = raw
-    ?.trim()
-    .replace(/^["']|["']$/g, '')
-    .trim()
+  const value = raw?.trim().replace(/^["']|["']$/g, '').trim()
   return value ? value : undefined
 }
