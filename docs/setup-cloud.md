@@ -7,11 +7,12 @@ project so the phone and the computer share the same data.
 
 1. Sign up at supabase.com (free plan) and create a project. Pick a region close to Egypt
    (e.g. Frankfurt) and save the database password somewhere safe.
-2. **SQL Editor → New query**: paste the whole of
-   `supabase/migrations/20261006000000_init.sql` and run it, then do the same for every later
-   file in `supabase/migrations/`, oldest first (e.g. `20261007000000_resources.sql`). Each new
-   migration that arrives later is run once the same way. (Or, with the Supabase CLI:
-   `supabase link` then `pnpm db:migrate`.)
+2. Create the tables. The easy way is automatic: add the GitHub secret `SUPABASE_DB_URL`
+   (see "GitHub Actions" below), then run **Actions → Apply database migrations → Run
+   workflow** once. From then on, every merge that adds a file to `supabase/migrations/` applies
+   it by itself, so the app never asks for a table the database doesn't have.
+   By hand instead: **SQL Editor → New query**, paste each file in `supabase/migrations/`,
+   oldest first, and run it. Files already run by hand are fine; the Action recognises them.
 
 ## 2. Sign-in email
 
@@ -47,9 +48,15 @@ http://127.0.0.1:54324. Put the local URL and anon key printed by `supabase star
 
 ## Keep-alive and weekly backups (optional but recommended)
 
-Two GitHub Actions do nothing until their secrets exist (GitHub → the Haya repo → **Settings →
+Three GitHub Actions do nothing until their secrets exist (GitHub → the Haya repo → **Settings →
 Secrets and variables → Actions**):
 
+- **Apply database migrations** (`migrate.yml`, after each merge that adds a migration):
+  `SUPABASE_DB_URL`. In Supabase press **Connect** (top of the dashboard) → **Session pooler** →
+  copy the URI and put your database password in place of `[YOUR-PASSWORD]`. Use the session
+  pooler, not the direct connection: GitHub's machines can't reach the direct one. The script
+  (`supabase/apply-migrations.sh`) keeps a list of applied files in `haya_meta.applied_migrations`
+  and runs each new file in a transaction, so a failing file changes nothing.
 - **Keep-alive** (`keepalive.yml`, daily): `SUPABASE_URL`, `SUPABASE_ANON_KEY`. Free projects pause
   after 7 quiet days; this prevents it.
 - **Backup** (`backup.yml`, Fridays): an encrypted dump committed to a separate private repository.
@@ -58,8 +65,7 @@ Secrets and variables → Actions**):
      safe and **off GitHub** (a USB stick and a password manager). It prints a public key `age1…`.
   3. Add secrets: `AGE_RECIPIENT` (the `age1…` key), `BACKUP_REPO` (`MoamenGo/haya-backups`),
      `BACKUP_REPO_TOKEN` (fine-grained token, only that repo, Contents read & write),
-     `SUPABASE_DB_URL` (Supabase → Project Settings → Database → connection string, with your
-     database password).
+     and `SUPABASE_DB_URL` (the same one as above).
   4. Run it once by hand: Actions → Weekly encrypted backup → Run workflow.
 
 To read a backup: `age --decrypt -i haya-backup-key.txt FILE.sql.gz.age | gunzip > backup.sql`.
