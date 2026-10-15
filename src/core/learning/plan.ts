@@ -1,4 +1,10 @@
-import type { DayType } from '@/core/time/config'
+import {
+  DEFAULT_DAY_TYPE_BY_WEEKDAY,
+  WEEK_STARTS_ON,
+  type DayType,
+  type Weekday,
+} from '@/core/time/config'
+import { DAYS_PER_WEEK } from '@/core/time/date'
 import { english } from './curricula/english'
 import { healthTech } from './curricula/healthTech'
 import type { Curriculum, CurriculumKey, StudyItem } from './types'
@@ -67,4 +73,15 @@ export function planProgress(
     }
   }
   return total === 0 ? 0 : ticked / total
+}
+
+/**
+ * The usual day types of a week, Saturday first, from the defaults
+ * (CLAUDE.md §2). Used where no real dates are involved, such as overall progress.
+ */
+export function defaultWeekDayTypes(): DayType[] {
+  return Array.from({ length: DAYS_PER_WEEK }, (_, i) => {
+    const weekday = ((WEEK_STARTS_ON + i) % DAYS_PER_WEEK) as Weekday
+    return DEFAULT_DAY_TYPE_BY_WEEKDAY[weekday]
+  })
 }

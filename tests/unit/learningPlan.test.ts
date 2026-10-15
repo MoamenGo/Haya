@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { english } from '@/core/learning/curricula/english'
 import { healthTech } from '@/core/learning/curricula/healthTech'
-import { CURRICULA, planProgress, studyDay } from '@/core/learning/plan'
+import { CURRICULA, defaultWeekDayTypes, planProgress, studyDay } from '@/core/learning/plan'
 import { dayIndexInWeek, planWeekDates, planWeekOn } from '@/core/learning/week'
 import { dayCapacity } from '@/core/planner/capacity'
 import type { DayType } from '@/core/time/config'
@@ -129,5 +129,19 @@ describe('studyDay', () => {
     const progress = planProgress(english, USUAL_WEEK, new Set(keys))
     expect(progress).toBeGreaterThan(0)
     expect(progress).toBeLessThan(0.05)
+  })
+})
+
+describe('defaultWeekDayTypes', () => {
+  it('follows the owner week, Saturday first', () => {
+    expect(defaultWeekDayTypes()).toEqual([
+      'hospital',
+      'hospital',
+      'deep_work',
+      'deep_work',
+      'hospital',
+      'deep_work',
+      'rest',
+    ])
   })
 })

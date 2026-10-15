@@ -28,7 +28,7 @@ describe('learning paths', () => {
   })
 
   it('does not seed twice', async () => {
-    await seedLearningPaths(db.learning_paths)
+    await seedLearningPaths(db.table('learning_paths'))
     expect(await db.learning_paths.count()).toBe(2)
   })
 

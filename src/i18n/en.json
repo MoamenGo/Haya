@@ -29,7 +29,8 @@
       "plan": "Plan",
       "grow": "Grow",
       "reflect": "Reflect"
-    }
+    },
+    "learn": "Learning plans"
   },
   "today": {
     "title": "Today",
@@ -53,7 +54,12 @@
     "fromLastNight": "Last night you said the most important thing today is:",
     "makeBigRock": "Make it a Big Rock",
     "manageHabits": "Edit your habits or add one",
-    "noHabits": "No active habits. Add one small habit."
+    "noHabits": "No active habits. Add one small habit.",
+    "study": "Today's study",
+    "studyLeft": "{{m}} min left",
+    "studyStarts": "Learning plans start {{date}}",
+    "openPlans": "Open learning plans",
+    "capacityStudy": "incl. {{m}} min of study"
   },
   "dayTypes": {
     "hospital": "Hospital day",
@@ -449,7 +455,8 @@
     "done": "Done",
     "bigRock": "Big Rock",
     "minimumDay": "Hard day, counted",
-    "checkedIn": "Checked in"
+    "checkedIn": "Checked in",
+    "study": "Study: {{m}} min"
   },
   "weekly": {
     "title": "Weekly review",
@@ -499,5 +506,36 @@
       "synced": "Synced",
       "error": "Problem"
     }
+  },
+  "learning": {
+    "title": "Learning plans",
+    "intro": "Each plan spreads over your days by day type: light on hospital days, full on deep-work days. Up to 3 plans can run at once.",
+    "empty": "No learning plans.",
+    "markDone": "Done: {{title}}",
+    "weekOf": "Week {{week}}",
+    "weekOfTotal": "Week {{week}} of {{total}}",
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "done": "Done"
+    },
+    "notStarted": "Starts {{date}}",
+    "finished": "All weeks of this plan are behind you",
+    "progress": "Ticked across the whole plan: {{pct}}%",
+    "pause": "Pause",
+    "resume": "Resume",
+    "finish": "Mark as done",
+    "limit": "You already have 3 active plans. Pause one first to resume this one.",
+    "startDate": "Start date",
+    "startDateHint": "Week 1 starts on that week's Saturday.",
+    "saveStart": "Save date",
+    "map": "Week map",
+    "prevWeek": "Previous week",
+    "nextWeek": "Next week",
+    "thisWeek": "Back to this week",
+    "topics": "Topics",
+    "project": "This week's project",
+    "milestone": "Milestone",
+    "resources": "Resources"
   }
 }

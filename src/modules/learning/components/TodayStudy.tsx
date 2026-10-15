@@ -66,7 +66,7 @@ export function TodayStudy({ study, today }: TodayStudyProps) {
         )
       })}
 
-      <Link to="/learning" className="text-sm text-primary underline-offset-4 hover:underline">
+      <Link to="/learn" className="text-sm text-primary underline-offset-4 hover:underline">
         {t('today.openPlans')}
       </Link>
     </section>
