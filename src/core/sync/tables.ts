@@ -21,6 +21,7 @@ export const SYNC_TABLES = [
   'resources',
   'learning_paths',
   'study_checks',
+  'notes',
 ] as const
 export type SyncTable = (typeof SYNC_TABLES)[number]
 
@@ -42,6 +43,7 @@ export const INSTANT_COLUMNS: Readonly<Record<SyncTable, readonly string[]>> = {
   resources: COMMON_INSTANTS,
   learning_paths: COMMON_INSTANTS,
   study_checks: COMMON_INSTANTS,
+  notes: COMMON_INSTANTS,
 }
 
 /**
@@ -90,5 +92,8 @@ export const REFERENCES: Readonly<Partial<Record<SyncTable, ReadonlyArray<[SyncT
     ],
   }
 
-/** Local-only tables: device bookkeeping, never uploaded or backed up. */
-export const LOCAL_ONLY_TABLES = ['sync_state', 'sync_conflicts'] as const
+/**
+ * Local-only tables: device bookkeeping and voice recordings, never uploaded
+ * or backed up.
+ */
+export const LOCAL_ONLY_TABLES = ['sync_state', 'sync_conflicts', 'note_audio'] as const

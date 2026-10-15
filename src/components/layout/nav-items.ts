@@ -8,6 +8,7 @@ import {
   Inbox,
   Repeat,
   ListChecks,
+  NotebookPen,
   Settings,
   Target,
   type LucideIcon,
@@ -24,6 +25,7 @@ export interface NavItem {
     | '/habits'
     | '/learn'
     | '/reviews/weekly'
+    | '/notes'
     | '/settings'
     | '/more'
   labelKey:
@@ -36,6 +38,7 @@ export interface NavItem {
     | 'nav.habits'
     | 'nav.learn'
     | 'nav.weeklyReview'
+    | 'nav.notes'
     | 'nav.settings'
     | 'nav.more'
   icon: LucideIcon
@@ -103,6 +106,14 @@ export const NAV_ITEMS: readonly NavItem[] = [
     to: '/reviews/weekly',
     labelKey: 'nav.weeklyReview',
     icon: ClipboardCheck,
+    mobile: false,
+    desktop: true,
+    group: 'reflect',
+  },
+  {
+    to: '/notes',
+    labelKey: 'nav.notes',
+    icon: NotebookPen,
     mobile: false,
     desktop: true,
     group: 'reflect',

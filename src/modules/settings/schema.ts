@@ -18,6 +18,11 @@ export const settingSchemas = {
     latitude: z.number().min(-90).max(90),
     longitude: z.number().min(-180).max(180),
   }),
+  /**
+   * Turn speech into text while recording a note. Off until the owner opts in,
+   * because the browser's speech service (Chrome's) sends the audio to Google.
+   */
+  voice_transcribe: z.boolean(),
 } as const
 
 export type SettingKey = keyof typeof settingSchemas
@@ -29,4 +34,5 @@ export const settingDefaults: { [K in SettingKey]: SettingValue<K> } = {
   palette: DEFAULT_PALETTE,
   vision: '',
   location: DEFAULT_LOCATION,
+  voice_transcribe: false,
 }

@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { MoonStar } from 'lucide-react'
+import { MoonStar, NotebookPen } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { Button } from '@/components/ui/button'
 import { isDone } from '@/core/habits/continuity'
@@ -10,6 +10,7 @@ import { useDayInfo } from '@/modules/days/hooks'
 import { TodayStudy } from '@/modules/learning/components/TodayStudy'
 import { useStudyToday } from '@/modules/learning/hooks'
 import { remainingStudyMinutes } from '@/modules/learning/sessions'
+import { countNotesOn } from '@/modules/notes/repo'
 import { getDailyLog } from '@/modules/reviews/repo'
 import { setHabitStatus } from '@/modules/routines/repo'
 import { useSetting } from '@/modules/settings/hooks'
@@ -31,6 +32,7 @@ export function TodayPage() {
   const minimumMode = useLiveQuery(() => isMinimumMode(today), [today]) ?? false
   const checkedIn = useLiveQuery(async () => Boolean(await getDailyLog(today)), [today])
   const study = useStudyToday(today)
+  const notesToday = useLiveQuery(() => countNotesOn(today), [today]) ?? 0
   const allDone = routines?.length ? routines.every((r) => isDone(r.status)) : false
 
   return (
@@ -99,6 +101,14 @@ export function TodayPage() {
           {t('today.manageHabits')}
         </Link>
       </section>
+
+      <Link
+        to="/notes"
+        className="inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-border bg-surface px-5 text-sm font-medium transition-colors hover:border-border-strong hover:bg-subtle"
+      >
+        <NotebookPen aria-hidden className="size-4 text-primary" />
+        {notesToday > 0 ? t('notes.todayCount', { count: notesToday }) : t('notes.todayLink')}
+      </Link>
 
       <Link
         to="/today/review"
