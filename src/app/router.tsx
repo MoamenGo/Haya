@@ -19,6 +19,8 @@ import { WeekPage } from '@/modules/week/pages/WeekPage'
 
 // Routes are declared in code (not generated from files) so the whole map is
 // readable in one place. See docs/routes.md for what each phase adds.
+// `staticData: { wide: true }` gives a page the wider two-column width on big
+// screens (see src/components/layout/page-width.ts).
 const rootRoute = createRootRoute({ component: AppShell })
 
 const indexRoute = createRoute({
@@ -33,6 +35,7 @@ const todayRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/today',
   component: TodayPage,
+  staticData: { wide: true },
 })
 
 const reviewRoute = createRoute({
@@ -57,12 +60,14 @@ const projectsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/projects',
   component: ProjectsPage,
+  staticData: { wide: true },
 })
 
 const goalsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/goals',
   component: GoalsPage,
+  staticData: { wide: true },
 })
 
 const goalMapRoute = createRoute({
@@ -75,6 +80,7 @@ const habitsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/habits',
   component: HabitsPage,
+  staticData: { wide: true },
 })
 
 const learnRoute = createRoute({
@@ -93,6 +99,7 @@ const weekRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/week',
   component: WeekPage,
+  staticData: { wide: true },
 })
 
 const weeklyReviewRoute = createRoute({
@@ -105,6 +112,7 @@ const notesRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/notes',
   component: NotesPage,
+  staticData: { wide: true },
 })
 
 const moreRoute = createRoute({

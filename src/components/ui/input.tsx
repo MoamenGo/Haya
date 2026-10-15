@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 
 /** Shared look of every text field, so inputs, selects and text areas match. */
 export const fieldClass =
-  'min-h-11 w-full min-w-0 rounded-lg border border-border bg-surface px-3 text-base text-foreground transition-colors duration-150 placeholder:text-muted/80 hover:border-border-strong aria-invalid:border-danger md:min-h-10 md:text-sm'
+  'min-h-11 w-full min-w-0 rounded-lg border border-border bg-surface px-3 text-base text-foreground transition-colors duration-150 placeholder:text-muted/80 hover:border-border-strong aria-invalid:border-danger desk:min-h-10 desk:text-sm'
 
 export function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return <input dir="auto" className={cn(fieldClass, className)} {...props} />

@@ -22,6 +22,18 @@
 /* Dark mode follows a `dark` class on <html>, set from the theme setting. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * `desk:` = a wide screen used with a mouse or trackpad (a laptop or desktop).
+ * Controls get a little more compact there. Tablets are just as wide but are
+ * used with fingers (pointer: coarse), so they keep the larger 44px touch
+ * targets that phones have. Screen width alone can't tell a laptop from a tablet.
+ */
+@custom-variant desk {
+  @media (width >= 48rem) and (pointer: fine) {
+    @slot;
+  }
+}
+
 @theme inline {
   --color-highlight: var(--highlight);
   --color-background: var(--background);

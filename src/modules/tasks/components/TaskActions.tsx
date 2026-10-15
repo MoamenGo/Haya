@@ -9,7 +9,7 @@ import { BigRockLimitError, deleteTask, scheduleTask, setBigRock, setEstimate } 
 const ESTIMATES = [15, 30, 60, 90] as const
 
 const itemClass =
-  'min-h-10 rounded-lg px-2.5 text-start text-sm hover:bg-subtle focus-visible:outline-2 focus-visible:outline-ring'
+  'min-h-10 rounded-lg px-2.5 pointer-coarse:min-h-11 text-start text-sm hover:bg-subtle focus-visible:outline-2 focus-visible:outline-ring'
 
 /** A small menu of one-tap actions, built on <details> so it needs no JavaScript library. */
 interface TaskActionsProps {
@@ -104,7 +104,7 @@ export function TaskActions({ task, todayISO, onEdit }: TaskActionsProps) {
               onClick={run(() =>
                 setEstimate(task.id, task.est_minutes === minutes ? null : minutes),
               )}
-              className="min-h-9 rounded-md border border-border px-2 text-xs aria-pressed:border-primary aria-pressed:bg-accent aria-pressed:text-accent-foreground"
+              className="min-h-9 rounded-md border border-border px-2 text-xs pointer-coarse:min-h-11 aria-pressed:border-primary aria-pressed:bg-accent aria-pressed:text-accent-foreground"
             >
               {minutes}
             </button>

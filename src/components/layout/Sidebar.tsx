@@ -89,7 +89,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
 }
 
 const navRow =
-  'group relative flex min-h-10 items-center gap-3 rounded-full px-3 text-sm transition-colors duration-150 hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring'
+  'group relative flex min-h-10 items-center pointer-coarse:min-h-11 gap-3 rounded-full px-3 text-sm transition-colors duration-150 hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring'
 
 function SidebarLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
   const { t } = useTranslation()
