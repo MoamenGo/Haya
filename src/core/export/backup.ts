@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { HayaDB } from '@/core/db/db'
+import { NATURAL_KEYS, REFERENCES, SYNC_TABLES, type SyncTable } from '@/core/sync/tables'
 
 /** Every table that belongs in a backup. New tables must be added here. */
 export const BACKUP_TABLES = [
@@ -16,6 +17,8 @@ export const BACKUP_TABLES = [
   'day_overrides',
   'reviews',
   'resources',
+  'learning_paths',
+  'study_checks',
 ] as const
 export type BackupTable = (typeof BACKUP_TABLES)[number]
 
@@ -56,10 +59,11 @@ export interface ImportPreview {
  * Throws a readable error if the file is not a Haya backup or is newer than this app.
  */
 export async function previewImport(db: HayaDB, json: unknown): Promise<ImportPreview> {
-  const backup = backupSchema.parse(json)
-  if (backup.schema_version > db.verno) {
+  const parsed = backupSchema.parse(json)
+  if (parsed.schema_version > db.verno) {
     throw new Error('This backup comes from a newer version of the app. Update the app first.')
   }
+  const backup = await matchExistingRows(db, parsed)
   const counts = {} as ImportPreview['counts']
   for (const name of BACKUP_TABLES) {
     const rows = backup.tables[name] ?? []
@@ -68,6 +72,63 @@ export async function previewImport(db: HayaDB, json: unknown): Promise<ImportPr
     counts[name] = { added: rows.length - replaced, replaced }
   }
   return { backup, counts }
+}
+
+type Row = Record<string, unknown> & { id: string }
+
+/** For each table, the columns that point at another table: `[column, target]`. */
+function outgoingReferences(table: SyncTable): Array<[string, SyncTable]> {
+  const out: Array<[string, SyncTable]> = []
+  for (const target of SYNC_TABLES) {
+    for (const [from, column] of REFERENCES[target] ?? []) {
+      if (from === table) out.push([column, target])
+    }
+  }
+  return out
+}
+
+/**
+ * A backup row and a row already on this device can be "the same thing" with
+ * different ids: the starter areas, habits and study plans each device
+ * created for itself, or the check-in for one evening. Such backup rows take
+ * the local id (and rows pointing at them follow), so restoring replaces
+ * them instead of colliding with a unique index or adding a duplicate.
+ */
+async function matchExistingRows(db: HayaDB, backup: Backup): Promise<Backup> {
+  const idMaps = new Map<SyncTable, Map<string, string>>()
+  const tables: Backup['tables'] = {}
+  // Sync order: a table comes after the tables it points at.
+  for (const name of SYNC_TABLES) {
+    const incoming = (backup.tables[name as BackupTable] ?? []) as Row[]
+    const refs = outgoingReferences(name)
+    let rows = incoming.map((row) => {
+      const copy: Row = { ...row }
+      for (const [column, target] of refs) {
+        const value = copy[column]
+        const mapped = typeof value === 'string' ? idMaps.get(target)?.get(value) : undefined
+        if (mapped) copy[column] = mapped
+      }
+      return copy
+    })
+
+    const keys = NATURAL_KEYS[name]
+    if (keys) {
+      const keyOf = (row: Record<string, unknown>) => JSON.stringify(keys.map((k) => row[k]))
+      const local = new Map(
+        ((await db.table(name).toArray()) as Row[]).map((row) => [keyOf(row), row.id]),
+      )
+      const map = new Map<string, string>()
+      rows = rows.map((row) => {
+        const localId = local.get(keyOf(row))
+        if (!localId || localId === row.id) return row
+        map.set(row.id, localId)
+        return { ...row, id: localId }
+      })
+      idMaps.set(name, map)
+    }
+    tables[name as BackupTable] = rows
+  }
+  return { ...backup, tables }
 }
 
 /**

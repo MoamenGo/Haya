@@ -7,22 +7,29 @@ export interface DayLoad {
   total: number
   done: number
   bigRocks: number
+  /** Open study minutes included in `capacity.planned`. */
+  study: number
 }
 
-/** How full one day is: open tasks' estimates against that day's capacity. */
+/**
+ * How full one day is: open tasks' estimates, plus open study minutes from the
+ * learning plans, against that day's capacity.
+ */
 export function dayLoad(
   tasks: readonly TaskRow[],
   dayType: DayType,
   customMinutes: number | null = null,
+  studyMinutes = 0,
 ): DayLoad {
-  const planned = tasks
-    .filter((t) => t.status !== 'done')
-    .reduce((sum, t) => sum + (t.est_minutes ?? 0), 0)
+  const planned =
+    tasks.filter((t) => t.status !== 'done').reduce((sum, t) => sum + (t.est_minutes ?? 0), 0) +
+    studyMinutes
   return {
     capacity: dayCapacity(dayType, planned, { customMinutes }),
     total: tasks.length,
     done: tasks.filter((t) => t.status === 'done').length,
     bigRocks: tasks.filter((t) => t.is_big_rock).length,
+    study: studyMinutes,
   }
 }
 

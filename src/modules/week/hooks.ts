@@ -3,6 +3,7 @@ import type { TaskRow } from '@/core/db/types'
 import { dayLoad, type DayLoad } from '@/core/planner/week'
 import { weekDaysISO } from '@/core/time/date'
 import { daysInfo, type DayInfo } from '@/modules/days/repo'
+import { remainingStudyMinutes, studyWeek } from '@/modules/learning/sessions'
 import { dailyLogsBetween } from '@/modules/reviews/repo'
 import { tasksBetween } from '@/modules/tasks/repo'
 import { minimumModeDates } from '@/modules/today/repo'
@@ -26,13 +27,19 @@ export function useWeek(startISO: string): WeekDay[] | undefined {
       dailyLogsBetween(first, last),
       minimumModeDates(first, last),
     ])
+    const study = await studyWeek(first, minimum)
     const checkedIn = new Set(logs.map((l) => l.date))
     return infos.map((info) => {
       const dayTasks = tasks.filter((t) => t.scheduled_date === info.date)
       return {
         ...info,
         tasks: dayTasks,
-        load: dayLoad(dayTasks, info.dayType, info.override?.capacity_min ?? null),
+        load: dayLoad(
+          dayTasks,
+          info.dayType,
+          info.override?.capacity_min ?? null,
+          remainingStudyMinutes(study.get(info.date) ?? []),
+        ),
         checkedIn: checkedIn.has(info.date),
         minimumMode: minimum.has(info.date),
       }

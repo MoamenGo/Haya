@@ -46,6 +46,10 @@ insert into reviews (id, created_at, updated_at, kind, period_start, period_end)
   values ('10000000-0000-7000-8000-00000000000c', :ts, :ts, 'weekly', '2026-10-03', '2026-10-09');
 insert into resources (id, created_at, updated_at, url, url_normalized, type, status)
   values ('10000000-0000-7000-8000-00000000000d', :ts, :ts, 'https://example.com', 'https://example.com', 'article', 'queued');
+insert into learning_paths (id, created_at, updated_at, curriculum_key, title, status, start_date)
+  values ('10000000-0000-7000-8000-00000000000e', :ts, :ts, 'english_a2_c1', 'الإنجليزية', 'active', '2026-10-17');
+insert into study_checks (id, created_at, updated_at, path_id, item_key, date)
+  values ('10000000-0000-7000-8000-00000000000f', :ts, :ts, '10000000-0000-7000-8000-00000000000e', 'w1:grammar', '2026-10-19');
 
 -- Checks every table from the intruder's side.
 create function pg_temp.check_isolation(owner_id uuid) returns void
@@ -56,7 +60,8 @@ declare
 begin
   foreach t in array array[
     'settings', 'life_areas', 'routines', 'habit_logs', 'daily_plans', 'daily_logs',
-    'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews', 'resources'
+    'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews', 'resources',
+    'learning_paths', 'study_checks'
   ] loop
     execute format('select count(*) from public.%I', t) into n;
     if n <> 0 then raise exception '% : intruder can read % rows', t, n; end if;
@@ -97,7 +102,7 @@ begin
 exception when insufficient_privilege then null;
 end $$;
 
--- The owner still has all 13 rows, untouched, and each got a server stamp.
+-- The owner still has all 15 rows, untouched, and each got a server stamp.
 reset role;
 set role authenticated;
 select pg_temp.sign_in(:'owner');
@@ -108,7 +113,8 @@ declare
 begin
   foreach t in array array[
     'settings', 'life_areas', 'routines', 'habit_logs', 'daily_plans', 'daily_logs',
-    'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews', 'resources'
+    'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews', 'resources',
+    'learning_paths', 'study_checks'
   ] loop
     execute format(
       'select count(*) from public.%I where deleted_at is null and server_updated_at is not null',

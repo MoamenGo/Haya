@@ -19,9 +19,17 @@ interface TodayTasksProps {
   customMinutes: number | null
   /** Hard-day mode shows only non-negotiable (L1) tasks (CLAUDE.md §4.5). */
   minimumMode: boolean
+  /** Open study minutes from the learning plans; they share the same capacity. */
+  studyMinutes: number
 }
 
-export function TodayTasks({ today, dayType, customMinutes, minimumMode }: TodayTasksProps) {
+export function TodayTasks({
+  today,
+  dayType,
+  customMinutes,
+  minimumMode,
+  studyMinutes,
+}: TodayTasksProps) {
   const { t } = useTranslation()
   const allTasks = useLiveQuery(() => tasksForDate(today), [today])
   const lastNight = useLiveQuery(() => getDailyLog(addDaysISO(today, -1)), [today])
@@ -31,9 +39,10 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
 
   const rocks = tasks.filter((task) => task.is_big_rock)
   const others = tasks.filter((task) => !task.is_big_rock)
-  const planned = tasks
-    .filter((task) => task.status !== 'done')
-    .reduce((sum, task) => sum + (task.est_minutes ?? 0), 0)
+  const planned =
+    tasks
+      .filter((task) => task.status !== 'done')
+      .reduce((sum, task) => sum + (task.est_minutes ?? 0), 0) + studyMinutes
   const capacity = dayCapacity(dayType, planned, { customMinutes })
   const titles = new Set(allTasks.map((task) => task.title))
   const suggestion = lastNight?.tomorrow_top3.find((item) => !titles.has(item))
@@ -87,6 +96,7 @@ export function TodayTasks({ today, dayType, customMinutes, minimumMode }: Today
         <div className="flex flex-col gap-1 text-sm">
           <p className="text-muted">
             {t('today.capacity', { planned: capacity.planned, plannable: capacity.plannable })}
+            {studyMinutes > 0 && ` · ${t('today.capacityStudy', { m: studyMinutes })}`}
           </p>
           <div className="h-2 overflow-hidden rounded-full bg-subtle" aria-hidden>
             <div
