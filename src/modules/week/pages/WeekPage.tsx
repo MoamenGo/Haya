@@ -80,7 +80,7 @@ export function WeekPage() {
       {days === undefined ? (
         <ListSkeleton rows={4} />
       ) : (
-        <div className="grid gap-3 lg:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
           {days.map((day) => (
             <WeekDayCard key={day.date} day={day} isToday={day.date === today} />
           ))}

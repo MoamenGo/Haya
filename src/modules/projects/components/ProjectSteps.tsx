@@ -32,7 +32,7 @@ export function ProjectSteps({ projectId, open }: ProjectStepsProps) {
 
   return (
     <details open={open} className="group rounded-lg border border-border bg-subtle/50 px-3 py-1.5">
-      <summary className="flex min-h-9 cursor-pointer list-none items-center gap-2 text-sm">
+      <summary className="flex min-h-9 cursor-pointer pointer-coarse:min-h-11 list-none items-center gap-2 text-sm">
         <ChevronDown
           aria-hidden
           className="size-4 text-muted transition-transform group-open:rotate-180"

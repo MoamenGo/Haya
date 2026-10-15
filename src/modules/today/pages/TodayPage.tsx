@@ -2,8 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { MoonStar, NotebookPen } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { Button } from '@/components/ui/button'
-import { isDone } from '@/core/habits/continuity'
+import { SplitLayout } from '@/components/layout/SplitLayout'
 import { localDateISO } from '@/core/time/date'
 import { useNow } from '@/hooks/useNow'
 import { useDayInfo } from '@/modules/days/hooks'
@@ -12,15 +11,17 @@ import { useStudyToday } from '@/modules/learning/hooks'
 import { remainingStudyMinutes } from '@/modules/learning/sessions'
 import { countNotesOn } from '@/modules/notes/repo'
 import { getDailyLog } from '@/modules/reviews/repo'
-import { setHabitStatus } from '@/modules/routines/repo'
 import { useSetting } from '@/modules/settings/hooks'
 import { PrayerSky } from '../components/PrayerSky'
-import { RoutineCard } from '../components/RoutineCard'
+import { TodayHabits } from '../components/TodayHabits'
 import { TodayTasks } from '../components/TodayTasks'
-import { useRoutinesToday } from '../hooks'
-import { isMinimumMode, setMinimumMode } from '../repo'
-import { ListSkeleton } from '@/components/ui/skeleton'
+import { isMinimumMode } from '../repo'
 
+/**
+ * Today. Phones and portrait tablets read it top to bottom; on landscape
+ * tablets and laptops the tasks take the main column and the habits, notes
+ * and evening check-in sit beside them.
+ */
 export function TodayPage() {
   const { t } = useTranslation()
   const [vision] = useSetting('vision')
@@ -28,12 +29,10 @@ export function TodayPage() {
   const today = localDateISO(now)
   const { dayType, override } = useDayInfo(today)
 
-  const routines = useRoutinesToday(today)
   const minimumMode = useLiveQuery(() => isMinimumMode(today), [today]) ?? false
   const checkedIn = useLiveQuery(async () => Boolean(await getDailyLog(today)), [today])
   const study = useStudyToday(today)
   const notesToday = useLiveQuery(() => countNotesOn(today), [today]) ?? 0
-  const allDone = routines?.length ? routines.every((r) => isDone(r.status)) : false
 
   return (
     <div className="flex flex-col gap-8 sm:gap-10">
@@ -48,75 +47,40 @@ export function TodayPage() {
         </blockquote>
       )}
 
-      <TodayTasks
-        today={today}
-        dayType={dayType}
-        customMinutes={override?.capacity_min ?? null}
-        minimumMode={minimumMode}
-        studyMinutes={study ? remainingStudyMinutes(study.sessions) : 0}
-      />
+      <SplitLayout
+        spacing="loose"
+        aside={
+          <>
+            <TodayHabits today={today} dayType={dayType} minimumMode={minimumMode} />
 
-      {study && <TodayStudy study={study} today={today} />}
+            <Link
+              to="/notes"
+              className="inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-border bg-surface px-5 text-sm font-medium transition-colors hover:border-border-strong hover:bg-subtle"
+            >
+              <NotebookPen aria-hidden className="size-4 text-primary" />
+              {notesToday > 0 ? t('notes.todayCount', { count: notesToday }) : t('notes.todayLink')}
+            </Link>
 
-      <section aria-labelledby="habits-title" className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 id="habits-title" className="text-xl font-medium">
-            {t('today.habits')}
-          </h2>
-          <Button
-            variant={minimumMode ? 'outline' : 'ghost'}
-            onClick={() => void setMinimumMode(today, dayType, !minimumMode)}
-          >
-            {minimumMode ? t('today.minimumModeOff') : t('today.minimumMode')}
-          </Button>
-        </div>
-        {minimumMode && (
-          <p
-            role="status"
-            className="rounded-2xl bg-accent p-4 text-sm leading-relaxed text-accent-foreground"
-          >
-            {t('today.minimumModeOn')}
-          </p>
-        )}
-        {routines === undefined ? (
-          <ListSkeleton rows={3} />
-        ) : routines.length === 0 ? null : (
-          // One panel with rows, rather than a stack of separate cards.
-          <ul className="divide-y divide-border overflow-hidden rounded-3xl border border-border bg-surface">
-            {routines.map(({ routine, status, days }) => (
-              <RoutineCard
-                key={routine.id}
-                routine={routine}
-                status={status}
-                days={days}
-                minimumMode={minimumMode}
-                onChange={(next) => void setHabitStatus(routine.id, today, next)}
-              />
-            ))}
-          </ul>
-        )}
-        {routines?.length === 0 && <p className="text-sm text-muted">{t('today.noHabits')}</p>}
-        {allDone && <p className="text-sm text-muted">{t('today.allDone')}</p>}
-        <Link to="/habits" className="text-sm text-primary underline-offset-4 hover:underline">
-          {t('today.manageHabits')}
-        </Link>
-      </section>
-
-      <Link
-        to="/notes"
-        className="inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-border bg-surface px-5 text-sm font-medium transition-colors hover:border-border-strong hover:bg-subtle"
+            <Link
+              to="/today/review"
+              className="inline-flex min-h-13 items-center justify-center gap-2.5 rounded-full bg-primary px-7 font-display font-medium text-primary-foreground shadow-[0_10px_24px_-12px_var(--primary)] transition-colors hover:bg-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:self-start lg:self-stretch"
+            >
+              <MoonStar aria-hidden className="size-5" strokeWidth={1.8} />
+              {checkedIn ? t('today.checkInDone') : t('today.checkIn')}
+            </Link>
+          </>
+        }
       >
-        <NotebookPen aria-hidden className="size-4 text-primary" />
-        {notesToday > 0 ? t('notes.todayCount', { count: notesToday }) : t('notes.todayLink')}
-      </Link>
+        <TodayTasks
+          today={today}
+          dayType={dayType}
+          customMinutes={override?.capacity_min ?? null}
+          minimumMode={minimumMode}
+          studyMinutes={study ? remainingStudyMinutes(study.sessions) : 0}
+        />
 
-      <Link
-        to="/today/review"
-        className="inline-flex min-h-13 items-center justify-center gap-2.5 rounded-full bg-primary px-7 font-display font-medium text-primary-foreground shadow-[0_10px_24px_-12px_var(--primary)] transition-colors hover:bg-primary-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:self-start"
-      >
-        <MoonStar aria-hidden className="size-5" strokeWidth={1.8} />
-        {checkedIn ? t('today.checkInDone') : t('today.checkIn')}
-      </Link>
+        {study && <TodayStudy study={study} today={today} />}
+      </SplitLayout>
     </div>
   )
 }

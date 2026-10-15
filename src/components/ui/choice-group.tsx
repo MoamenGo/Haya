@@ -11,7 +11,7 @@ interface ChoiceGroupProps<T extends string> {
 /** Track and item classes shared by every segmented control in the app. */
 export const segmentTrack = 'flex w-fit max-w-full flex-wrap gap-0.5 rounded-full bg-subtle p-1'
 export const segmentItem =
-  'inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full px-3.5 text-sm whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-ring md:min-h-9'
+  'inline-flex min-h-10 items-center justify-center gap-1.5 rounded-full px-3.5 text-sm whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-ring desk:min-h-9'
 export const segmentOn = 'bg-surface font-medium text-foreground shadow-card ring-1 ring-border'
 export const segmentOff = 'text-muted hover:text-foreground'
 

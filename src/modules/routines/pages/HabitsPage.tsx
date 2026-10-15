@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useTranslation } from 'react-i18next'
 import { PageHeader } from '@/components/layout/PageHeader'
+import { SplitLayout } from '@/components/layout/SplitLayout'
 import { Card } from '@/components/ui/card'
 import type { RoutineRow } from '@/core/db/types'
 import { GENTLE_ACTIVE_HABITS } from '@/core/planner/config'
@@ -21,25 +22,31 @@ export function HabitsPage() {
     <div className="flex flex-col gap-5">
       <PageHeader title={t('habits.title')} intro={t('habits.intro')} />
 
-      {active.length > GENTLE_ACTIVE_HABITS && (
-        <p role="status" className="rounded-2xl bg-accent p-4 text-sm">
-          {t('habits.many', { count: active.length })}
-        </p>
-      )}
+      <SplitLayout
+        aside={
+          <>
+            {routines && <HabitPresets existing={routines.map((r) => r.title)} />}
+            <Card>
+              <AddHabitForm />
+            </Card>
+          </>
+        }
+      >
+        {active.length > GENTLE_ACTIVE_HABITS && (
+          <p role="status" className="rounded-2xl bg-accent p-4 text-sm">
+            {t('habits.many', { count: active.length })}
+          </p>
+        )}
 
-      {routines === undefined ? (
-        <ListSkeleton rows={3} />
-      ) : (
-        <>
-          <HabitList title={t('habits.active')} items={active} empty={t('habits.emptyActive')} />
-          {paused.length > 0 && <HabitList title={t('habits.paused')} items={paused} />}
-          <HabitPresets existing={routines.map((r) => r.title)} />
-        </>
-      )}
-
-      <Card>
-        <AddHabitForm />
-      </Card>
+        {routines === undefined ? (
+          <ListSkeleton rows={3} />
+        ) : (
+          <>
+            <HabitList title={t('habits.active')} items={active} empty={t('habits.emptyActive')} />
+            {paused.length > 0 && <HabitList title={t('habits.paused')} items={paused} />}
+          </>
+        )}
+      </SplitLayout>
     </div>
   )
 }

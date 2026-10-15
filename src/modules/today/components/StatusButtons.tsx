@@ -33,7 +33,7 @@ export function StatusButtons({ label, status, onChange }: StatusButtonsProps) {
             aria-checked={selected}
             onClick={() => onChange(selected ? null : option)}
             className={cn(
-              'inline-flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-full px-2 text-sm whitespace-nowrap sm:px-4 transition-colors focus-visible:outline-2 focus-visible:outline-ring sm:flex-none',
+              'inline-flex min-h-10 pointer-coarse:min-h-11 flex-1 items-center justify-center gap-1.5 rounded-full px-2 text-sm whitespace-nowrap sm:px-4 transition-colors focus-visible:outline-2 focus-visible:outline-ring sm:flex-none',
               selected && option !== 'skipped'
                 ? 'bg-primary font-medium text-primary-foreground'
                 : selected

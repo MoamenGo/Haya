@@ -62,7 +62,7 @@ export function ThemeMenu() {
               if (menu.current) menu.current.open = false
             }}
             className={cn(
-              'flex min-h-10 items-center gap-2.5 rounded-lg px-2.5 text-sm hover:bg-subtle',
+              'flex min-h-10 items-center gap-2.5 pointer-coarse:min-h-11 rounded-lg px-2.5 text-sm hover:bg-subtle',
               theme === value && 'font-medium',
             )}
           >
@@ -79,7 +79,7 @@ export function ThemeMenu() {
           onClick={() => {
             if (menu.current) menu.current.open = false
           }}
-          className="flex min-h-10 items-center gap-2.5 rounded-lg px-2.5 text-sm hover:bg-subtle"
+          className="flex min-h-10 items-center gap-2.5 pointer-coarse:min-h-11 rounded-lg px-2.5 text-sm hover:bg-subtle"
         >
           <Palette aria-hidden className="size-4 text-muted" />
           <span className="flex-1 text-start">{t('settings.morePalettes')}</span>

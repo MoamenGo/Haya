@@ -108,7 +108,7 @@ export function ProjectCard({ item, active, showGoalLink = true }: ProjectCardPr
           <Link
             to="/goals/$goalId"
             params={{ goalId: project.goal_id }}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 text-sm text-muted hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
+            className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2 pointer-coarse:min-h-11 text-sm text-muted hover:bg-subtle hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring"
           >
             <Map aria-hidden className="size-4" />
             {t('projects.goalMap')}

@@ -6,7 +6,9 @@ import { isCloudConfigured } from '@/core/auth/client'
 import { SyncIndicator } from '@/modules/account/components/SyncIndicator'
 import { useSession } from '@/modules/account/hooks'
 import { openCapture } from '@/modules/inbox/captureEvents'
+import { cn } from '@/lib/utils'
 import { BrandLockup } from './BrandMark'
+import { usePageWidth } from './page-width'
 import { ThemeMenu } from './ThemeMenu'
 
 /**
@@ -15,9 +17,15 @@ import { ThemeMenu } from './ThemeMenu'
  */
 export function TopBar() {
   const { t } = useTranslation()
+  const width = usePageWidth()
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-background/85 backdrop-blur-md">
-      <div className="mx-auto flex h-14 w-full max-w-3xl items-center xl:max-w-4xl gap-2 px-[clamp(1rem,4vw,2.5rem)]">
+      <div
+        className={cn(
+          'mx-auto flex h-14 w-full items-center gap-2 px-[clamp(1rem,4vw,2.5rem)]',
+          width,
+        )}
+      >
         <Link to="/today" className="rounded-lg md:hidden" aria-label={t('app.name')}>
           <BrandLockup />
         </Link>
@@ -28,7 +36,8 @@ export function TopBar() {
         >
           <Plus aria-hidden />
           <span className="flex-1 text-start">{t('capture.open')}</span>
-          <kbd className="rounded-md border border-border bg-subtle px-1.5 font-sans text-[0.6875rem] text-muted">
+          {/* No keyboard shortcut hint on touch tablets. */}
+          <kbd className="rounded-md pointer-coarse:hidden border border-border bg-subtle px-1.5 font-sans text-[0.6875rem] text-muted">
             Ctrl K
           </kbd>
         </Button>
