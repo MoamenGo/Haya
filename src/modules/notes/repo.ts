@@ -39,12 +39,21 @@ export async function addNote(input: NoteInput, recording?: RecordingInput): Pro
   return row
 }
 
-/** All notes, newest day first and newest note first within a day. */
+/**
+ * All notes, newest day first and newest note first within a day. Ids are
+ * UUID v7 (time-ordered), which breaks ties between notes saved in the same
+ * millisecond.
+ */
 export async function listNotes(): Promise<NoteRow[]> {
   const rows = await db.notes.toArray()
   return rows
     .filter((n) => !n.deleted_at)
-    .sort((a, b) => b.date.localeCompare(a.date) || b.created_at.localeCompare(a.created_at))
+    .sort(
+      (a, b) =>
+        b.date.localeCompare(a.date) ||
+        b.created_at.localeCompare(a.created_at) ||
+        b.id.localeCompare(a.id),
+    )
 }
 
 export async function countNotesOn(date: string): Promise<number> {
