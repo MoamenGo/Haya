@@ -19,6 +19,7 @@ export const BACKUP_TABLES = [
   'resources',
   'learning_paths',
   'study_checks',
+  'study_items',
   'notes',
 ] as const
 export type BackupTable = (typeof BACKUP_TABLES)[number]

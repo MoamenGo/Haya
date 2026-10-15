@@ -1,12 +1,15 @@
 import type { LearningPathRow } from '@/core/db/types'
-import { CURRICULA, studyDay, type StudyDay } from '@/core/learning/plan'
+import type { Curriculum } from '@/core/learning/types'
+import { curriculumFor, studyDay, type StudyDay } from '@/core/learning/plan'
 import { weekDaysISO, weekStartISO } from '@/core/time/date'
 import { daysInfo } from '@/modules/days/repo'
-import { checkedKeys, listActivePaths } from './repo'
+import { checkedKeys, listActivePaths, listItemEdits } from './repo'
 
 /** One active plan's session on one date. */
 export interface PathSession {
   path: LearningPathRow
+  /** The plan with the owner's own steps and edits. */
+  curriculum: Curriculum
   day: StudyDay
   done: ReadonlySet<string>
 }
@@ -25,20 +28,27 @@ export async function studyWeek(
   const doneByPath = new Map(
     await Promise.all(paths.map(async (p) => [p.id, await checkedKeys(p.id)] as const)),
   )
+  const curriculumByPath = new Map(
+    await Promise.all(
+      paths.map(async (p) => [p.id, curriculumFor(p, await listItemEdits(p.id))] as const),
+    ),
+  )
 
   const byDate = new Map<string, PathSession[]>()
   for (const date of dates) {
     const sessions = paths.flatMap((path) => {
       const done = doneByPath.get(path.id) ?? new Set<string>()
+      const curriculum = curriculumByPath.get(path.id)
+      if (!curriculum) return []
       const day = studyDay(
-        CURRICULA[path.curriculum_key],
+        curriculum,
         path.start_date,
         date,
         dayTypes,
         done,
         minimumDates.has(date),
       )
-      return day.items.length ? [{ path, day, done }] : []
+      return day.items.length ? [{ path, curriculum, day, done }] : []
     })
     byDate.set(date, sessions)
   }

@@ -4,6 +4,7 @@ import { RouteError } from './RouteError'
 import { GoalMapPage } from '@/modules/goals/pages/GoalMapPage'
 import { GoalsPage } from '@/modules/goals/pages/GoalsPage'
 import { LearnPage } from '@/modules/learning/pages/LearnPage'
+import { PlanPage } from '@/modules/learning/pages/PlanPage'
 import { InboxPage } from '@/modules/inbox/pages/InboxPage'
 import { MorePage } from '@/modules/more/pages/MorePage'
 import { NotesPage } from '@/modules/notes/pages/NotesPage'
@@ -82,6 +83,12 @@ const learnRoute = createRoute({
   component: LearnPage,
 })
 
+const planRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/learn/$pathId',
+  component: PlanPage,
+})
+
 const weekRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/week',
@@ -123,6 +130,7 @@ const routeTree = rootRoute.addChildren([
   goalMapRoute,
   habitsRoute,
   learnRoute,
+  planRoute,
   weekRoute,
   weeklyReviewRoute,
   notesRoute,

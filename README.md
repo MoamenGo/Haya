@@ -51,7 +51,7 @@ Both stay idle until their secrets are added (see `docs/setup-cloud.md`).
 **Study plans (ADR-004)**: the English plan (A2 → C1, 78 weeks) and the Health Tech career-shift
 plan (104 weeks) are built in. Each day's share appears on Today, sized to the day type, ticks sync
 across devices, and study minutes count on the capacity bar. The Learning plans screen shows
-progress, pause/resume, the start date and a week-by-week map with sources.
+progress, pause/resume, the start date and a week-by-week map with sources. Every step can be edited, hidden or restored, and you can add your own steps or write a whole new plan (ADR-005).
 
 **Design**: a calm, minimal interface: slate neutrals, one teal accent, hairline cards, a
 collapsible sidebar and a designed (not inverted) dark mode, with Light / Dark / System themes. The one

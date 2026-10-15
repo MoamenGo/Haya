@@ -21,6 +21,7 @@ export const SYNC_TABLES = [
   'resources',
   'learning_paths',
   'study_checks',
+  'study_items',
   'notes',
 ] as const
 export type SyncTable = (typeof SYNC_TABLES)[number]
@@ -43,6 +44,7 @@ export const INSTANT_COLUMNS: Readonly<Record<SyncTable, readonly string[]>> = {
   resources: COMMON_INSTANTS,
   learning_paths: COMMON_INSTANTS,
   study_checks: COMMON_INSTANTS,
+  study_items: COMMON_INSTANTS,
   notes: COMMON_INSTANTS,
 }
 
@@ -61,9 +63,11 @@ export const NATURAL_KEYS: Readonly<Partial<Record<SyncTable, readonly string[]>
   daily_logs: ['date'],
   day_overrides: ['date'],
   reviews: ['kind', 'period_start'],
-  // Each device seeds the two study plans; they merge by plan.
+  // Each device seeds the two study plans; they merge by plan. Custom plans'
+  // keys hold a uuid, so they never merge by accident.
   learning_paths: ['curriculum_key'],
   study_checks: ['path_id', 'item_key'],
+  study_items: ['path_id', 'item_key'],
 }
 
 /** When a row is merged into another id, these columns elsewhere must follow it. */
@@ -85,7 +89,10 @@ export const REFERENCES: Readonly<Partial<Record<SyncTable, ReadonlyArray<[SyncT
       ['tasks', 'project_id'],
       ['resources', 'project_id'],
     ],
-    learning_paths: [['study_checks', 'path_id']],
+    learning_paths: [
+      ['study_checks', 'path_id'],
+      ['study_items', 'path_id'],
+    ],
     tasks: [
       ['projects', 'next_action_task_id'],
       ['inbox_items', 'converted_id'],

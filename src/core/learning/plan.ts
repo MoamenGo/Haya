@@ -7,12 +7,32 @@ import {
 import { DAYS_PER_WEEK } from '@/core/time/date'
 import { english } from './curricula/english'
 import { healthTech } from './curricula/healthTech'
-import type { Curriculum, CurriculumKey, StudyItem } from './types'
+import { emptyCurriculum, withEdits, type StudyItemEdit } from './edits'
+import {
+  isBuiltInPlan,
+  type Curriculum,
+  type CurriculumKey,
+  type PlanKey,
+  type StudyItem,
+} from './types'
 import { dayIndexInWeek, planWeekOn } from './week'
 
 export const CURRICULA: Readonly<Record<CurriculumKey, Curriculum>> = {
   english_a2_c1: english,
   health_tech: healthTech,
+}
+
+/** The plan's code before the owner's changes: a built-in curriculum, or an empty one. */
+export function baseCurriculum(key: PlanKey, totalWeeks: number | null | undefined): Curriculum {
+  return isBuiltInPlan(key) ? CURRICULA[key] : emptyCurriculum(key, totalWeeks ?? 1)
+}
+
+/** The plan as the owner follows it, with his own steps and edits. */
+export function curriculumFor(
+  path: { curriculum_key: PlanKey; total_weeks?: number | null },
+  edits: readonly StudyItemEdit[],
+): Curriculum {
+  return withEdits(baseCurriculum(path.curriculum_key, path.total_weeks), edits)
 }
 
 export type StudyDayState = 'not_started' | 'studying' | 'finished'
@@ -46,8 +66,11 @@ export function studyDay(
     return { state: 'finished', week, items: [], remainingMinutes: 0 }
   }
   const day = dayIndexInWeek(dateISO)
+  const minimum = minimumMode ? curriculum.minimum(week, day) : null
   const items = minimumMode
-    ? [curriculum.minimum(week, day)]
+    ? minimum
+      ? [minimum]
+      : []
     : (curriculum.planWeek(week, weekDayTypes)[day] ?? [])
   const remainingMinutes = items
     .filter((item) => !done.has(item.key))

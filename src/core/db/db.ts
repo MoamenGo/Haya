@@ -19,6 +19,7 @@ import type {
   RoutineRow,
   SettingRow,
   StudyCheckRow,
+  StudyItemRow,
   TaskRow,
 } from './types'
 
@@ -49,6 +50,7 @@ export class HayaDB extends Dexie {
   resources!: EntityTable<ResourceRow, 'id'>
   learning_paths!: EntityTable<LearningPathRow, 'id'>
   study_checks!: EntityTable<StudyCheckRow, 'id'>
+  study_items!: EntityTable<StudyItemRow, 'id'>
   notes!: EntityTable<NoteRow, 'id'>
   note_audio!: EntityTable<NoteAudioRow, 'note_id'>
   sync_state!: EntityTable<SyncStateRow, 'table'>
@@ -122,6 +124,21 @@ export class HayaDB extends Dexie {
       notes: 'id, date, updated_at, _dirty',
       note_audio: 'note_id',
     })
+
+    // v10: the owner's own study plans and his edits to any plan's steps.
+    // `&[path_id+item_key]`: one change per step (re-used after an undo).
+    this.version(10)
+      .stores({
+        study_items: 'id, &[path_id+item_key], path_id, updated_at, _dirty',
+      })
+      .upgrade((tx) =>
+        tx
+          .table('learning_paths')
+          .toCollection()
+          .modify((row: { total_weeks?: number | null }) => {
+            row.total_weeks ??= null
+          }),
+      )
 
     // …and brand-new databases get everything here (upgrades don't run for them).
     this.on('populate', async (tx) => {

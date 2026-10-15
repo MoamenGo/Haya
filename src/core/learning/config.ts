@@ -45,3 +45,12 @@ export const HEALTH_TECH_MIN = {
   lightIntro: 20,
   minimum: 10,
 } as const
+
+/** Limits for plans the owner writes himself. */
+export const CUSTOM_PLAN = {
+  defaultWeeks: 12,
+  maxWeeks: 156,
+  /** A new step's default length, in minutes. */
+  defaultMinutes: 25,
+  maxMinutes: 240,
+} as const

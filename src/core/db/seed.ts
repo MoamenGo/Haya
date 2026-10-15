@@ -118,6 +118,7 @@ export async function seedLearningPaths(table: Table<LearningPathRow, string>): 
     ...path,
     status: 'active',
     start_date: BUILT_IN_PLANS_START,
+    total_weeks: null,
   }))
   await table.bulkAdd(rows)
 }

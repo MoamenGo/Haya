@@ -10,7 +10,17 @@ export interface Link {
 export const CURRICULUM_KEYS = ['english_a2_c1', 'health_tech'] as const
 export type CurriculumKey = (typeof CURRICULUM_KEYS)[number]
 
-export type StudyItemKind = 'study' | 'practice' | 'project' | 'review' | 'check'
+/** Plans the owner writes himself are keyed `custom:<uuid>`. */
+export const CUSTOM_PLAN_PREFIX = 'custom:'
+export type CustomPlanKey = `${typeof CUSTOM_PLAN_PREFIX}${string}`
+export type PlanKey = CurriculumKey | CustomPlanKey
+
+export function isBuiltInPlan(key: PlanKey): key is CurriculumKey {
+  return (CURRICULUM_KEYS as readonly string[]).includes(key)
+}
+
+export const STUDY_ITEM_KINDS = ['study', 'practice', 'project', 'review', 'check'] as const
+export type StudyItemKind = (typeof STUDY_ITEM_KINDS)[number]
 
 /** One thing to do in a study session, with a rough time estimate. */
 export interface StudyItem {
@@ -38,7 +48,7 @@ export interface WeekOverview {
 }
 
 export interface Curriculum {
-  key: CurriculumKey
+  key: PlanKey
   totalWeeks: number
   overview(week: number): WeekOverview
   /**
@@ -46,6 +56,9 @@ export interface Curriculum {
    * day's type: light on hospital days, deep on deep-work days, short on rest days.
    */
   planWeek(week: number, dayTypes: readonly DayType[]): StudyItem[][]
-  /** The hard-day version for a day (CLAUDE.md §4.5): small, and it counts. */
-  minimum(week: number, dayIndex: number): StudyItem
+  /**
+   * The hard-day version for a day (CLAUDE.md §4.5): small, and it counts.
+   * `null` when the day has nothing to shrink (an empty day of a custom plan).
+   */
+  minimum(week: number, dayIndex: number): StudyItem | null
 }
