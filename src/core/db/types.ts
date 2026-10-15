@@ -1,4 +1,4 @@
-import type { CurriculumKey } from '@/core/learning/types'
+import type { PlanKey, StudyItemKind } from '@/core/learning/types'
 import type { DayType } from '@/core/time/config'
 
 /**
@@ -224,17 +224,39 @@ export const LEARNING_PATH_STATUSES = ['active', 'paused', 'done'] as const
 export type LearningPathStatus = (typeof LEARNING_PATH_STATUSES)[number]
 
 /**
- * A study plan the owner follows week by week (CLAUDE.md §6.10). The plan's
- * content (weeks, topics, sources) lives in code under src/core/learning;
- * this row holds only the owner's choices: start date and status.
+ * A study plan the owner follows week by week (CLAUDE.md §6.10). A built-in
+ * plan's content (weeks, topics, sources) lives in code under
+ * src/core/learning; a custom plan starts empty. Either way the owner's own
+ * steps and changes are `study_items` rows.
  */
 export interface LearningPathRow extends SyncedRow {
-  /** Which built-in plan this is. Unique: one row per plan. */
-  curriculum_key: CurriculumKey
+  /** A built-in plan's key, or `custom:<uuid>` for a plan he wrote. Unique. */
+  curriculum_key: PlanKey
   title: string
   status: LearningPathStatus
   /** `YYYY-MM-DD`; week 1 starts on the Saturday of this date's week. */
   start_date: string
+  /** Length of a custom plan in weeks; null for built-in plans (their code knows). */
+  total_weeks?: number | null
+}
+
+/**
+ * The owner's change to a plan: either a step he added (`item_key` starts
+ * with `x:`, placed on `week` + `day`), or an edit of a built-in step (same
+ * `item_key` as the step; `hidden` removes it from his plan).
+ */
+export interface StudyItemRow extends SyncedRow {
+  path_id: string
+  item_key: string
+  week: number
+  /** 0 = Saturday … 6 = Friday, for added steps; null for edits of built-in steps. */
+  day: number | null
+  text: string
+  minutes: number
+  kind: StudyItemKind
+  link_title: string | null
+  link_url: string | null
+  hidden: boolean
 }
 
 /** One ticked item of a plan. Unticking is a soft delete, so it syncs too. */

@@ -50,6 +50,8 @@ insert into learning_paths (id, created_at, updated_at, curriculum_key, title, s
   values ('10000000-0000-7000-8000-00000000000e', :ts, :ts, 'english_a2_c1', 'الإنجليزية', 'active', '2026-10-17');
 insert into study_checks (id, created_at, updated_at, path_id, item_key, date)
   values ('10000000-0000-7000-8000-00000000000f', :ts, :ts, '10000000-0000-7000-8000-00000000000e', 'w1:grammar', '2026-10-19');
+insert into study_items (id, created_at, updated_at, path_id, item_key, week, day, text, minutes, kind)
+  values ('10000000-0000-7000-8000-000000000011', :ts, :ts, '10000000-0000-7000-8000-00000000000e', 'x:1', 1, 0, 'خطوة', 20, 'study');
 insert into notes (id, created_at, updated_at, date, body_md, audio_seconds)
   values ('10000000-0000-7000-8000-000000000010', :ts, :ts, '2026-10-15', 'ملاحظة', 12);
 
@@ -63,7 +65,7 @@ begin
   foreach t in array array[
     'settings', 'life_areas', 'routines', 'habit_logs', 'daily_plans', 'daily_logs',
     'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews', 'resources',
-    'learning_paths', 'study_checks', 'notes'
+    'learning_paths', 'study_checks', 'study_items', 'notes'
   ] loop
     execute format('select count(*) from public.%I', t) into n;
     if n <> 0 then raise exception '% : intruder can read % rows', t, n; end if;
@@ -116,7 +118,7 @@ begin
   foreach t in array array[
     'settings', 'life_areas', 'routines', 'habit_logs', 'daily_plans', 'daily_logs',
     'goals', 'projects', 'tasks', 'inbox_items', 'day_overrides', 'reviews', 'resources',
-    'learning_paths', 'study_checks', 'notes'
+    'learning_paths', 'study_checks', 'study_items', 'notes'
   ] loop
     execute format(
       'select count(*) from public.%I where deleted_at is null and server_updated_at is not null',

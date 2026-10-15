@@ -1,12 +1,11 @@
-import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
-import { CURRICULA } from '@/core/learning/plan'
 import { instantOfISO } from '@/core/time/date'
 import { formatDayMonth } from '@/core/time/format'
 import { TaskList } from '@/modules/tasks/components/TaskItem'
 import { useSetting } from '@/modules/settings/hooks'
 import type { StudyToday } from '../hooks'
 import { remainingStudyMinutes } from '../sessions'
+import { PlansLink } from './PlansLink'
 import { StudyItemRow } from './StudyItemRow'
 
 interface TodayStudyProps {
@@ -18,8 +17,9 @@ interface TodayStudyProps {
 export function TodayStudy({ study, today }: TodayStudyProps) {
   const { t } = useTranslation()
   const [language] = useSetting('language')
-  const { sessions, nextStart } = study
-  if (sessions.length === 0 && !nextStart) return null
+  const { sessions, nextStart, activePlans } = study
+  // Nothing to study today: still offer the way to the plans.
+  if (sessions.length === 0 && !nextStart) return <PlansLink activePlans={activePlans} />
   const remaining = remainingStudyMinutes(sessions)
 
   return (
@@ -39,8 +39,8 @@ export function TodayStudy({ study, today }: TodayStudyProps) {
         </p>
       )}
 
-      {sessions.map(({ path, day, done }) => {
-        const overview = CURRICULA[path.curriculum_key].overview(day.week)
+      {sessions.map(({ path, curriculum, day, done }) => {
+        const { phase } = curriculum.overview(day.week)
         return (
           <div key={path.id} className="flex flex-col gap-2">
             <h3 className="flex flex-wrap items-baseline gap-x-2 text-sm">
@@ -48,7 +48,8 @@ export function TodayStudy({ study, today }: TodayStudyProps) {
                 {path.title}
               </span>
               <span dir="auto" className="text-muted">
-                {t('learning.weekOf', { week: day.week })} · {overview.phase}
+                {t('learning.weekOf', { week: day.week })}
+                {phase && ` · ${phase}`}
               </span>
             </h3>
             <TaskList>
@@ -66,9 +67,7 @@ export function TodayStudy({ study, today }: TodayStudyProps) {
         )
       })}
 
-      <Link to="/learn" className="text-sm text-primary underline-offset-4 hover:underline">
-        {t('today.openPlans')}
-      </Link>
+      <PlansLink activePlans={activePlans} />
     </section>
   )
 }
