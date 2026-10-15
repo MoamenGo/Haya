@@ -7,6 +7,9 @@ import { isDone } from '@/core/habits/continuity'
 import { localDateISO } from '@/core/time/date'
 import { useNow } from '@/hooks/useNow'
 import { useDayInfo } from '@/modules/days/hooks'
+import { TodayStudy } from '@/modules/learning/components/TodayStudy'
+import { useStudyToday } from '@/modules/learning/hooks'
+import { remainingStudyMinutes } from '@/modules/learning/sessions'
 import { getDailyLog } from '@/modules/reviews/repo'
 import { setHabitStatus } from '@/modules/routines/repo'
 import { useSetting } from '@/modules/settings/hooks'
@@ -27,6 +30,7 @@ export function TodayPage() {
   const routines = useRoutinesToday(today)
   const minimumMode = useLiveQuery(() => isMinimumMode(today), [today]) ?? false
   const checkedIn = useLiveQuery(async () => Boolean(await getDailyLog(today)), [today])
+  const study = useStudyToday(today)
   const allDone = routines?.length ? routines.every((r) => isDone(r.status)) : false
 
   return (
@@ -47,7 +51,10 @@ export function TodayPage() {
         dayType={dayType}
         customMinutes={override?.capacity_min ?? null}
         minimumMode={minimumMode}
+        studyMinutes={study ? remainingStudyMinutes(study.sessions) : 0}
       />
+
+      {study && <TodayStudy study={study} today={today} />}
 
       <section aria-labelledby="habits-title" className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-2">

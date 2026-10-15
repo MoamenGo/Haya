@@ -3,6 +3,7 @@ import { AppShell } from '@/components/layout/AppShell'
 import { RouteError } from './RouteError'
 import { GoalMapPage } from '@/modules/goals/pages/GoalMapPage'
 import { GoalsPage } from '@/modules/goals/pages/GoalsPage'
+import { LearnPage } from '@/modules/learning/pages/LearnPage'
 import { InboxPage } from '@/modules/inbox/pages/InboxPage'
 import { MorePage } from '@/modules/more/pages/MorePage'
 import { EveningReviewPage } from '@/modules/reviews/pages/EveningReviewPage'
@@ -74,6 +75,12 @@ const habitsRoute = createRoute({
   component: HabitsPage,
 })
 
+const learnRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/learn',
+  component: LearnPage,
+})
+
 const weekRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/week',
@@ -108,6 +115,7 @@ const routeTree = rootRoute.addChildren([
   goalsRoute,
   goalMapRoute,
   habitsRoute,
+  learnRoute,
   weekRoute,
   weeklyReviewRoute,
   moreRoute,

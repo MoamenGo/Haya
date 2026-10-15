@@ -1,6 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { db } from '@/core/db/db'
-import { applyImport, createBackup, previewImport } from '@/core/export/backup'
+import { BACKUP_TABLES, applyImport, createBackup, previewImport } from '@/core/export/backup'
+import { SYNC_TABLES } from '@/core/sync/tables'
+import { checkedKeys, listPaths, setChecked } from '@/modules/learning/repo'
 import { listActiveRoutines, setHabitStatus } from '@/modules/routines/repo'
 import { getSetting, setSetting } from '@/modules/settings/repo'
 
@@ -27,6 +29,26 @@ describe('backup', () => {
 
     expect(await getSetting('vision')).toBe('مكان هادي')
     expect(await db.habit_logs.count()).toBe(1)
+  })
+
+  it('restores study ticks onto the plans a fresh device already has', async () => {
+    const [path] = await listPaths()
+    await setChecked(path!.id, 'w1:grammar', true, '2026-10-19')
+    const backup = JSON.parse(JSON.stringify(await createBackup(db)))
+
+    await db.delete()
+    await db.open() // fresh database: the two plans again, with new ids
+    await applyImport(db, await previewImport(db, backup))
+
+    const paths = await listPaths()
+    expect(paths).toHaveLength(2)
+    const same = paths.find((p) => p.curriculum_key === path!.curriculum_key)
+    expect(await checkedKeys(same!.id)).toEqual(new Set(['w1:grammar']))
+    expect(await db.life_areas.count()).toBe(11)
+  })
+
+  it('covers exactly the synced tables', () => {
+    expect([...BACKUP_TABLES].sort()).toEqual([...SYNC_TABLES].sort())
   })
 
   it('previews without changing anything', async () => {

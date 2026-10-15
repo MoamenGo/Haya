@@ -1,5 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
-import { seedLifeAreas, seedRoutines } from './seed'
+import { seedLearningPaths, seedLifeAreas, seedRoutines } from './seed'
 import type {
   DailyLogRow,
   DailyPlanRow,
@@ -9,12 +9,14 @@ import type {
   InboxItemRow,
   ProjectRow,
   ResourceRow,
+  LearningPathRow,
   LifeAreaRow,
   ReviewRow,
   SyncConflictRow,
   SyncStateRow,
   RoutineRow,
   SettingRow,
+  StudyCheckRow,
   TaskRow,
 } from './types'
 
@@ -43,6 +45,8 @@ export class HayaDB extends Dexie {
   day_overrides!: EntityTable<DayOverrideRow, 'id'>
   reviews!: EntityTable<ReviewRow, 'id'>
   resources!: EntityTable<ResourceRow, 'id'>
+  learning_paths!: EntityTable<LearningPathRow, 'id'>
+  study_checks!: EntityTable<StudyCheckRow, 'id'>
   sync_state!: EntityTable<SyncStateRow, 'table'>
   sync_conflicts!: EntityTable<SyncConflictRow, 'id'>
 
@@ -99,10 +103,20 @@ export class HayaDB extends Dexie {
       resources: 'id, goal_id, project_id, url_normalized, updated_at, _dirty',
     })
 
+    // v8: study plans (English and Health Tech) followed day by day on Today.
+    // `&[path_id+item_key]`: one tick per plan item.
+    this.version(8)
+      .stores({
+        learning_paths: 'id, &curriculum_key, status, updated_at, _dirty',
+        study_checks: 'id, &[path_id+item_key], path_id, date, updated_at, _dirty',
+      })
+      .upgrade((tx) => seedLearningPaths(tx.table('learning_paths')))
+
     // …and brand-new databases get everything here (upgrades don't run for them).
     this.on('populate', async (tx) => {
       await seedLifeAreas(tx.table('life_areas'))
       await seedRoutines(tx.table('life_areas'), tx.table('routines'))
+      await seedLearningPaths(tx.table('learning_paths'))
     })
   }
 }

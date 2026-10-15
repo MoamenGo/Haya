@@ -1,3 +1,4 @@
+import type { CurriculumKey } from '@/core/learning/types'
 import type { DayType } from '@/core/time/config'
 
 /**
@@ -217,6 +218,32 @@ export interface ResourceRow extends SyncedRow {
   status: ResourceStatus
   /** Why this source is (or isn't) trustworthy, in the owner's words. */
   reliability_note: string
+}
+
+export const LEARNING_PATH_STATUSES = ['active', 'paused', 'done'] as const
+export type LearningPathStatus = (typeof LEARNING_PATH_STATUSES)[number]
+
+/**
+ * A study plan the owner follows week by week (CLAUDE.md §6.10). The plan's
+ * content (weeks, topics, sources) lives in code under src/core/learning;
+ * this row holds only the owner's choices: start date and status.
+ */
+export interface LearningPathRow extends SyncedRow {
+  /** Which built-in plan this is. Unique: one row per plan. */
+  curriculum_key: CurriculumKey
+  title: string
+  status: LearningPathStatus
+  /** `YYYY-MM-DD`; week 1 starts on the Saturday of this date's week. */
+  start_date: string
+}
+
+/** One ticked item of a plan. Unticking is a soft delete, so it syncs too. */
+export interface StudyCheckRow extends SyncedRow {
+  path_id: string
+  /** `StudyItem.key`, e.g. `w12:topic0`. Unique per path. */
+  item_key: string
+  /** The day it was ticked, `YYYY-MM-DD`. */
+  date: string
 }
 
 /** A per-date change to the weekly pattern: leave, exam, travel, illness (CLAUDE.md §4.2). */

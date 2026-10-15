@@ -65,6 +65,9 @@ export function WeekDayCard({ day, isToday }: WeekDayCardProps) {
         {t('today.capacity', { planned: capacity.planned, plannable: capacity.plannable })}
         {capacity.over && <span className="text-muted"> · {t('week.over')}</span>}
       </p>
+      {day.load.study > 0 && (
+        <p className="text-sm text-muted">{t('week.study', { m: day.load.study })}</p>
+      )}
 
       {day.tasks.length > 0 && (
         <ul className="flex flex-col gap-1 text-sm">

@@ -3,6 +3,7 @@ import {
   ClipboardCheck,
   Ellipsis,
   FolderKanban,
+  GraduationCap,
   House,
   Inbox,
   Repeat,
@@ -21,6 +22,7 @@ export interface NavItem {
     | '/projects'
     | '/goals'
     | '/habits'
+    | '/learn'
     | '/reviews/weekly'
     | '/settings'
     | '/more'
@@ -32,6 +34,7 @@ export interface NavItem {
     | 'nav.projects'
     | 'nav.goals'
     | 'nav.habits'
+    | 'nav.learn'
     | 'nav.weeklyReview'
     | 'nav.settings'
     | 'nav.more'
@@ -76,6 +79,14 @@ export const NAV_ITEMS: readonly NavItem[] = [
     to: '/goals',
     labelKey: 'nav.goals',
     icon: Target,
+    mobile: false,
+    desktop: true,
+    group: 'grow',
+  },
+  {
+    to: '/learn',
+    labelKey: 'nav.learn',
+    icon: GraduationCap,
     mobile: false,
     desktop: true,
     group: 'grow',
