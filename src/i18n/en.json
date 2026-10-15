@@ -30,7 +30,8 @@
       "grow": "Grow",
       "reflect": "Reflect"
     },
-    "learn": "Learning plans"
+    "learn": "Learning plans",
+    "notes": "Notes"
   },
   "today": {
     "title": "Today",
@@ -537,5 +538,34 @@
     "project": "This week's project",
     "milestone": "Milestone",
     "resources": "Resources"
+  },
+  "notes": {
+    "title": "Notes",
+    "intro": "Write or speak. Anything on your mind today, no structure needed.",
+    "newNote": "New note",
+    "placeholder": "Write your note here… or tap Record and speak",
+    "record": "Record",
+    "recordAgain": "Record again",
+    "stop": "Stop",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Delete this note?",
+    "removeRecording": "Remove recording",
+    "playRecording": "Play recording",
+    "transcribe": "Turn my speech into text while recording",
+    "transcribeHint": "The browser (Chrome) sends the audio to Google to convert it. The recording itself stays on your device. You can fix the text before saving.",
+    "noSpeech": "Speech-to-text isn't available in this browser (it works in Chrome). Recording still works.",
+    "audioElsewhere": "The recording is kept on the device it was made on.",
+    "empty": "No notes yet. Write the first one above.",
+    "today": "Today",
+    "todayLink": "Today's notes",
+    "todayCount": "{{count}} notes today",
+    "problem": {
+      "mic_denied": "The microphone is blocked. Allow it for this site in the browser settings and try again.",
+      "mic_failed": "Couldn't reach the microphone. Check it works and try again.",
+      "speech_failed": "Speech-to-text stopped, but audio is still recording. You can type the text yourself."
+    }
   }
 }

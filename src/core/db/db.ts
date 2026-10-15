@@ -11,6 +11,8 @@ import type {
   ResourceRow,
   LearningPathRow,
   LifeAreaRow,
+  NoteAudioRow,
+  NoteRow,
   ReviewRow,
   SyncConflictRow,
   SyncStateRow,
@@ -47,6 +49,8 @@ export class HayaDB extends Dexie {
   resources!: EntityTable<ResourceRow, 'id'>
   learning_paths!: EntityTable<LearningPathRow, 'id'>
   study_checks!: EntityTable<StudyCheckRow, 'id'>
+  notes!: EntityTable<NoteRow, 'id'>
+  note_audio!: EntityTable<NoteAudioRow, 'note_id'>
   sync_state!: EntityTable<SyncStateRow, 'table'>
   sync_conflicts!: EntityTable<SyncConflictRow, 'id'>
 
@@ -111,6 +115,13 @@ export class HayaDB extends Dexie {
         study_checks: 'id, &[path_id+item_key], path_id, date, updated_at, _dirty',
       })
       .upgrade((tx) => seedLearningPaths(tx.table('learning_paths')))
+
+    // v9: daily notes, typed or spoken. `note_audio` is local only (recordings
+    // stay on the device; see LOCAL_ONLY_TABLES in src/core/sync/tables.ts).
+    this.version(9).stores({
+      notes: 'id, date, updated_at, _dirty',
+      note_audio: 'note_id',
+    })
 
     // …and brand-new databases get everything here (upgrades don't run for them).
     this.on('populate', async (tx) => {

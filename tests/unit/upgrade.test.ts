@@ -18,7 +18,7 @@ describe('schema upgrade from v1', () => {
 
     const upgraded = new HayaDB(name)
     await upgraded.open()
-    expect(upgraded.verno).toBe(8)
+    expect(upgraded.verno).toBe(9)
     expect(await upgraded.life_areas.count()).toBe(11)
     expect(await upgraded.routines.count()).toBe(3)
     expect(await upgraded.learning_paths.count()).toBe(2)

@@ -59,3 +59,12 @@ export function formatDayMonth(date: Date, lang: Language, timeZone = DEFAULT_TI
     timeZone,
   }).format(date)
 }
+
+/** "9:41 PM": the time of day an instant happened, in the owner's timezone. */
+export function formatClock(date: Date, lang: Language, timeZone = DEFAULT_TIMEZONE): string {
+  return new Intl.DateTimeFormat(GREGORIAN_LOCALE[lang], {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZone,
+  }).format(date)
+}

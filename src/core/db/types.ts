@@ -246,6 +246,31 @@ export interface StudyCheckRow extends SyncedRow {
   date: string
 }
 
+/**
+ * A written or spoken note (CLAUDE.md §6.13), kept by day. Spoken notes keep
+ * their recording in `note_audio` on the device that recorded it; only the
+ * text (and the recording's length) syncs.
+ */
+export interface NoteRow extends SyncedRow {
+  /** The day the note belongs to, `YYYY-MM-DD`. */
+  date: string
+  body_md: string
+  /** Length of the recording in seconds, or null for a typed note. */
+  audio_seconds: number | null
+}
+
+/**
+ * Local only: a note's recording. Audio is too large for the free cloud
+ * database (CLAUDE.md §7.1), so it stays on this device and is not in backups.
+ */
+export interface NoteAudioRow {
+  /** Same id as the note it belongs to (one recording per note). */
+  note_id: string
+  blob: Blob
+  mime_type: string
+  created_at: string
+}
+
 /** A per-date change to the weekly pattern: leave, exam, travel, illness (CLAUDE.md §4.2). */
 export interface DayOverrideRow extends SyncedRow {
   /** `YYYY-MM-DD`, unique. */

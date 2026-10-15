@@ -6,6 +6,7 @@ import { GoalsPage } from '@/modules/goals/pages/GoalsPage'
 import { LearnPage } from '@/modules/learning/pages/LearnPage'
 import { InboxPage } from '@/modules/inbox/pages/InboxPage'
 import { MorePage } from '@/modules/more/pages/MorePage'
+import { NotesPage } from '@/modules/notes/pages/NotesPage'
 import { EveningReviewPage } from '@/modules/reviews/pages/EveningReviewPage'
 import { WeeklyReviewPage } from '@/modules/reviews/pages/WeeklyReviewPage'
 import { ProjectsPage } from '@/modules/projects/pages/ProjectsPage'
@@ -93,6 +94,12 @@ const weeklyReviewRoute = createRoute({
   component: WeeklyReviewPage,
 })
 
+const notesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/notes',
+  component: NotesPage,
+})
+
 const moreRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/more',
@@ -118,6 +125,7 @@ const routeTree = rootRoute.addChildren([
   learnRoute,
   weekRoute,
   weeklyReviewRoute,
+  notesRoute,
   moreRoute,
   settingsRoute,
 ])
