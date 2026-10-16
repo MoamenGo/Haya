@@ -174,7 +174,7 @@ export function PrayerArc({ now, prayers, next, language, children }: PrayerArcP
                 )}
               >
                 <span className="text-xs leading-tight sm:text-sm">{t(`prayers.${name}`)}</span>
-                <span className="text-[0.6875rem] leading-tight font-normal tabular-nums opacity-85 sm:text-xs">
+                <span className="text-xs leading-tight font-normal tabular-nums opacity-90">
                   {formatTime(prayers[name], language)}
                 </span>
               </span>

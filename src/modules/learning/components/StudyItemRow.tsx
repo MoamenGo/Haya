@@ -60,7 +60,7 @@ export function StudyItemRow({
         <p
           dir="auto"
           className={cn(
-            'text-sm break-words md:text-[0.9375rem]',
+            'text-sm break-words md:text-base',
             done && 'text-muted line-through decoration-muted/60',
             muted && 'text-muted',
           )}

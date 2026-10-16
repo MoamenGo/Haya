@@ -19,7 +19,7 @@ export function BottomNav() {
           <li key={to} className="flex-1">
             <Link
               to={to}
-              className="group flex min-h-16 flex-col items-center justify-center gap-0.5 rounded-3xl text-[0.6875rem] text-muted transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
+              className="group flex min-h-16 flex-col items-center justify-center gap-0.5 rounded-3xl text-xs text-muted transition-colors focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring"
               activeProps={{ className: 'active font-medium !text-accent-foreground' }}
             >
               <span className="flex h-8 w-14 items-center justify-center rounded-full transition-colors group-[.active]:bg-accent">

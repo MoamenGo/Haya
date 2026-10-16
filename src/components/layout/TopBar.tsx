@@ -37,7 +37,7 @@ export function TopBar() {
           <Plus aria-hidden />
           <span className="flex-1 text-start">{t('capture.open')}</span>
           {/* No keyboard shortcut hint on touch tablets. */}
-          <kbd className="rounded-md pointer-coarse:hidden border border-border bg-subtle px-1.5 font-sans text-[0.6875rem] text-muted">
+          <kbd className="rounded-md pointer-coarse:hidden border border-border bg-subtle px-1.5 font-sans text-xs text-muted">
             Ctrl K
           </kbd>
         </Button>
