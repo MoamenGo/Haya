@@ -40,7 +40,7 @@ export function QuickAdd({ todayISO, scheduleToday }: QuickAddProps) {
         className="min-h-12 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-muted desk:text-sm"
       />
       {title.trim() && (
-        <kbd className="hidden rounded border border-border bg-subtle px-1.5 text-[0.6875rem] text-muted sm:inline">
+        <kbd className="hidden rounded border border-border bg-subtle px-1.5 text-xs text-muted sm:inline">
           Enter
         </kbd>
       )}

@@ -1,14 +1,29 @@
 @import 'tailwindcss';
 /*
  * Fonts, self-hosted (OFL licensed): no network, no tracking.
- * Inter draws Latin letters and digits; IBM Plex Sans Arabic draws Arabic.
+ * Inter draws Latin letters and digits; Readex Pro draws Arabic.
  * The browser picks per character, so mixed Arabic/English lines look right.
  */
 @import '@fontsource-variable/inter';
-@import '@fontsource/ibm-plex-sans-arabic/arabic-400.css';
-@import '@fontsource/ibm-plex-sans-arabic/arabic-500.css';
-@import '@fontsource/ibm-plex-sans-arabic/arabic-600.css';
-@import '@fontsource/ibm-plex-sans-arabic/arabic-700.css';
+/*
+ * Readex Pro is the Arabic companion of Lexend, a typeface designed to be
+ * easy to read. Its letters are taller and more open than most Arabic UI
+ * fonts, so small text (labels, hints, times) stays clear on a phone.
+ * Only the Arabic file is loaded: Inter already covers Latin, and fewer
+ * files means a smaller offline download. One variable file = every weight.
+ */
+@font-face {
+  font-family: 'Readex Pro Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 160 700;
+  src: url('@fontsource-variable/readex-pro/files/readex-pro-arabic-wght-normal.woff2')
+    format('woff2-variations');
+  unicode-range:
+    U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E,
+    U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC, U+102E0-102FB,
+    U+10E60-10E7E, U+10EC2-10EC4, U+10EFC-10EFF, U+1EE00-1EEFF;
+}
 /*
  * Alexandria draws titles and big numbers, in Arabic and English. It was
  * designed by the Egyptian type designer Mohamed Gaber and named after the
@@ -56,9 +71,9 @@
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
   --color-ring: var(--ring);
-  --font-sans: 'Inter Variable', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-sans: 'Inter Variable', 'Readex Pro Variable', system-ui, sans-serif;
   /* Titles, the brand and big numbers: Alexandria. Body text stays on the reading fonts above. */
-  --font-display: 'Alexandria Variable', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --font-display: 'Alexandria Variable', 'Readex Pro Variable', system-ui, sans-serif;
 
   /* Borders do most of the work; shadows only lift things that float. */
   --shadow-card: 0 1px 2px rgb(var(--shadow-color) / 0.04);
@@ -130,29 +145,34 @@
 }
 
 /*
- * Fluid type scale. Each size grows smoothly between a phone (~360px) and a
- * wide desktop (~1440px) with clamp(min, preferred, max), so text is never
- * tiny on a big screen or huge on a phone, and there are no sudden jumps.
+ * Fluid type scale: one scale for phone, tablet and laptop. Each size grows
+ * smoothly between a phone (~360px) and a wide desktop (~1440px) with
+ * clamp(min, preferred, max), so there are no sudden jumps.
  * Every `text-sm`, `text-2xl`… class in the app uses these values.
- * Arabic letters need more vertical room, so line heights are generous.
+ *
+ * Arabic is the main language, and Arabic letters look smaller than Latin
+ * ones at the same size, so the floor is higher than a typical English app:
+ * the smallest text (`text-xs`) never goes under 12.5px, and normal reading
+ * text (`text-sm`, used most) is 14–15px. Arabic also needs vertical room
+ * for dots and marks above and below, so line heights are generous.
  */
 @theme {
-  --text-xs: clamp(0.75rem, 0.73rem + 0.08vw, 0.8125rem);
+  --text-xs: clamp(0.78125rem, 0.765rem + 0.07vw, 0.8125rem);
   --text-xs--line-height: 1.6;
-  --text-sm: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.855rem + 0.09vw, 0.9375rem);
   --text-sm--line-height: 1.65;
-  --text-base: clamp(0.9375rem, 0.91rem + 0.12vw, 1rem);
+  --text-base: clamp(1rem, 0.98rem + 0.09vw, 1.0625rem);
   --text-base--line-height: 1.7;
-  --text-lg: clamp(1.0625rem, 1.02rem + 0.18vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1.1rem + 0.12vw, 1.1875rem);
   --text-lg--line-height: 1.55;
-  --text-xl: clamp(1.1875rem, 1.12rem + 0.3vw, 1.3125rem);
+  --text-xl: clamp(1.25rem, 1.2rem + 0.22vw, 1.375rem);
   --text-xl--line-height: 1.45;
-  --text-2xl: clamp(1.375rem, 1.27rem + 0.5vw, 1.625rem);
+  --text-2xl: clamp(1.4375rem, 1.34rem + 0.45vw, 1.6875rem);
   --text-2xl--line-height: 1.35;
-  --text-3xl: clamp(1.625rem, 1.45rem + 0.8vw, 2rem);
-  --text-3xl--line-height: 1.25;
-  --text-4xl: clamp(2rem, 1.7rem + 1.3vw, 2.5rem);
-  --text-4xl--line-height: 1.15;
+  --text-3xl: clamp(1.6875rem, 1.53rem + 0.7vw, 2.0625rem);
+  --text-3xl--line-height: 1.3;
+  --text-4xl: clamp(2rem, 1.75rem + 1.1vw, 2.5rem);
+  --text-4xl--line-height: 1.2;
 
   /*
    * Soft, generous corners: 8–10px for chips and inner items, 14–16px for

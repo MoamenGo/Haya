@@ -59,7 +59,7 @@ export function TaskItem({ task, todayISO, showDate = false, projectName, onEdit
         <p
           dir="auto"
           className={cn(
-            'text-sm break-words transition-colors duration-200 md:text-[0.9375rem]',
+            'text-sm break-words transition-colors duration-200 md:text-base',
             done && 'text-muted line-through decoration-muted/60',
           )}
         >
