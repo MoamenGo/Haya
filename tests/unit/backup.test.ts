@@ -41,7 +41,7 @@ describe('backup', () => {
     await applyImport(db, await previewImport(db, backup))
 
     const paths = await listPaths()
-    expect(paths).toHaveLength(2)
+    expect(paths).toHaveLength(3)
     const same = paths.find((p) => p.curriculum_key === path!.curriculum_key)
     expect(await checkedKeys(same!.id)).toEqual(new Set(['w1:grammar']))
     expect(await db.life_areas.count()).toBe(11)

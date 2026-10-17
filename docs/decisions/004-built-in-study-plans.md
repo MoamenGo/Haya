@@ -1,4 +1,4 @@
-# ADR-004: Built-in study plans (English and Health Tech)
+# ADR-004: Built-in study plans (English, Health Tech, Dutch)
 
 **Status:** accepted · 2026-10-15 · ahead of Phase 4, at the owner's request
 
@@ -27,3 +27,18 @@ them day by day inside Haya, on Today, without waiting for the full Learning OS 
 - Editing a plan's text is safe; item **keys** must never change, or ticks would be lost.
 - The full Learning OS (domains, resources, review cards) in Phase 4 can build on
   `learning_paths` instead of replacing it.
+
+## Addendum · 2026-10-17: the Dutch plan
+
+- A third built-in plan, **Dutch A1 → C1** (96 weeks, five stages), ported from the owner's
+  "رحلة الهولندية" map in the خرائطي app: the weekly grammar topics, the rotating sources, the
+  end-of-stage checks (weeks 16, 36, 56, 76, 96) and the Arabic grammar reviews.
+- Same daily shape as English (30 min on hospital days, 75 on deep-work days, 10 on Friday), as
+  the original map's routine asks.
+- Dexie v11 + migration `20261017000000_dutch_plan.sql` add it to existing databases.
+  `seedLearningPaths` now adds any missing built-in plan by key; a new plan starts **active only
+  while the limit of 3 active plans has room**, otherwise paused.
+- With all three active, a deep-work day plans 300 of 252 minutes: the capacity bar shows the
+  overload (a warning, never a block). Pausing any plan brings the day back under.
+- Progress already ticked in the خرائطي app is not carried over: that app keeps it on the phone
+  only, out of Haya's reach.

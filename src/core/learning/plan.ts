@@ -5,6 +5,7 @@ import {
   type Weekday,
 } from '@/core/time/config'
 import { DAYS_PER_WEEK } from '@/core/time/date'
+import { dutch } from './curricula/dutch'
 import { english } from './curricula/english'
 import { healthTech } from './curricula/healthTech'
 import { emptyCurriculum, withEdits, type StudyItemEdit } from './edits'
@@ -20,6 +21,7 @@ import { dayIndexInWeek, planWeekOn } from './week'
 export const CURRICULA: Readonly<Record<CurriculumKey, Curriculum>> = {
   english_a2_c1: english,
   health_tech: healthTech,
+  dutch_a1_c1: dutch,
 }
 
 /** The plan's code before the owner's changes: a built-in curriculum, or an empty one. */

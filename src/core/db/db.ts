@@ -140,6 +140,12 @@ export class HayaDB extends Dexie {
           }),
       )
 
+    // v11: the Dutch plan joins the built-in plans. No index changes; the
+    // upgrade only adds the missing plan row (see seedLearningPaths).
+    this.version(11)
+      .stores({})
+      .upgrade((tx) => seedLearningPaths(tx.table('learning_paths')))
+
     // …and brand-new databases get everything here (upgrades don't run for them).
     this.on('populate', async (tx) => {
       await seedLifeAreas(tx.table('life_areas'))

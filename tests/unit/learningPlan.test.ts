@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { dutch } from '@/core/learning/curricula/dutch'
 import { english } from '@/core/learning/curricula/english'
 import { healthTech } from '@/core/learning/curricula/healthTech'
 import { CURRICULA, defaultWeekDayTypes, planProgress, studyDay } from '@/core/learning/plan'
@@ -45,6 +46,11 @@ describe('daily sessions', () => {
     expect(days).toEqual([30, 30, 75, 75, 30, 75, 10])
   })
 
+  it('sizes Dutch by day type, like the original map (30 / 75 / 10)', () => {
+    const days = dutch.planWeek(1, USUAL_WEEK).map(minutes)
+    expect(days).toEqual([30, 30, 75, 75, 30, 75, 10])
+  })
+
   it('sizes Health Tech by day type', () => {
     const days = healthTech.planWeek(1, USUAL_WEEK).map(minutes)
     expect(days).toEqual([45, 45, 150, 150, 45, 150, 30])
@@ -57,6 +63,13 @@ describe('daily sessions', () => {
       const planned = minutes(en[day] ?? []) + minutes(ht[day] ?? [])
       expect(dayCapacity(type, planned).over).toBe(false)
     })
+  })
+
+  it('with Dutch too, deep-work days go over and the capacity bar says so', () => {
+    const all = [english, healthTech, dutch].map((c) => c.planWeek(1, USUAL_WEEK))
+    const planned = (day: number) => all.reduce((sum, plan) => sum + minutes(plan[day] ?? []), 0)
+    expect(planned(2)).toBe(300)
+    expect(dayCapacity('deep_work', planned(2)).over).toBe(true)
   })
 
   it('gives every item a unique key in every week', () => {
@@ -143,5 +156,56 @@ describe('defaultWeekDayTypes', () => {
       'deep_work',
       'rest',
     ])
+  })
+})
+
+describe('Dutch plan', () => {
+  it('covers 96 weeks in five stages, A1 to C1', () => {
+    expect(dutch.totalWeeks).toBe(96)
+    expect(dutch.overview(1).phase.startsWith('A1')).toBe(true)
+    expect(dutch.overview(17).phase.startsWith('A2')).toBe(true)
+    expect(dutch.overview(96).phase.startsWith('C1')).toBe(true)
+  })
+
+  it('gives every week a grammar topic and unique step keys', () => {
+    for (let w = 1; w <= dutch.totalWeeks; w++) {
+      expect(dutch.overview(w).title).not.toBe('')
+      const keys = dutch
+        .planWeek(w, USUAL_WEEK)
+        .flat()
+        .map((i) => i.key)
+      expect(new Set(keys).size).toBe(keys.length)
+    }
+  })
+
+  it('lists each source once per week', () => {
+    for (let w = 1; w <= dutch.totalWeeks; w++) {
+      const urls = dutch.overview(w).resources.map((r) => r.url)
+      expect(new Set(urls).size).toBe(urls.length)
+    }
+  })
+
+  it('puts a practice exam at the end of each stage', () => {
+    const examWeeks: number[] = []
+    for (let w = 1; w <= dutch.totalWeeks; w++) {
+      if (
+        dutch
+          .planWeek(w, USUAL_WEEK)
+          .flat()
+          .some((i) => i.kind === 'check')
+      )
+        examWeeks.push(w)
+    }
+    expect(examWeeks).toEqual([16, 36, 56, 76, 96])
+  })
+
+  it('reviews grammar in Arabic while Arabic sources exist (not at C1)', () => {
+    const arabicIn = (w: number) =>
+      dutch
+        .planWeek(w, USUAL_WEEK)
+        .flat()
+        .some((i) => i.key === `w${w}:arabic`)
+    expect(arabicIn(1)).toBe(true)
+    expect(arabicIn(80)).toBe(false)
   })
 })
