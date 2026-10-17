@@ -31,22 +31,26 @@ afterEach(async () => {
 })
 
 describe('learning paths', () => {
-  it('starts with both plans active from the same Saturday', async () => {
+  it('starts with the three built-in plans active from the same Saturday', async () => {
     const paths = await listActivePaths()
-    expect(paths.map((p) => p.curriculum_key).sort()).toEqual(['english_a2_c1', 'health_tech'])
+    expect(paths.map((p) => p.curriculum_key).sort()).toEqual([
+      'dutch_a1_c1',
+      'english_a2_c1',
+      'health_tech',
+    ])
     expect(paths.every((p) => p.start_date === BUILT_IN_PLANS_START)).toBe(true)
   })
 
   it('does not seed twice', async () => {
     await seedLearningPaths(db.table('learning_paths'))
-    expect(await db.learning_paths.count()).toBe(2)
+    expect(await db.learning_paths.count()).toBe(3)
   })
 
   it('pauses, resumes and moves the start date', async () => {
     const [first] = await listPaths()
     if (!first) throw new Error('seed missing')
     await setPathStatus(first.id, 'paused')
-    expect(await listActivePaths()).toHaveLength(1)
+    expect(await listActivePaths()).toHaveLength(2)
     await setPathStatus(first.id, 'active')
     await setPathStart(first.id, '2026-11-07')
     expect((await db.learning_paths.get(first.id))?.start_date).toBe('2026-11-07')
@@ -63,6 +67,33 @@ describe('learning paths', () => {
       { ...extra, id: 'p4', curriculum_key: 'x4' as never, status: 'active' },
     ])
     await expect(setPathStatus(first.id, 'active')).rejects.toBeInstanceOf(TooManyActivePathsError)
+  })
+})
+
+describe('adding a built-in plan later', () => {
+  it('adds only the missing plan, active while there is room', async () => {
+    const dutch = await db.learning_paths.where('curriculum_key').equals('dutch_a1_c1').first()
+    if (!dutch) throw new Error('seed missing')
+    await db.learning_paths.delete(dutch.id)
+    await seedLearningPaths(db.table('learning_paths'))
+    const added = await db.learning_paths.where('curriculum_key').equals('dutch_a1_c1').toArray()
+    expect(added).toHaveLength(1)
+    expect(added[0]?.status).toBe('active')
+    expect(await db.learning_paths.count()).toBe(3)
+  })
+
+  it('adds it paused when 3 plans are already active', async () => {
+    const dutch = await db.learning_paths.where('curriculum_key').equals('dutch_a1_c1').first()
+    if (!dutch) throw new Error('seed missing')
+    await db.learning_paths.delete(dutch.id)
+    await db.learning_paths.add({
+      ...dutch,
+      id: 'own',
+      curriculum_key: 'custom:00000000-0000-7000-8000-000000000001',
+    })
+    await seedLearningPaths(db.table('learning_paths'))
+    const added = await db.learning_paths.where('curriculum_key').equals('dutch_a1_c1').first()
+    expect(added?.status).toBe('paused')
   })
 })
 
@@ -90,6 +121,10 @@ describe('editing plans', () => {
   }
 
   it('creates a custom plan, active while there is room, paused after', async () => {
+    // The three built-in plans fill the limit; pausing one makes room.
+    const [first] = await listPaths()
+    if (!first) throw new Error('seed missing')
+    await setPathStatus(first.id, 'paused')
     const plan = await createPath({ title: 'Python', total_weeks: 8, start_date: '2026-10-24' })
     expect(plan.curriculum_key.startsWith('custom:')).toBe(true)
     expect(plan.status).toBe('active')

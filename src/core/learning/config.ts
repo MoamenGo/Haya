@@ -8,6 +8,10 @@
  *   rest      10 + 30  = 40  of 42
  * That leaves little room for other planned work, on purpose visible on the
  * capacity bar. Pausing one plan frees its time.
+ *
+ * Dutch (added later) uses the same shape as English: 30 on hospital days, 75
+ * on deep-work days, 10 on Friday. With all three active, days go over their
+ * plannable time and the capacity bar says so (a warning, never a block).
  */
 
 /** Work-in-progress limit for learning paths (CLAUDE.md §6.10). */
@@ -28,6 +32,23 @@ export const ENGLISH_MIN = {
   output: 20,
   longOutput: 25,
   levelCheck: 45,
+} as const
+
+export const DUTCH_WEEKS = 96
+
+/** Dutch starts on the Saturday it was added to Haya. */
+export const DUTCH_PLAN_START = '2026-10-17'
+
+/** Minutes per Dutch activity. */
+export const DUTCH_MIN = {
+  anki: 10,
+  listening: 20,
+  reading: 20,
+  grammarLesson: 25,
+  arabicReview: 20,
+  output: 20,
+  longOutput: 25,
+  exam: 45,
 } as const
 
 /** Minutes per Health Tech activity. */

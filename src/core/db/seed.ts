@@ -1,6 +1,6 @@
 import type { Table } from 'dexie'
 import { newRowMeta } from './rows'
-import { BUILT_IN_PLANS_START } from '@/core/learning/config'
+import { BUILT_IN_PLANS_START, DUTCH_PLAN_START, MAX_ACTIVE_PATHS } from '@/core/learning/config'
 import type { LearningPathRow, LifeAreaRow, RoutineRow } from './types'
 
 /** The 11 default life areas from CLAUDE.md §5.1. Editable later in Settings. */
@@ -100,25 +100,40 @@ export async function seedRoutines(
   await routines.bulkAdd(rows)
 }
 
-/** The owner's two study plans, both active from the same Saturday. */
+/** The owner's built-in study plans and the Saturday each one starts. */
 export const STARTER_LEARNING_PATHS: ReadonlyArray<
-  Pick<LearningPathRow, 'curriculum_key' | 'title'>
+  Pick<LearningPathRow, 'curriculum_key' | 'title' | 'start_date'>
 > = [
-  { curriculum_key: 'english_a2_c1', title: 'الإنجليزية من A2 إلى C1' },
-  { curriculum_key: 'health_tech', title: 'من الصيدلية إلى Health Tech' },
+  {
+    curriculum_key: 'english_a2_c1',
+    title: 'الإنجليزية من A2 إلى C1',
+    start_date: BUILT_IN_PLANS_START,
+  },
+  {
+    curriculum_key: 'health_tech',
+    title: 'من الصيدلية إلى Health Tech',
+    start_date: BUILT_IN_PLANS_START,
+  },
+  { curriculum_key: 'dutch_a1_c1', title: 'الهولندية من A1 إلى C1', start_date: DUTCH_PLAN_START },
 ]
 
+/**
+ * Adds any built-in plan that is missing, so a plan added in a later version
+ * reaches existing databases too. Fixed start dates (not "today") let two
+ * devices that upgrade on different days create matching rows; sync then
+ * merges them by `curriculum_key`. A new plan starts active only while the
+ * active-plans limit has room; otherwise it waits, paused.
+ */
 export async function seedLearningPaths(table: Table<LearningPathRow, string>): Promise<void> {
-  const existing = await table.count()
-  if (existing > 0) return
-  // A fixed start date (not "today"), so two devices that upgrade on different
-  // days create matching rows; sync then merges them by `curriculum_key`.
-  const rows: LearningPathRow[] = STARTER_LEARNING_PATHS.map((path) => ({
-    ...newRowMeta(),
-    ...path,
-    status: 'active',
-    start_date: BUILT_IN_PLANS_START,
-    total_weeks: null,
-  }))
-  await table.bulkAdd(rows)
+  const rows = await table.toArray()
+  const have = new Set(rows.map((r) => r.curriculum_key))
+  let active = rows.filter((r) => r.status === 'active' && !r.deleted_at).length
+  const added: LearningPathRow[] = []
+  for (const path of STARTER_LEARNING_PATHS) {
+    if (have.has(path.curriculum_key)) continue
+    const status = active < MAX_ACTIVE_PATHS ? 'active' : 'paused'
+    if (status === 'active') active += 1
+    added.push({ ...newRowMeta(), ...path, status, total_weeks: null })
+  }
+  if (added.length) await table.bulkAdd(added)
 }
