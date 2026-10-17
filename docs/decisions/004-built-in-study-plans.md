@@ -42,3 +42,17 @@ them day by day inside Haya, on Today, without waiting for the full Learning OS 
   overload (a warning, never a block). Pausing any plan brings the day back under.
 - Progress already ticked in the خرائطي app is not carried over: that app keeps it on the phone
   only, out of Haya's reach.
+
+## Addendum · 2026-10-17: the Health Tech plan covers the owner's CV
+
+- The owner asked that, by its end, the Health Tech plan match his CV ("Abdelmoamen Gomaa —
+  Resume") exactly, **without removing anything**, and to keep React Native.
+- 21 weeks were added (`healthTechCvData.ts`), each placed right after an original week: i18n,
+  RTL and PWA; Fastify + Drizzle + SQLite; Web Push and time zones; Redis + BullMQ with email and
+  WhatsApp reminders; a monorepo with Docker Compose; an Arabic booking system; Dart and Flutter
+  (4 weeks); advanced Next.js; barcode, OCR and Excel; C#, ASP.NET Core and EF Core (5 weeks,
+  ending in the AI Drug Interaction Checker); Claude API and Ollama; image and video processing;
+  and a two-week MrTool capstone. The plan grows from 104 to 125 weeks.
+- The original 104 weeks are unchanged; their phases stretch over the added weeks. The first
+  insertion comes after week 18, so ticks already made (week 1) keep their place. Ticks or
+  edits on weeks after 18, if any, would now point at a different week.

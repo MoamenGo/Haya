@@ -2,6 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { dutch } from '@/core/learning/curricula/dutch'
 import { english } from '@/core/learning/curricula/english'
 import { healthTech } from '@/core/learning/curricula/healthTech'
+import {
+  HEALTH_TECH_PHASES,
+  HEALTH_TECH_RESOURCES,
+  HEALTH_TECH_WEEKS,
+} from '@/core/learning/curricula/healthTechData'
 import { CURRICULA, defaultWeekDayTypes, planProgress, studyDay } from '@/core/learning/plan'
 import { dayIndexInWeek, planWeekDates, planWeekOn } from '@/core/learning/week'
 import { dayCapacity } from '@/core/planner/capacity'
@@ -207,5 +212,70 @@ describe('Dutch plan', () => {
         .some((i) => i.key === `w${w}:arabic`)
     expect(arabicIn(1)).toBe(true)
     expect(arabicIn(80)).toBe(false)
+  })
+})
+
+describe('Health Tech plan with the CV weeks', () => {
+  const titles = HEALTH_TECH_WEEKS.map((w) => w.title)
+
+  it('keeps all 104 original weeks, in order, and adds 21', () => {
+    expect(healthTech.totalWeeks).toBe(125)
+    // Weeks 1–18 keep their numbers, so ticks already made stay on the right week.
+    expect(titles[0]).toBe('إعداد البيئة والتفكير البرمجي')
+    expect(titles[17]).toBe('Tailwind والتصميم')
+    expect(titles[18]).toBe('تطبيقات عربية: i18n و RTL و PWA')
+    expect(titles[124]).toBe('الختام وخطة السنة التالية')
+  })
+
+  it('covers every skill on the CV somewhere in the plan', () => {
+    const text = HEALTH_TECH_WEEKS.map((w) => [w.title, ...w.topics, w.project].join(' ')).join(' ')
+    const cv = [
+      'TypeScript',
+      'JavaScript',
+      'Python',
+      'C#',
+      'Dart',
+      'SQL',
+      'Next.js',
+      'React',
+      'Tailwind',
+      'PWA',
+      'RTL',
+      'Flutter',
+      'Express',
+      'Fastify',
+      'ASP.NET Core',
+      'FastAPI',
+      'PostgreSQL',
+      'SQLite',
+      'Prisma',
+      'Drizzle',
+      'EF Core',
+      'Redis',
+      'Claude',
+      'Ollama',
+      'OCR',
+      'Docker',
+      'Git',
+      'Vitest',
+      'BullMQ',
+    ]
+    expect(cv.filter((skill) => !text.includes(skill))).toEqual([])
+  })
+
+  it('stretches the phases over the added weeks without gaps', () => {
+    expect(HEALTH_TECH_PHASES[0]?.from).toBe(1)
+    HEALTH_TECH_PHASES.forEach((p, i) => {
+      const next = HEALTH_TECH_PHASES[i + 1]
+      if (next) expect(next.from).toBe(p.to + 1)
+    })
+    expect(HEALTH_TECH_PHASES.at(-1)?.to).toBe(125)
+  })
+
+  it('links only to known sources', () => {
+    const missing = HEALTH_TECH_WEEKS.flatMap((w) =>
+      w.resources.filter((key) => !HEALTH_TECH_RESOURCES[key]),
+    )
+    expect(missing).toEqual([])
   })
 })

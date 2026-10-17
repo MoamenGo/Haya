@@ -1,9 +1,11 @@
 /**
- * Pharmacy → Health Tech in 104 weeks: a shared foundation, the Full-stack
- * Health Tech track, then the healthcare Data & AI track, then capstones.
- * Imported from the owner's "مسار Health Tech" plan (October 2026).
+ * Pharmacy → Health Tech: a shared foundation, the Full-stack Health Tech
+ * track, then the healthcare Data & AI track, then capstones.
+ * Imported from the owner's "مسار Health Tech" plan (October 2026, 104 weeks),
+ * with the weeks from his CV slotted in (healthTechCvData.ts).
  */
 import type { Link } from '../types'
+import { CV_RESOURCES, CV_WEEKS } from './healthTechCvData'
 
 export interface HealthTechResource extends Link {
   /** Shelf name on the resources list. */
@@ -28,7 +30,7 @@ export interface HealthTechWeek {
   milestone?: string
 }
 
-export const HEALTH_TECH_RESOURCES: Readonly<Record<string, HealthTechResource>> = {
+const BASE_RESOURCES: Readonly<Record<string, HealthTechResource>> = {
   cs50: { title: 'CS50x (Harvard)', url: 'https://cs50.harvard.edu/x/', group: 'أساسيات' },
   cs50p: { title: 'CS50P: Python', url: 'https://cs50.harvard.edu/python/', group: 'أساسيات' },
   elz: {
@@ -261,7 +263,8 @@ export const HEALTH_TECH_RESOURCES: Readonly<Record<string, HealthTechResource>>
   depi: { title: 'رواد مصر الرقمية DEPI', url: 'https://depi.gov.eg/', group: 'السوق والشغل' },
 }
 
-export const HEALTH_TECH_PHASES: readonly HealthTechPhase[] = [
+/** Phases in the original 104-week numbering; see HEALTH_TECH_PHASES for the real one. */
+const BASE_PHASES: readonly HealthTechPhase[] = [
   { code: 'A0', name: 'الأساسيات', from: 1, to: 10, track: 'shared' },
   { code: 'B1', name: 'الواجهات Frontend', from: 11, to: 26, track: 'fullstack' },
   { code: 'B2', name: 'الـ Backend وقواعد البيانات', from: 27, to: 44, track: 'fullstack' },
@@ -272,7 +275,8 @@ export const HEALTH_TECH_PHASES: readonly HealthTechPhase[] = [
   { code: 'D1', name: 'المشاريع الكبرى والسوق', from: 95, to: 104, track: 'capstone' },
 ]
 
-export const HEALTH_TECH_WEEKS: readonly HealthTechWeek[] = [
+/** The original 104 weeks, unchanged. */
+const BASE_WEEKS: readonly HealthTechWeek[] = [
   {
     title: 'إعداد البيئة والتفكير البرمجي',
     topics: [
@@ -724,7 +728,7 @@ export const HEALTH_TECH_WEEKS: readonly HealthTechWeek[] = [
     topics: ['قراءة الأدوية والتحاليل', 'الخط الزمني للمريض', 'رسوم التحاليل', 'النشر'],
     project: 'عارض FHIR منشور',
     resources: ['fhir', 'hapi'],
-    milestone: 'سنة كاملة: Full-stack + موبايل + FHIR',
+    milestone: 'Full-stack + موبايل + FHIR',
   },
   {
     title: 'AWS (1)',
@@ -909,7 +913,7 @@ export const HEALTH_TECH_WEEKS: readonly HealthTechWeek[] = [
       'البيانات غير المتوازنة',
       'Calibration',
     ],
-    project: 'تقرير تقييم كامل لنموذج الأسبوع 75',
+    project: 'تقرير تقييم كامل لنموذج أسبوع نماذج الأشجار',
     resources: ['handson'],
   },
   {
@@ -1121,6 +1125,39 @@ export const HEALTH_TECH_WEEKS: readonly HealthTechWeek[] = [
     topics: ['مراجعة السنتين', 'تحديث الـ Portfolio', 'اختيار التخصص العميق', 'خطة السنة الثالثة'],
     project: 'خطة مكتوبة للسنة الثالثة',
     resources: ['roadmap'],
-    milestone: 'سنتين: مهندس Health Tech',
+    milestone: 'نهاية الخطة: مهندس Health Tech',
   },
 ]
+
+export const HEALTH_TECH_RESOURCES: Readonly<Record<string, HealthTechResource>> = {
+  ...BASE_RESOURCES,
+  ...CV_RESOURCES,
+}
+
+/**
+ * The plan as followed: each original week, then any CV weeks placed after it.
+ * `base` is the week's number in the original plan (null for a CV week).
+ */
+const MERGED: ReadonlyArray<{ week: HealthTechWeek; base: number | null }> = BASE_WEEKS.flatMap(
+  (week, i) => [
+    { week, base: i + 1 },
+    ...CV_WEEKS.filter((cv) => cv.after === i + 1).map((cv) => ({ week: cv.week, base: null })),
+  ],
+)
+
+export const HEALTH_TECH_WEEKS: readonly HealthTechWeek[] = MERGED.map((m) => m.week)
+
+/** The real week number of an original week. */
+function realWeek(base: number): number {
+  return MERGED.findIndex((m) => m.base === base) + 1
+}
+
+/** Phases stretched over the added weeks: a CV week belongs to the phase of the week before it. */
+export const HEALTH_TECH_PHASES: readonly HealthTechPhase[] = BASE_PHASES.map((phase, i) => {
+  const next = BASE_PHASES[i + 1]
+  return {
+    ...phase,
+    from: realWeek(phase.from),
+    to: next ? realWeek(next.from) - 1 : HEALTH_TECH_WEEKS.length,
+  }
+})
