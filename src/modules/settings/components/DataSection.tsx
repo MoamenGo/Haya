@@ -18,7 +18,7 @@ export function DataSection() {
     const url = URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
-    link.download = `haya-backup-${localDateISO(new Date())}.json`
+    link.download = `khatwa-backup-${localDateISO(new Date())}.json`
     link.click()
     URL.revokeObjectURL(url)
   }

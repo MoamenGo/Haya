@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { Check, Monitor, Moon, Palette, Sun } from 'lucide-react'
+import { Check, Layers, Monitor, Moon, Palette, Sun } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
@@ -9,9 +9,10 @@ const OPTIONS = [
   { value: 'light', icon: Sun },
   { value: 'dark', icon: Moon },
   { value: 'system', icon: Monitor },
+  { value: 'glass', icon: Layers },
 ] as const
 
-/** Light / dark / system, saved in Settings (so it syncs) from the top bar. */
+/** Light / dark / system / glass, saved in Settings (so it syncs) from the top bar. */
 export function ThemeMenu() {
   const { t } = useTranslation()
   const [theme, setTheme] = useSetting('theme')

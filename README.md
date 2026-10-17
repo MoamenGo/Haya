@@ -1,6 +1,7 @@
-# حياة (Haya)
+# خطوة (Khatwa)
 
-A private, single-user life operating system. One app (PWA) that opens in the browser on a
+A private, single-user life operating system. It was called حياة (Haya) until ADR-006; the
+repository and the internal names keep that name. One app (PWA) that opens in the browser on a
 desktop, installs on a phone like a native app, and works offline.
 
 The full specification is [`CLAUDE.md`](CLAUDE.md). Decisions are in [`docs/decisions/`](docs/decisions/),
@@ -98,3 +99,9 @@ tests/unit/            Vitest tests (IndexedDB is faked in Node)
 
 Open the deployed URL. Android Chrome: menu → **Install app**. iPhone Safari: Share →
 **Add to Home Screen**.
+
+**Khatwa (ADR-006)**: the app is now called خطوة (Khatwa, "a step") everywhere a person sees it,
+with a new mark (three rising steps and the next one as a dot). A fourth theme choice, **Glass**,
+frosts the surfaces over a wash of the palette's colours and works with every palette, light or
+dark; a test checks it stays WCAG AA. Screens and theme changes cross-fade, and small text is
+larger and a little heavier.

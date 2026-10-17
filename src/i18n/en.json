@@ -1,6 +1,6 @@
 {
   "app": {
-    "name": "Haya",
+    "name": "Khatwa",
     "tagline": "Organize your life, grow calmly"
   },
   "common": {
@@ -79,14 +79,16 @@
     "themes": {
       "system": "Match device",
       "light": "Light",
-      "dark": "Dark"
+      "dark": "Dark",
+      "glass": "Glass"
     },
+    "glassHint": "See-through, frosted surfaces over a wash of the theme colours. Follows your device for light or dark.",
     "palette": "Theme",
     "paletteHint": "Every theme has a light and a dark version.",
     "morePalettes": "More themes",
     "palettes": {
       "haya": {
-        "name": "Haya",
+        "name": "Khatwa",
         "mood": "Calm teal, the original."
       },
       "nile": {
@@ -148,7 +150,7 @@
     "importConfirm": "Restore",
     "importCancel": "Cancel",
     "importDone": "Data restored.",
-    "importError": "This file is not a Haya backup, or it is damaged."
+    "importError": "This file is not a Khatwa backup, or it is damaged."
   },
   "pwa": {
     "offlineReady": "The app is ready to work offline.",

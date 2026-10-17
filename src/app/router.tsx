@@ -147,7 +147,14 @@ const routeTree = rootRoute.addChildren([
 ])
 
 // A page that throws shows RouteError inside the shell, so navigation still works.
-export const router = createRouter({ routeTree, defaultErrorComponent: RouteError })
+export const router = createRouter({
+  routeTree,
+  defaultErrorComponent: RouteError,
+  // Screens cross-fade instead of jumping (View Transitions API, where the
+  // browser has it; elsewhere navigation is instant as before). index.css sets
+  // the timing and turns it off for reduced motion.
+  defaultViewTransition: true,
+})
 
 // Lets TypeScript check every <Link to="..."> against the real routes.
 declare module '@tanstack/react-router' {

@@ -1,0 +1,129 @@
+/*
+ * The "Glass" look (Settings → Mode → Glass, ADR-006).
+ *
+ * It is a layer on top of the palettes, not a palette of its own: every one
+ * of the ten themes, light or dark, can be worn as glass. PreferencesSync puts
+ * a `glass` class on <html>; everything below only applies under it.
+ *
+ * Two ingredients:
+ * 1. The page gets a soft wash of the theme's own colours (three blurred
+ *    blobs of --primary, --ring and --accent-foreground), fixed in place so it
+ *    stays still while the content scrolls over it.
+ * 2. Surfaces (cards, the top bar, the bottom dock, menus) become see-through
+ *    and blur what is behind them, like frosted glass.
+ *
+ * Readability comes first: the wash is kept light and the surfaces stay mostly
+ * opaque, and quiet text (`text-muted`) is pulled a little toward the main
+ * text colour. tests/unit/glass.test.ts checks every palette still reaches
+ * WCAG AA on the worst spot of the wash. Change the numbers there too.
+ *
+ * Everything sits in the `utilities` layer, after Tailwind's own classes.
+ * `:where()` adds no specificity, so `.glass :where(.bg-surface)` weighs the
+ * same as a plain `bg-surface` and wins only because it comes later, while a
+ * `hover:` or `active:` class (one step heavier) still wins when it applies.
+ */
+@layer utilities {
+  .glass {
+    --glass-wash: 18%; /* how strong the colour blobs are (light) */
+    --glass-quiet: 70%; /* how much of quiet text stays its own colour */
+    --glass-surface: 72%; /* how much of a card is solid surface (light) */
+    --glass-edge: rgb(255 255 255 / 0.6);
+    --glass-shine: rgb(255 255 255 / 0.7); /* the bright top edge of a pane */
+    --glass-blur: 18px;
+  }
+  .glass.dark {
+    --glass-wash: 18%;
+    --glass-surface: 66%;
+    --glass-edge: rgb(255 255 255 / 0.12);
+    --glass-shine: rgb(255 255 255 / 0.09);
+  }
+
+  .glass body {
+    background-color: var(--background);
+    background-image:
+      radial-gradient(
+        42rem 34rem at 88% -6%,
+        color-mix(in srgb, var(--primary) var(--glass-wash), transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        38rem 30rem at -4% 38%,
+        color-mix(in srgb, var(--ring) var(--glass-wash), transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        44rem 34rem at 70% 108%,
+        color-mix(in srgb, var(--accent-foreground) var(--glass-wash), transparent),
+        transparent 70%
+      );
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  /* Frosted surfaces. */
+  .glass :where(.bg-surface, .bg-surface-raised) {
+    background-color: color-mix(in srgb, var(--surface) var(--glass-surface), transparent);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+    backdrop-filter: blur(var(--glass-blur)) saturate(1.6);
+  }
+  /*
+   * Menus and dialogs stay solid. A menu opened from the top bar sits inside
+   * the bar's own blur, and a blur inside a blur can't see past its parent, so
+   * a see-through menu would show the page sharp behind its text.
+   */
+  .glass :where(.bg-surface-raised) {
+    background-color: var(--surface-raised);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  /* Bars and the dock were already translucent; glass makes them a bit clearer. */
+  .glass :where(.bg-background\/85, [class*='bg-surface\/']) {
+    background-color: color-mix(in srgb, var(--surface) 58%, transparent);
+    -webkit-backdrop-filter: blur(22px) saturate(1.7);
+    backdrop-filter: blur(22px) saturate(1.7);
+  }
+  /*
+   * Panes catch the light: a bright line along the top edge and a soft shadow
+   * under them, so they read as glass lifted off the page. Elements that
+   * already have their own shadow class (menus, the dock) keep it.
+   */
+  .glass :where(.bg-surface, .bg-surface-raised):not([class*='shadow']) {
+    box-shadow:
+      inset 0 1px 0 var(--glass-shine),
+      0 10px 30px -18px rgb(var(--shadow-color) / 0.35);
+  }
+  /* Rows, tracks and inputs at rest: a lighter frost inside the cards. */
+  .glass :where(.bg-subtle) {
+    background-color: color-mix(in srgb, var(--subtle) 70%, transparent);
+  }
+  /* Edges catch the light instead of drawing a grey line. */
+  .glass
+    :where(
+      :is(
+        .bg-surface,
+        .bg-surface-raised,
+        [class*='bg-surface\/'],
+        .bg-background\/85
+      ).border-border,
+      :is(.bg-surface, .bg-surface-raised, [class*='bg-surface\/'], .bg-background\/85)
+        .border-border
+    ) {
+    border-color: var(--glass-edge);
+  }
+  /* Quiet text, pulled toward the main text colour so it stays readable on glass. */
+  .glass :where(.text-muted) {
+    color: color-mix(in srgb, var(--muted) var(--glass-quiet), var(--foreground));
+  }
+  /* Dialogs keep their own frosted panel over a softly blurred page. */
+  .glass dialog::backdrop {
+    background: rgb(15 23 42 / 0.3);
+    backdrop-filter: blur(6px);
+  }
+
+  /* Older browsers without backdrop-filter: make surfaces nearly solid instead. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass :where(.bg-surface, .bg-surface-raised, .bg-background\/85, [class*='bg-surface\/']) {
+      background-color: color-mix(in srgb, var(--surface) 94%, transparent);
+    }
+  }
+}

@@ -103,7 +103,7 @@ export const STARTER_GOALS: readonly StarterGoal[] = [
     goal: 'أتعلم البرمجة بمشروع حقيقي',
     why: 'أقدر أبني وأعدّل أدواتي بنفسي',
     horizon: 'year',
-    project: 'أفهم كود تطبيق حياة وأعدّل فيه',
+    project: 'أفهم كود تطبيق خطوة وأعدّل فيه',
     outcome: 'عملت تعديل صغير بنفسي في التطبيق ونشرته',
     steps: [
       { title: 'أقرأ أول جزء من دليل الكود العربي', minutes: 20 },
@@ -195,7 +195,7 @@ export const STARTER_GOALS: readonly StarterGoal[] = [
     why: 'أبني أنظمة تعيش وتتطور',
     horizon: 'long_term',
     project: 'أساسيات معمارية البرمجيات',
-    outcome: 'أقدر أرسم وأشرح معمارية تطبيق حياة',
+    outcome: 'أقدر أرسم وأشرح معمارية تطبيق خطوة',
     steps: [
       { title: 'أقرأ قسم الطبقات في دليل الكود', minutes: 15 },
       { title: 'أرسم طبقات التطبيق على ورقة', minutes: 20 },

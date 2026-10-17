@@ -8,6 +8,8 @@
 
 ## 0. Project Identity
 
+> **Name:** the app is called **خطوة (Khatwa)** since ADR-006 (it began as "Hayah OS / حياة"). Use Khatwa in anything the owner sees; internal identifiers keep `haya`.
+
 A private, **single-user** Personal Life Operating System for one person: a hospital pharmacist in Egypt who is learning programming, memorizing the Qur'an, studying Islamic knowledge, learning many technical subjects, working as a freelancer, building startup ideas, and caring for his family.
 
 It is **not** a generic productivity app, not multi-tenant, not social, not commercial.
