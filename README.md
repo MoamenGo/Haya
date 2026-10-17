@@ -49,7 +49,7 @@ from pausing, and a Friday Action commits an `age`-encrypted dump to a separate 
 Both stay idle until their secrets are added (see `docs/setup-cloud.md`).
 
 **Study plans (ADR-004)**: the English plan (A2 → C1, 78 weeks), the Health Tech career-shift
-plan (104 weeks) and the Dutch plan (A1 → C1, 96 weeks) are built in. Each day's share appears on Today, sized to the day type, ticks sync
+plan (125 weeks, covering every skill on the owner's CV) and the Dutch plan (A1 → C1, 96 weeks) are built in. Each day's share appears on Today, sized to the day type, ticks sync
 across devices, and study minutes count on the capacity bar. The Learning plans screen shows
 progress, pause/resume, the start date and a week-by-week map with sources. Every step can be edited, hidden or restored, and you can add your own steps or write a whole new plan (ADR-005).
 
