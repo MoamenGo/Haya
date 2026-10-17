@@ -46,8 +46,10 @@ export function SettingsPage() {
               { value: 'system', label: t('settings.themes.system') },
               { value: 'light', label: t('settings.themes.light') },
               { value: 'dark', label: t('settings.themes.dark') },
+              { value: 'glass', label: t('settings.themes.glass') },
             ]}
           />
+          {theme === 'glass' && <p className="text-sm text-muted">{t('settings.glassHint')}</p>}
         </div>
         <ThemePicker />
       </Card>

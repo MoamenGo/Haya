@@ -24,6 +24,8 @@ export const BACKUP_TABLES = [
 ] as const
 export type BackupTable = (typeof BACKUP_TABLES)[number]
 
+// The app was called Haya when backups began. The id stays, so every backup
+// made before or after the rename to Khatwa (ADR-006) still imports.
 const BACKUP_APP_ID = 'haya'
 
 const rowSchema = z.looseObject({ id: z.string().min(1) })

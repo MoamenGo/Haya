@@ -17,9 +17,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icons/apple-touch-icon.png'],
       manifest: {
-        name: 'حياة',
-        short_name: 'حياة',
-        description: 'حياة: مكان هادئ لتنظيم حياتك ونموّك',
+        name: 'خطوة',
+        short_name: 'خطوة',
+        description: 'خطوة: مكان هادئ تنظّم فيه يومك وتكبر خطوة بخطوة',
         lang: 'ar',
         dir: 'rtl',
         start_url: '/',

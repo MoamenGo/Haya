@@ -33,6 +33,8 @@
 /* Colour tokens (the default palette), then the other palettes, in that order. */
 @import './styles/tokens.css';
 @import './styles/palettes.css';
+/* The optional glass look, layered on top of any palette. */
+@import './styles/glass.css';
 
 /* Dark mode follows a `dark` class on <html>, set from the theme setting. */
 @custom-variant dark (&:where(.dark, .dark *));
@@ -152,14 +154,14 @@
  *
  * Arabic is the main language, and Arabic letters look smaller than Latin
  * ones at the same size, so the floor is higher than a typical English app:
- * the smallest text (`text-xs`) never goes under 12.5px, and normal reading
- * text (`text-sm`, used most) is 14–15px. Arabic also needs vertical room
+ * the smallest text (`text-xs`) never goes under 13px, and normal reading
+ * text (`text-sm`, used most) is 14.5–15.5px. Arabic also needs vertical room
  * for dots and marks above and below, so line heights are generous.
  */
 @theme {
-  --text-xs: clamp(0.78125rem, 0.765rem + 0.07vw, 0.8125rem);
+  --text-xs: clamp(0.8125rem, 0.8rem + 0.06vw, 0.84375rem);
   --text-xs--line-height: 1.6;
-  --text-sm: clamp(0.875rem, 0.855rem + 0.09vw, 0.9375rem);
+  --text-sm: clamp(0.90625rem, 0.89rem + 0.08vw, 0.96875rem);
   --text-sm--line-height: 1.65;
   --text-base: clamp(1rem, 0.98rem + 0.09vw, 1.0625rem);
   --text-base--line-height: 1.7;
@@ -247,6 +249,22 @@
     line-height: var(--text-base--line-height);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /*
+     * A touch heavier than the default 400: thin Arabic strokes break up on
+     * phone screens and in bright light. Both fonts are variable, so 430 is
+     * a real weight, not a fake bold.
+     */
+    font-weight: 430;
+    /* Phones: no grey flash on tap, no 300ms double-tap-zoom delay. */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Jumps to #sections (Settings → Appearance…) glide instead of snapping. */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   /* Page and section titles get a consistent rhythm even without classes. */
@@ -289,12 +307,27 @@
   }
 }
 
+/*
+ * Screen changes and theme switches cross-fade (View Transitions API). Short
+ * and gentle: long enough to feel smooth, short enough to never feel slow.
+ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: cubic-bezier(0.2, 0, 0, 1);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 

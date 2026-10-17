@@ -9,7 +9,8 @@ import { DEFAULT_PALETTE, PALETTES } from './palettes'
  */
 export const settingSchemas = {
   language: z.enum(['ar', 'en']),
-  theme: z.enum(['system', 'light', 'dark']),
+  /** "glass" = frosted surfaces that follow the device's light / dark (ADR-006). */
+  theme: z.enum(['system', 'light', 'dark', 'glass']),
   /** Colour palette, independent of light / dark (see palettes.ts). */
   palette: z.enum(PALETTES),
   vision: z.string().max(500),
