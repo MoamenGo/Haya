@@ -1,4 +1,5 @@
 import { Outlet } from '@tanstack/react-router'
+import { NativeNotifications } from '@/app/NativeNotifications'
 import { OfflineReadyNotice } from '@/app/OfflineReadyNotice'
 import { Toaster } from '@/components/ui/toast'
 import { useSidebarCollapsed } from '@/hooks/useSidebarCollapsed'
@@ -34,6 +35,7 @@ export function AppShell() {
       <BottomNav />
       <Capture />
       <OfflineReadyNotice />
+      <NativeNotifications />
       <Toaster />
     </div>
   )

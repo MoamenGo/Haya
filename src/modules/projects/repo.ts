@@ -195,3 +195,20 @@ export async function deleteProject(projectId: string): Promise<void> {
 export async function projectsForGoal(goalId: string): Promise<ProjectWithNext[]> {
   return (await listProjects()).filter((item) => item.project.goal_id === goalId)
 }
+
+/** Projects still under way whose deadline falls between two dates, inclusive. */
+export async function openProjectsDueBetween(
+  startISO: string,
+  endISO: string,
+): Promise<ProjectRow[]> {
+  const rows = await db.projects.toArray()
+  return rows.filter(
+    (p) =>
+      !p.deleted_at &&
+      p.status !== 'done' &&
+      p.status !== 'archived' &&
+      p.deadline !== null &&
+      p.deadline >= startISO &&
+      p.deadline <= endISO,
+  )
+}
