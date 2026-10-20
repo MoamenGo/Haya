@@ -1,4 +1,6 @@
 import { createRootRoute, createRoute, createRouter, redirect } from '@tanstack/react-router'
+import { dateSearch } from '@/core/time/calendar'
+import { CalendarPage } from '@/modules/calendar/pages/CalendarPage'
 import { AppShell } from '@/components/layout/AppShell'
 import { RouteError } from './RouteError'
 import { GoalMapPage } from '@/modules/goals/pages/GoalMapPage'
@@ -35,6 +37,15 @@ const todayRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/today',
   component: TodayPage,
+  validateSearch: dateSearch,
+  staticData: { wide: true },
+})
+
+const calendarRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/calendar',
+  component: CalendarPage,
+  validateSearch: dateSearch,
   staticData: { wide: true },
 })
 
@@ -130,6 +141,7 @@ const settingsRoute = createRoute({
 const routeTree = rootRoute.addChildren([
   indexRoute,
   todayRoute,
+  calendarRoute,
   reviewRoute,
   inboxRoute,
   tasksRoute,

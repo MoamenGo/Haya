@@ -31,7 +31,8 @@
       "reflect": "المراجعة"
     },
     "learn": "خطط التعلم",
-    "notes": "الملاحظات"
+    "notes": "الملاحظات",
+    "calendar": "التقويم"
   },
   "today": {
     "title": "النهارده",
@@ -655,5 +656,43 @@
       "mic_failed": "مقدرناش نوصل للميكروفون. اتأكد إنه شغال وجرب تاني.",
       "speech_failed": "تحويل الكلام لنص وقف، بس الصوت بيتسجل عادي. تقدر تكتب النص بإيدك."
     }
+  },
+  "dayNav": {
+    "label": "التنقل بين الأيام",
+    "previous": "اليوم اللي قبله",
+    "next": "اليوم اللي بعده",
+    "today": "النهارده",
+    "yesterday": "امبارح",
+    "tomorrow": "بكرة",
+    "backToToday": "ارجع للنهارده",
+    "openCalendar": "افتح التقويم على اليوم ده",
+    "lookBack": "بتبص على يوم فات",
+    "lookAhead": "بتبص على يوم جاي",
+    "studyThisDay": "مذاكرة اليوم ده"
+  },
+  "calendar": {
+    "title": "التقويم",
+    "grid": "أيام الشهر",
+    "weekView": "عرض الأسبوع",
+    "previousMonth": "الشهر اللي فات",
+    "nextMonth": "الشهر الجاي",
+    "backToToday": "ارجع للنهارده",
+    "legendOpen": "مهمة",
+    "legendDone": "خلصت",
+    "legendHospital": "يوم مستشفى",
+    "tasks": "المهام",
+    "noTasks": "مفيش مهام لليوم ده.",
+    "addLabel": "مهمة جديدة لليوم ده",
+    "addPlaceholder": "ضيف مهمة لليوم ده…",
+    "add": "ضيف",
+    "openDay": "افتح اليوم",
+    "openToday": "افتح النهارده",
+    "tasksCount_zero": "مفيش مهام",
+    "tasksCount_one": "مهمة واحدة",
+    "tasksCount_two": "مهمتين",
+    "tasksCount_few": "{{count}} مهام",
+    "tasksCount_many": "{{count}} مهمة",
+    "tasksCount_other": "{{count}} مهمة",
+    "weekdays": ["أحد", "اتنين", "تلات", "أربع", "خميس", "جمعة", "سبت"]
   }
 }
