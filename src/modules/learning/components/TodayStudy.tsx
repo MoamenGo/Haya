@@ -11,10 +11,12 @@ import { StudyItemRow } from './StudyItemRow'
 interface TodayStudyProps {
   study: StudyToday
   today: string
+  /** Heading when the day shown is not today ("Study this day"). */
+  title?: string
 }
 
 /** Today's study from every active plan, sized to the day type (CLAUDE.md §6.6). */
-export function TodayStudy({ study, today }: TodayStudyProps) {
+export function TodayStudy({ study, today, title }: TodayStudyProps) {
   const { t } = useTranslation()
   const [language] = useSetting('language')
   const { sessions, nextStart, activePlans } = study
@@ -26,7 +28,7 @@ export function TodayStudy({ study, today }: TodayStudyProps) {
     <section aria-labelledby="study-title" className="flex flex-col gap-3">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="study-title" className="text-xl font-medium">
-          {t('today.study')}
+          {title ?? t('today.study')}
         </h2>
         {remaining > 0 && (
           <span className="text-sm text-muted">{t('today.studyLeft', { m: remaining })}</span>

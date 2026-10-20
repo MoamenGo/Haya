@@ -105,3 +105,8 @@ with a new mark (three rising steps and the next one as a dot). A fourth theme c
 frosts the surfaces over a wash of the palette's colours and works with every palette, light or
 dark; a test checks it stays WCAG AA. Screens and theme changes cross-fade, and small text is
 larger and a little heavier.
+
+**Calendar and day arrows (ADR-007)**: a month calendar (Saturday first, with Hijri days) where
+tapping a day shows its tasks, a quick add for that day and its study; on the phone it takes the
+Week slot. Today has arrows to the day before and after (`/today?date=`), with a "back to today"
+button.

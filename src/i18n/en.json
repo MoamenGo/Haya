@@ -31,7 +31,8 @@
       "reflect": "Reflect"
     },
     "learn": "Learning plans",
-    "notes": "Notes"
+    "notes": "Notes",
+    "calendar": "Calendar"
   },
   "today": {
     "title": "Today",
@@ -643,5 +644,39 @@
       "mic_failed": "Couldn't reach the microphone. Check it works and try again.",
       "speech_failed": "Speech-to-text stopped, but audio is still recording. You can type the text yourself."
     }
+  },
+  "dayNav": {
+    "label": "Move between days",
+    "previous": "Previous day",
+    "next": "Next day",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "backToToday": "Back to today",
+    "openCalendar": "Open the calendar on this day",
+    "lookBack": "Looking back at a past day",
+    "lookAhead": "Looking ahead to a coming day",
+    "studyThisDay": "Study this day"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "grid": "Days of the month",
+    "weekView": "Week view",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "backToToday": "Back to today",
+    "legendOpen": "Task",
+    "legendDone": "Done",
+    "legendHospital": "Hospital day",
+    "tasks": "Tasks",
+    "noTasks": "No tasks for this day.",
+    "addLabel": "New task for this day",
+    "addPlaceholder": "Add a task for this day…",
+    "add": "Add",
+    "openDay": "Open this day",
+    "openToday": "Open today",
+    "tasksCount_one": "1 task",
+    "tasksCount_other": "{{count}} tasks",
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   }
 }

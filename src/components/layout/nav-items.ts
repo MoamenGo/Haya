@@ -1,5 +1,6 @@
 import {
   CalendarDays,
+  CalendarRange,
   ClipboardCheck,
   Ellipsis,
   FolderKanban,
@@ -17,6 +18,7 @@ import {
 export interface NavItem {
   to:
     | '/today'
+    | '/calendar'
     | '/week'
     | '/inbox'
     | '/tasks'
@@ -30,6 +32,7 @@ export interface NavItem {
     | '/more'
   labelKey:
     | 'nav.today'
+    | 'nav.calendar'
     | 'nav.week'
     | 'nav.inbox'
     | 'nav.tasks'
@@ -54,10 +57,20 @@ export interface NavItem {
 export const NAV_ITEMS: readonly NavItem[] = [
   { to: '/today', labelKey: 'nav.today', icon: House, mobile: true, desktop: true, group: 'plan' },
   {
-    to: '/week',
-    labelKey: 'nav.week',
+    to: '/calendar',
+    labelKey: 'nav.calendar',
     icon: CalendarDays,
     mobile: true,
+    desktop: true,
+    group: 'plan',
+  },
+  // The calendar took the week's place in the phone bar (ADR-007); the week
+  // view is one tap away from the calendar and listed under "More".
+  {
+    to: '/week',
+    labelKey: 'nav.week',
+    icon: CalendarRange,
+    mobile: false,
     desktop: true,
     group: 'plan',
   },
