@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next'
 import { Card } from '@/components/ui/card'
 import { AccountSection } from '@/modules/account/components/AccountSection'
+import { NotificationsSection } from '@/modules/notifications/components/NotificationsSection'
 import { AreasList } from '../components/AreasList'
 import { DataSection } from '../components/DataSection'
 import { LocationSection } from '../components/LocationSection'
@@ -64,6 +65,10 @@ export function SettingsPage() {
 
       <Card>
         <LocationSection />
+      </Card>
+
+      <Card id="notifications" className="scroll-mt-20">
+        <NotificationsSection />
       </Card>
 
       <Card>

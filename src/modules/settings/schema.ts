@@ -24,6 +24,13 @@ export const settingSchemas = {
    * because the browser's speech service (Chrome's) sends the audio to Google.
    */
   voice_transcribe: z.boolean(),
+  /** Which phone notifications the Android app shows (ADR-008). */
+  notifications: z.object({
+    morning: z.boolean(),
+    evening: z.boolean(),
+    prayers: z.boolean(),
+    due: z.boolean(),
+  }),
 } as const
 
 export type SettingKey = keyof typeof settingSchemas
@@ -36,4 +43,5 @@ export const settingDefaults: { [K in SettingKey]: SettingValue<K> } = {
   vision: '',
   location: DEFAULT_LOCATION,
   voice_transcribe: false,
+  notifications: { morning: true, evening: true, prayers: true, due: true },
 }

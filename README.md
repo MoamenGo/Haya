@@ -110,3 +110,9 @@ larger and a little heavier.
 tapping a day shows its tasks, a quick add for that day and its study; on the phone it takes the
 Week slot. Today has arrows to the day before and after (`/today?date=`), with a "back to today"
 button.
+
+**Phone notifications (ADR-008)**: the Android app (2.2 or later) shows a morning brief after
+Fajr, an evening review reminder after Maghrib, prayer times and deadlines. Khatwa plans them on
+the device and the app schedules them, so they work offline; each kind can be turned off in
+Settings › Notifications. Open apps now also pick up new versions of the site when they come back
+to the screen.

@@ -678,5 +678,45 @@
     "tasksCount_one": "1 task",
     "tasksCount_other": "{{count}} tasks",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  "notify": {
+    "separator": ", ",
+    "more_one": "+{{count}} more",
+    "more_other": "+{{count}} more",
+    "prayer": {
+      "title": "Time for {{prayer}} prayer",
+      "body": "A reminder from Khatwa"
+    },
+    "morning": {
+      "title": "Good morning, here's today",
+      "tasks_one": "1 task",
+      "tasks_other": "{{count}} tasks",
+      "bigRocks": "Most important: {{titles}}",
+      "study": "{{count}} min of study",
+      "study_one": "1 min of study",
+      "study_other": "{{count}} min of study"
+    },
+    "due": {
+      "title_one": "Due today",
+      "title_other": "{{count}} things due today"
+    },
+    "evening": {
+      "title": "Evening review",
+      "body": "3 minutes: what got done today, and the top 3 for tomorrow."
+    },
+    "settings": {
+      "title": "Notifications",
+      "onPhone": "On for this phone. They update by themselves whenever your tasks or study change, and arrive without internet.",
+      "notOnPhone": "Notifications come from the Khatwa Android app (2.2 or later). These choices sync to it.",
+      "morning": "Morning brief",
+      "morningHint": "20 minutes after Fajr: today's tasks, the most important ones and study. Skipped on an empty day.",
+      "evening": "Evening review",
+      "eveningHint": "Half an hour after Maghrib: a reminder to review the day and pick tomorrow's top 3.",
+      "prayers": "Prayer times",
+      "prayersHint": "A notification at each prayer time, computed on the phone for your location.",
+      "due": "Deadlines",
+      "dueHint": "On the morning of the deadline: tasks and projects due that day.",
+      "quiet": "From an hour after Isha until Fajr, only prayer times arrive."
+    }
   }
 }

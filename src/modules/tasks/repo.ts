@@ -159,3 +159,14 @@ export async function updateTask(task: TaskRow, change: TaskChange): Promise<voi
   }
   await db.tasks.update(task.id, { ...valid, ...extra, ...touchMeta() })
 }
+
+/** Open tasks whose deadline falls between two dates, inclusive (for deadline reminders). */
+export async function openTasksDueBetween(startISO: string, endISO: string): Promise<TaskRow[]> {
+  const rows = await db.tasks
+    .where('status')
+    .anyOf('inbox', 'next', 'scheduled', 'in_progress', 'waiting')
+    .toArray()
+  return rows.filter(
+    (t) => isLive(t) && t.due_date !== null && t.due_date >= startISO && t.due_date <= endISO,
+  )
+}
