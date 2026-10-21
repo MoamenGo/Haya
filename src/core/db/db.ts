@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
+import { restartPlans } from './planRestart'
 import { seedLearningPaths, seedLifeAreas, seedRoutines } from './seed'
 import type {
   DailyLogRow,
@@ -145,6 +146,20 @@ export class HayaDB extends Dexie {
     this.version(11)
       .stores({})
       .upgrade((tx) => seedLearningPaths(tx.table('learning_paths')))
+
+    // v12 (ADR-009): the German plan joins, Dutch pauses, and every plan
+    // restarts on Saturday 2026-10-24 with its ticks and edits cleared.
+    // The owner asked for this once; see planRestart.ts for why it is safe to
+    // run on each device at a different time.
+    this.version(12)
+      .stores({})
+      .upgrade((tx) =>
+        restartPlans({
+          paths: tx.table('learning_paths'),
+          checks: tx.table('study_checks'),
+          items: tx.table('study_items'),
+        }),
+      )
 
     // …and brand-new databases get everything here (upgrades don't run for them).
     this.on('populate', async (tx) => {

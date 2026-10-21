@@ -7,7 +7,12 @@ export interface Link {
 }
 
 /** Built-in study plans. Each one is a learning path the owner can pause or resume. */
-export const CURRICULUM_KEYS = ['english_a2_c1', 'health_tech', 'dutch_a1_c1'] as const
+export const CURRICULUM_KEYS = [
+  'english_a2_c1',
+  'health_tech',
+  'dutch_a1_c1',
+  'german_a1_c1',
+] as const
 export type CurriculumKey = (typeof CURRICULUM_KEYS)[number]
 
 /** Plans the owner writes himself are keyed `custom:<uuid>`. */

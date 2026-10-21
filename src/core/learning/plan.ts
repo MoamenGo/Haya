@@ -7,6 +7,7 @@ import {
 import { DAYS_PER_WEEK } from '@/core/time/date'
 import { dutch } from './curricula/dutch'
 import { english } from './curricula/english'
+import { german } from './curricula/german'
 import { healthTech } from './curricula/healthTech'
 import { emptyCurriculum, withEdits, type StudyItemEdit } from './edits'
 import {
@@ -22,6 +23,7 @@ export const CURRICULA: Readonly<Record<CurriculumKey, Curriculum>> = {
   english_a2_c1: english,
   health_tech: healthTech,
   dutch_a1_c1: dutch,
+  german_a1_c1: german,
 }
 
 /** The plan's code before the owner's changes: a built-in curriculum, or an empty one. */
