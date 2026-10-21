@@ -116,3 +116,7 @@ Fajr, an evening review reminder after Maghrib, prayer times and deadlines. Khat
 the device and the app schedules them, so they work offline; each kind can be turned off in
 Settings › Notifications. Open apps now also pick up new versions of the site when they come back
 to the screen.
+
+**German and a fresh start (ADR-009)**: a fourth built-in plan follows Piece of German day by day
+(A1 → C1, 4 site days a week, each linking to its page). Dutch is paused, and every plan
+restarts on Saturday 2026-10-24 with its ticks and edits cleared.

@@ -17,8 +17,20 @@
 /** Work-in-progress limit for learning paths (CLAUDE.md §6.10). */
 export const MAX_ACTIVE_PATHS = 3
 
-/** Both built-in plans start on this Saturday (the date the owner's two plans used). */
-export const BUILT_IN_PLANS_START = '2026-10-17'
+/**
+ * Built-in plans start on this Saturday. The owner restarted every plan from
+ * here on 2026-10-21 (ADR-009); before that they started on 2026-10-17.
+ */
+export const BUILT_IN_PLANS_START = '2026-10-24'
+
+/**
+ * The one-time restart of 2026-10-21 (ADR-009, Dexie v12): every plan moves to
+ * BUILT_IN_PLANS_START, and ticks and edits of built-in plans are cleared.
+ * Rows it changes get this fixed time as `updated_at`, and it only touches rows
+ * older than it. So a device that upgrades days later never undoes something
+ * the owner did on another device after the restart: newer changes win the sync.
+ */
+export const PLANS_RESET_AT = '2026-10-21T04:45:00.000Z'
 
 export const ENGLISH_WEEKS = 78
 export const ENGLISH_STAGE_WEEKS = 26
@@ -36,8 +48,8 @@ export const ENGLISH_MIN = {
 
 export const DUTCH_WEEKS = 96
 
-/** Dutch starts on the Saturday it was added to Haya. */
-export const DUTCH_PLAN_START = '2026-10-17'
+/** Dutch starts with the others (it was added on 2026-10-17). */
+export const DUTCH_PLAN_START = BUILT_IN_PLANS_START
 
 /** Minutes per Dutch activity. */
 export const DUTCH_MIN = {
@@ -49,6 +61,21 @@ export const DUTCH_MIN = {
   output: 20,
   longOutput: 25,
   exam: 45,
+} as const
+
+/**
+ * German follows Piece of German day by day (ADR-009). The site asks 1–3 hours
+ * per site day; four site days a week land on deep-work days and Friday, and
+ * hospital days get a short review. About 57 weeks for what the site has now.
+ */
+export const GERMAN_SESSIONS_PER_WEEK = 4
+
+/** Minutes per German activity. */
+export const GERMAN_MIN = {
+  /** One site day, at the middle of the site's 1–3 hours. */
+  session: 90,
+  review: 15,
+  minimum: 15,
 } as const
 
 /** Minutes per Health Tech activity. */

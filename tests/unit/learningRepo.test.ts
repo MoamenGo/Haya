@@ -31,19 +31,21 @@ afterEach(async () => {
 })
 
 describe('learning paths', () => {
-  it('starts with the three built-in plans active from the same Saturday', async () => {
+  it('starts with three built-in plans active and Dutch paused, all from the same Saturday', async () => {
     const paths = await listActivePaths()
     expect(paths.map((p) => p.curriculum_key).sort()).toEqual([
-      'dutch_a1_c1',
       'english_a2_c1',
+      'german_a1_c1',
       'health_tech',
     ])
-    expect(paths.every((p) => p.start_date === BUILT_IN_PLANS_START)).toBe(true)
+    const all = await listPaths()
+    expect(all.find((p) => p.curriculum_key === 'dutch_a1_c1')?.status).toBe('paused')
+    expect(all.every((p) => p.start_date === BUILT_IN_PLANS_START)).toBe(true)
   })
 
   it('does not seed twice', async () => {
     await seedLearningPaths(db.table('learning_paths'))
-    expect(await db.learning_paths.count()).toBe(3)
+    expect(await db.learning_paths.count()).toBe(4)
   })
 
   it('pauses, resumes and moves the start date', async () => {
@@ -72,27 +74,27 @@ describe('learning paths', () => {
 
 describe('adding a built-in plan later', () => {
   it('adds only the missing plan, active while there is room', async () => {
-    const dutch = await db.learning_paths.where('curriculum_key').equals('dutch_a1_c1').first()
-    if (!dutch) throw new Error('seed missing')
-    await db.learning_paths.delete(dutch.id)
+    const german = await db.learning_paths.where('curriculum_key').equals('german_a1_c1').first()
+    if (!german) throw new Error('seed missing')
+    await db.learning_paths.delete(german.id)
     await seedLearningPaths(db.table('learning_paths'))
-    const added = await db.learning_paths.where('curriculum_key').equals('dutch_a1_c1').toArray()
+    const added = await db.learning_paths.where('curriculum_key').equals('german_a1_c1').toArray()
     expect(added).toHaveLength(1)
     expect(added[0]?.status).toBe('active')
-    expect(await db.learning_paths.count()).toBe(3)
+    expect(await db.learning_paths.count()).toBe(4)
   })
 
   it('adds it paused when 3 plans are already active', async () => {
-    const dutch = await db.learning_paths.where('curriculum_key').equals('dutch_a1_c1').first()
-    if (!dutch) throw new Error('seed missing')
-    await db.learning_paths.delete(dutch.id)
+    const german = await db.learning_paths.where('curriculum_key').equals('german_a1_c1').first()
+    if (!german) throw new Error('seed missing')
+    await db.learning_paths.delete(german.id)
     await db.learning_paths.add({
-      ...dutch,
+      ...german,
       id: 'own',
       curriculum_key: 'custom:00000000-0000-7000-8000-000000000001',
     })
     await seedLearningPaths(db.table('learning_paths'))
-    const added = await db.learning_paths.where('curriculum_key').equals('dutch_a1_c1').first()
+    const added = await db.learning_paths.where('curriculum_key').equals('german_a1_c1').first()
     expect(added?.status).toBe('paused')
   })
 })

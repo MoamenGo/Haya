@@ -100,7 +100,13 @@ export async function seedRoutines(
   await routines.bulkAdd(rows)
 }
 
-/** The owner's built-in study plans and the Saturday each one starts. */
+export const GERMAN_PLAN_TITLE = 'الألمانية من A1 إلى C1 مع Piece of German'
+
+/**
+ * The owner's built-in study plans and the Saturday each one starts. The order
+ * matters for a new database: with the limit of 3 active plans, the last one
+ * (Dutch, paused by the owner on 2026-10-21) starts paused.
+ */
 export const STARTER_LEARNING_PATHS: ReadonlyArray<
   Pick<LearningPathRow, 'curriculum_key' | 'title' | 'start_date'>
 > = [
@@ -114,6 +120,7 @@ export const STARTER_LEARNING_PATHS: ReadonlyArray<
     title: 'من الصيدلية إلى Health Tech',
     start_date: BUILT_IN_PLANS_START,
   },
+  { curriculum_key: 'german_a1_c1', title: GERMAN_PLAN_TITLE, start_date: BUILT_IN_PLANS_START },
   { curriculum_key: 'dutch_a1_c1', title: 'الهولندية من A1 إلى C1', start_date: DUTCH_PLAN_START },
 ]
 
